@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="product" type="com.tina.mr9.data.Product"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_home_full"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/image_home_main"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="2:1"
+            tools:src="@drawable/hot_wine"/>
+
+        <TextView
+            android:id="@+id/text_home_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            style="@style/ItemTitle"
+            app:layout_constraintBottom_toTopOf="@+id/text_home_description"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="Uniqlo 特級超輕羽絨外套" />
+
+        <TextView
+                android:id="@+id/text_home_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+            style="@style/ItemDescription"
+                app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+                app:layout_constraintEnd_toEndOf="@id/image_home_main"
+                app:layout_constraintStart_toStartOf="@id/image_home_main"
+                tools:text="How 哥推薦喔 Go Go"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
