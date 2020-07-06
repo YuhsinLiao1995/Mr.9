@@ -1,6 +1,7 @@
 package com.tina.mr9.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,19 @@ class HomeFragment : Fragment() {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+//        viewModel.getAllData()
+
+        val adapter = HomeAdapter()
+
+        binding.recyclerHome.adapter = adapter
+
+        viewModel.drinks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+            Log.d("Tina","it = {$it}")
+        })
 
 //        binding.recyclerHome.adapter = HomeAdapter(HomeAdapter.OnClickListener {
 //            viewModel.navigateToDetail(it)
