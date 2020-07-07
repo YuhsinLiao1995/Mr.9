@@ -9,15 +9,16 @@ import java.sql.Timestamp
  */
 
 data class Drinks(
-    val name: String,
-    val bar: String,
-    val base: ArrayList<String>,
-    val contents: ArrayList<String>,
-    val pairings: ArrayList<String>,
-    val category: String,
-    val main_image: String,
-    val tag: ArrayList<String>,
-    val rating: HashMap<Ratings, Any> = hashMapOf()
+    val name: String = "",
+    val bar: String = "",
+    val base: List<String> = emptyList(),
+    val contents: List<String> = emptyList(),
+    val pairings: List<String> = emptyList(),
+    val category: String = "",
+    val main_image: String = "",
+    val images: List<String> = emptyList(),
+    val tag: List<String> = emptyList(),
+    val rating: Ratings = Ratings()
 
 ) {
     lateinit var value: MutableList<Drinks>
@@ -25,19 +26,18 @@ data class Drinks(
 
 @Parcelize
 data class Ratings(
-    val acidic: Long,
-    val alcohol_ABV: Long,
-    val author: String,
-    val base: String,
-    val pairings: ArrayList<String>,
-    val category: String,
-    val comment: String,
-    val contents: ArrayList<String>,
-    val created_time: Timestamp,
-    val images: ArrayList<String>,
-    val overall_rating: Long,
-    val strong: Long,
-    val sweet: Long,
-    val take_again: Boolean
-
+    val acidic: Long = -1,
+    val alcohol_ABV: Long = -1,
+    val author: String = "",
+    val base: String = "",
+    val pairings: List<String> = emptyList(),
+    val category: String = "",
+    val comment: String = "",
+    val contents: List<String> = emptyList(),
+    val created_time: Long = -1,
+    val images: List<String> = emptyList(),
+    val overall_rating: Long = -1,
+    val strong: Long = -1,
+    val sweet: Long = -1,
+    val take_again: Boolean = false
 ) : Parcelable

@@ -12,10 +12,13 @@ import kotlinx.coroutines.Dispatchers
  *
  * Concrete implementation to load Stylish sources.
  */
-class DefaultStylishRepository(private val stylishRemoteDataSource: StylishDataSource,
+class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
                                private val stylishLocalDataSource: StylishDataSource,
                                private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : StylishRepository {
+    override suspend fun getDrinks(): Result<List<Drinks>> {
+        return remoteDataSource.getDrinks()
+    }
 
 
 }

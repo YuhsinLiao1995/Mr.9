@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tina.mr9.databinding.FragmentHomeBinding
+import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.ext.getVmFactory
 
 /**

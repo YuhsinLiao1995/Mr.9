@@ -1,7 +1,7 @@
 package com.tina.mr9.data
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao on 2020-07.
  *
  * A generic class that holds a value with its api status.
  * @param <T>

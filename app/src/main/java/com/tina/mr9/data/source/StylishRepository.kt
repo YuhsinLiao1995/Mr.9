@@ -1,6 +1,6 @@
 package com.tina.mr9.data.source
 
-import androidx.lifecycle.LiveData
+import com.tina.mr9.data.Result
 import com.tina.mr9.data.*
 
 /**
@@ -10,5 +10,5 @@ import com.tina.mr9.data.*
  */
 interface StylishRepository {
 
-
+    suspend fun getDrinks(): Result<List<Drinks>>
 }
