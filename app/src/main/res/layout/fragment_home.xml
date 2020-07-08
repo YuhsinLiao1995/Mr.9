@@ -42,11 +42,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
+                <TextView
+                    android:id="@+id/sub_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18dp"
+                    android:text="@string/drink_now"
+                    style="@style/OverallTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintBottom_toTopOf="@id/recycler_home"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_home"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="32dp"
+                    app:drinks="@{viewModel.drinks}"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

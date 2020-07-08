@@ -1,14 +1,10 @@
-package com.tina.mr9.home
+package com.tina.mr9.detailpage
 
-import android.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.HomeItem
 import com.tina.mr9.databinding.ItemHomeFullBinding
@@ -21,19 +17,15 @@ import com.tina.mr9.databinding.ItemHomeFullBinding
  * [HomeItem], including computing diffs between lists.
  * @param onClickListener a lambda that takes the
  */
-class HomeAdapter(private val onClickListener: OnClickListener) :
+class DetailAdapter() :
     androidx.recyclerview.widget.ListAdapter<Drinks, RecyclerView.ViewHolder>(
         DiffCallback ) {
-
-    class OnClickListener(val clickListener: (drinks: Drinks) -> Unit) {
-        fun onClick(drinks: Drinks) = clickListener(drinks)
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is LayoutViewHolder -> {
                 val drink = getItem(position) as Drinks
-                (holder).bind(drink,onClickListener)
+                (holder).bind(drink)
 
             }
         }
@@ -59,9 +51,9 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
 
     class LayoutViewHolder(private var binding: ItemHomeFullBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind( drinks: Drinks,onClickListener: OnClickListener) {
+        fun bind( drinks: Drinks) {
             binding.drink = drinks
-            binding.root.setOnClickListener { onClickListener.onClick(drinks) }
+
             binding.executePendingBindings()
         }
 

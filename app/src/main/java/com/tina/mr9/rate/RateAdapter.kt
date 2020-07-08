@@ -1,4 +1,4 @@
-package com.tina.mr9.search
+package com.tina.mr9.rate
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
