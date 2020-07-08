@@ -1,14 +1,15 @@
 package com.tina.mr9.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentHomeBinding
-import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.ext.getVmFactory
 
 /**
@@ -27,39 +28,37 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-//        viewModel.getAllData()
-
-        val adapter = HomeAdapter()
-
-        binding.recyclerHome.adapter = adapter
-
-        viewModel.drinks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
-            Log.d("Tina","it = {$it}")
+        binding.recyclerHome.adapter = HomeAdapter(HomeAdapter.OnClickListener {
+            viewModel.navigateToDetail(it)
         })
+
+//        viewModel.drinks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+//            it?.let {
+//                adapter.submitList(it)
+//            }
+//            Log.d("Tina","it = {$it}")
+//        })
 
 //        binding.recyclerHome.adapter = HomeAdapter(HomeAdapter.OnClickListener {
 //            viewModel.navigateToDetail(it)
 //        })
 //
-//        binding.layoutSwipeRefreshHome.setOnRefreshListener {
-//            viewModel.refresh()
-//        }
+        binding.layoutSwipeRefreshHome.setOnRefreshListener {
+            viewModel.refresh()
+        }
 //
-//        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                binding.layoutSwipeRefreshHome.isRefreshing = it
-//            }
-//        })
-//
-//        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.layoutSwipeRefreshHome.isRefreshing = it
+            }
+        })
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                viewModel.onDetailNavigated()
+            }
+        })
 //
         return binding.root
     }

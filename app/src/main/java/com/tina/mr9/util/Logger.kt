@@ -5,7 +5,7 @@ import com.tina.mr9.BuildConfig
 
 object Logger {
 
-    private const val TAG = "Wayne-Stylish"
+    private const val TAG = "Tina - Mr.9"
 
     fun v(content: String) { if (BuildConfig.LOGGER_VISIABLE) Log.v(TAG, content) }
     fun d(content: String) { if (BuildConfig.LOGGER_VISIABLE) Log.d(TAG, content) }

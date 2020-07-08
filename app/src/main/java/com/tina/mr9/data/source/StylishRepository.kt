@@ -11,4 +11,6 @@ import com.tina.mr9.data.*
 interface StylishRepository {
 
     suspend fun getDrinks(): Result<List<Drinks>>
+
+    suspend fun getRatings(drinkId: String): Result<List<Ratings>>
 }

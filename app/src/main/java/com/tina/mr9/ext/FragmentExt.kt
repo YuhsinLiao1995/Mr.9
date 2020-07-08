@@ -2,6 +2,8 @@ package com.tina.mr9.ext
 
 import androidx.fragment.app.Fragment
 import com.tina.mr9.Mr9Application
+import com.tina.mr9.data.Drinks
+import com.tina.mr9.factory.DrinksViewModelFactory
 import com.tina.mr9.factory.ViewModelFactory
 
 /**
@@ -12,6 +14,11 @@ import com.tina.mr9.factory.ViewModelFactory
 fun Fragment.getVmFactory(): ViewModelFactory {
     val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
     return ViewModelFactory(repository)
+}
+
+fun Fragment.getVmFactory(drinks: Drinks): DrinksViewModelFactory {
+    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
+    return DrinksViewModelFactory(repository, drinks)
 }
 
 

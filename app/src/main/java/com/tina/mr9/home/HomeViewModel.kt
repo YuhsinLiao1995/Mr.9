@@ -61,6 +61,12 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
+    // Handle navigation to detail
+    private val _navigateToDetail = MutableLiveData<Drinks>()
+
+    val navigateToDetail: LiveData<Drinks>
+        get() = _navigateToDetail
+
 
         private var viewModelJob = Job()
 
@@ -72,7 +78,7 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         Logger.i("------------------------------------")
 
 //        getAllData()
-        getArticlesResult()
+        getDrinksResult()
     }
 
 //    fun getAllData() {
@@ -119,7 +125,7 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
 //
 //    }
 
-    fun getArticlesResult() {
+    fun getDrinksResult() {
 
         coroutineScope.launch {
 
@@ -200,6 +206,19 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
             return sdf.format(netDate)
         } catch (e: Exception) {
             return e.toString()
+        }
+    }
+    fun onDetailNavigated() {
+        _navigateToDetail.value = null
+    }
+
+    fun navigateToDetail(drinks: Drinks) {
+        _navigateToDetail.value = drinks
+    }
+
+    fun refresh() {
+        if (status.value != LoadApiStatus.LOADING) {
+            getDrinksResult()
         }
     }
 

@@ -4,8 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable name="drink" type="com.tina.mr9.data.Drinks" />
+
         <variable name="viewModel" type="com.tina.mr9.detailpage.DetailViewModel"/>
+
         <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,10 +35,11 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_images"
+                    android:id="@+id/recycler_detail_images"
                     android:layout_width="match_parent"
                     android:layout_height="132dp"
                     android:orientation="horizontal"
+                    app:images="@{viewModel.drink.images}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +47,16 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_ratings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pairings"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <TextView
                     android:id="@+id/line1"
@@ -48,17 +64,17 @@
                     android:layout_height="1dp"
                     android:background="@color/black_3f3a3a"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_images"/>
+                    app:layout_constraintTop_toBottomOf="@id/recycler_detail_images"/>
 
                 <TextView
                     android:id="@+id/title"
                     style="@style/DetailTitle"
                     android:layout_width="237dp"
-                    android:layout_height="24dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/drink_now"
                     android:textSize="18dp"
+                    android:text="@{viewModel.drink.name}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line1"
                     tools:text="GIN TONIC" />
@@ -68,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:text="@{viewModel.drink.bar}"
                     style="@style/DetailContent"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:layout_constraintStart_toStartOf="@id/title"
@@ -107,37 +124,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:text="@{viewModel.baseText}"
+                    style="@style/DetailDescription"
                     app:layout_constraintStart_toStartOf="@id/title"
                     app:layout_constraintTop_toBottomOf="@id/address"
                     tools:text="base : GIN"/>
 
                 <TextView
                     android:id="@+id/content"
-                    android:layout_width="361dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@{viewModel.contentsText}"
+                    style="@style/DetailDescription"
                     app:layout_constraintStart_toStartOf="@id/title"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/base"
                     tools:text="contents : Lemon、Cider、Apple、Ginger、Grape、Raspberry" />
 
                 <TextView
                     android:id="@+id/pairings"
-                    android:layout_width="361dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
+                    style="@style/DetailDescription"
+                    android:text="@{viewModel.pairingsText}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/title"
                     app:layout_constraintTop_toBottomOf="@id/content"
                     tools:text="pairings : donuts" />
-
-
-
-
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

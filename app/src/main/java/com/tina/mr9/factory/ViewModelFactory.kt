@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
+import com.tina.mr9.detailpage.DetailViewModel
 import com.tina.mr9.friends.FriendsViewModel
 import com.tina.mr9.profile.ProfileViewModel
 import com.tina.mr9.rate.RateViewModel
@@ -40,6 +41,7 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(FriendsViewModel::class.java) ->
                     FriendsViewModel(stylishRepository)
+
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
