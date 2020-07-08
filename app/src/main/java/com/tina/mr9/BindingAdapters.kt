@@ -8,7 +8,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.HomeItem
+import com.tina.mr9.data.Ratings
 import com.tina.mr9.detailpage.DetailImagesAdapter
+import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
 
 /**
@@ -32,6 +34,17 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("ratings")
+fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Ratings>?) {
+    ratings?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is DetailRatingsAdapter -> submitList(it)
             }
         }
     }

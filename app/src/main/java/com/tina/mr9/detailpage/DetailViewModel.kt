@@ -41,6 +41,8 @@ class DetailViewModel(
     val ratings: LiveData<List<Ratings>>
         get() = _ratings
 
+
+
     val base2String: String? = drink.value?.base?.let { main(it) }
     val baseText: String? = "base : $base2String"
 
@@ -67,6 +69,12 @@ class DetailViewModel(
 
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
+
+    // Handle navigation to detail
+    private val _navigateToDetail = MutableLiveData<Ratings>()
+
+    val navigateToDetail: LiveData<Ratings>
+        get() = _navigateToDetail
 
     private var viewModelJob = Job()
 
@@ -121,6 +129,14 @@ class DetailViewModel(
             }
             _refreshStatus.value = false
         }
+    }
+
+    fun onDetailNavigated() {
+        _navigateToDetail.value = null
+    }
+
+    fun navigateToDetail(ratings: Ratings) {
+        _navigateToDetail.value = ratings
     }
 
 }

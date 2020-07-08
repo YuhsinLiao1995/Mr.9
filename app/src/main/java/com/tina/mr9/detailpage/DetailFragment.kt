@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.tina.mr9.data.Ratings
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.Logger.d
@@ -35,28 +36,15 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
+        binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
+            viewModel.navigateToDetail(it)
+        })
 
         return binding.root
 
 //        viewModel.drink.value?.base?.let { intArrayToArrayString(it) }
 
     }
-
-//    private fun intArrayToArrayString(array: List<String>): String? {
-//        val arrayString: String = Arrays.toString(array)
-//        println(arrayString)
-//        return arrayString
-//    }
-
-
-
-
-//    fun main(args: Array<String>) {
-//        val list = Arrays.asList("A", "B", "C")
-//        val delim = "-"
-//        val res = java.lang.String.join(delim, list)
-//        println(res)
-//    }
 
 
 }
