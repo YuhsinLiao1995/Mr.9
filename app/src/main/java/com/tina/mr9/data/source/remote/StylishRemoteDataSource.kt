@@ -11,6 +11,9 @@ import com.tina.mr9.util.Logger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import com.tina.mr9.data.Result
+import com.tina.mr9.data.Search
+import com.tina.mr9.network.StylishApi
+import com.tina.mr9.util.Util.isInternetConnected
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -52,6 +55,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
     }
 
+
     override suspend fun getRatings(drinkId: String): Result<List<Ratings>>  = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
             .collection("drinks")
@@ -85,6 +89,34 @@ object StylishRemoteDataSource : StylishDataSource {
 
     }
 
+    override suspend fun getSearchList(type: String): Result<List<Search>>  = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+            .collection("category")
+//            .collectionGroup("rating")
+//            .document("YqgjBwOGFtsoR9VagMPx")
+//            .collection("rating")
+//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val list = mutableListOf<Search>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
 
+                        val search = document.toObject(Search::class.java)
+                        list.add(search)
+                    }
+                    continuation.resume(Result.Success(list))
+                } else {
+                    task.exception?.let {
 
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
+
+    }
 }

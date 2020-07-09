@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
-import com.tina.mr9.detailpage.DetailViewModel
 import com.tina.mr9.friends.FriendsViewModel
 import com.tina.mr9.profile.ProfileViewModel
 import com.tina.mr9.rate.RateViewModel
-import com.tina.mr9.search.SearchViewModel
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -29,9 +27,6 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(stylishRepository)
-
-                isAssignableFrom(SearchViewModel::class.java) ->
-                    SearchViewModel(stylishRepository)
 
                 isAssignableFrom(RateViewModel::class.java) ->
                     RateViewModel(stylishRepository)

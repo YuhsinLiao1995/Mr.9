@@ -37,7 +37,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_detail_images"
                     android:layout_width="match_parent"
-                    android:layout_height="132dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:images="@{viewModel.drink.images}"
                     app:layout_constraintTop_toTopOf="parent"

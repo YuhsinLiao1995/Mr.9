@@ -1,5 +1,7 @@
 package com.tina.mr9.factory
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.Drinks
@@ -17,6 +19,7 @@ class DrinksViewModelFactory(
     private val drinks: Drinks
 ) : ViewModelProvider.Factory {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
