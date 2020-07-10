@@ -21,7 +21,7 @@ class SearchItemViewModelFactory(
         with(modelClass) {
             when {
                 isAssignableFrom(SearchItemViewModel::class.java) ->
-                    SearchItemViewModel(repository, searchType)
+                    SearchItemViewModel(repository,searchType)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

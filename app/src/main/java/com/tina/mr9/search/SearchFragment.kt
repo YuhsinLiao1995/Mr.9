@@ -26,7 +26,7 @@ class SearchFragment : Fragment() {
             viewpagerCatalog.let {
                 tabsCatalog.setupWithViewPager(it)
                 it.adapter = SearchAdapter(childFragmentManager)
-                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
+//                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
             }
             return@onCreateView root
         }

@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.network.LoadApiStatus
-import com.tina.mr9.util.Util.getString
 import com.tina.mr9.R
 import com.tina.mr9.data.*
 import com.tina.mr9.util.Logger
@@ -32,16 +30,6 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
 
     val drinks: LiveData<List<Drinks>>
         get() = _drink
-
-//    var drinks = MutableLiveData<MutableList<Drinks>>()
-//
-//    val drinksList = mutableListOf<Drinks>()
-
-    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    var drinksFirebase = db.collection("drinks")
-
-    var ratingsFirebase = db.collection("drinks")
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()

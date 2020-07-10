@@ -94,7 +94,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startActivity(Intent(this, LogoActivity::class.java))
+//        startActivity(Intent(this, LogoActivity::class.java))
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.myNavHostFragment)

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.tina.mr9.databinding.FragmentSearchItemBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.network.LoadApiStatus
+import com.tina.mr9.search.SearchAdapter
 import com.tina.mr9.search.SearchTypeFilter
 
 /**
@@ -31,22 +32,8 @@ class SearchItemFragment(private val searchType: SearchTypeFilter) : Fragment() 
 
         binding.viewModel = viewModel
 
-        binding.recyclerSearchItem.adapter = PagingAdapter(PagingAdapter.OnClickListener {
+        binding.recyclerSearchItem.adapter = SearchItemAdapter(SearchItemAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
-        })
-
-//        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
-
-        viewModel.pagingDataTypes.observe(viewLifecycleOwner, Observer {
-            Log.d("Tina-test", "viewModel.pagingDataTypes.observe, it=$it")
-            it?.let{
-                (binding.recyclerSearchItem.adapter as PagingAdapter).submitList(it)
-            }
         })
 
         binding.layoutSwipeRefreshCatalogItem.setOnRefreshListener {

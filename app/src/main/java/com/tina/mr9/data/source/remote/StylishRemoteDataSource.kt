@@ -91,7 +91,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
     override suspend fun getSearchList(type: String): Result<List<Search>>  = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
-            .collection("category")
+            .collection(type)
 //            .collectionGroup("rating")
 //            .document("YqgjBwOGFtsoR9VagMPx")
 //            .collection("rating")

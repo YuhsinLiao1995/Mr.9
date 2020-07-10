@@ -1,46 +1,53 @@
 package com.tina.mr9.search.item
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.component.GridSpacingItemDecoration
 import com.tina.mr9.data.Search
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.network.LoadApiStatus
+import com.tina.mr9.data.Result
 import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
  * The [ViewModel] that is attached to the [SearchItemFragment].
  */
-class SearchItemViewModel(
-    private val repository: StylishRepository,
-    searchType: SearchTypeFilter // Handle the type for each catalog item
-) : ViewModel() {
+class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
 
-    private val sourceFactory = PagingDataSourceFactory(searchType)
+    private val _search = MutableLiveData<List<Search>>()
 
-    val pagingDataTypes: LiveData<PagedList<Search>> = sourceFactory.toLiveData(6, null)
+    val search: LiveData<List<Search>>
+        get() = _search
 
-    // Handle load api status
-    val status: LiveData<LoadApiStatus> = Transformations.switchMap(sourceFactory.sourceLiveData) {
-        it.statusInitialLoad
-    }
 
-    // Handle load api error
-    val error: LiveData<String> = Transformations.switchMap(sourceFactory.sourceLiveData) {
-        it.errorInitialLoad
-    }
+
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
+    // status for the loading icon of swl
+    private val _refreshStatus = MutableLiveData<Boolean>()
+
+    val refreshStatus: LiveData<Boolean>
+        get() = _refreshStatus
 
     // Handle navigation to detail
     private val _navigateToDetail = MutableLiveData<Search>()
@@ -48,43 +55,81 @@ class SearchItemViewModel(
     val navigateToDetail: LiveData<Search>
         get() = _navigateToDetail
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
+
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    val decoration = GridSpacingItemDecoration(
-        2,
-       Mr9Application.instance.resources.getDimensionPixelSize(R.dimen.space_catalog_grid), true
-    )
-
-    /**
-     * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
-     * Retrofit service to stop.
-     */
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+        getSearchResult()
     }
 
-    fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
-            sourceFactory.sourceLiveData.value?.invalidate()
+
+    fun getSearchResult() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+//            val result = repository.getSearchList("search")
+
+            val result = searchType.value.let { repository.getSearchList(it) }
+
+            _search.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+
+                    Log.d("Tina","result.data = ${result.data}")
+                    result.data
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+
+
+
+
+    fun onDetailNavigated() {
+        _navigateToDetail.value = null
     }
 
     fun navigateToDetail(search: Search) {
         _navigateToDetail.value = search
     }
 
-    fun onDetailNavigated() {
-        _navigateToDetail.value = null
+    fun refresh() {
+        if (status.value != LoadApiStatus.LOADING) {
+            getSearchResult()
+        }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.tina.mr9
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
@@ -18,18 +19,7 @@ import com.tina.mr9.search.item.SearchItemAdapter
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  */
-//@BindingAdapter("images")
-//fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?) {
-//    images?.let {
-//        recyclerView.adapter?.apply {
-//            when (this) {
-//                is HomeAdapter -> {
-//                    submitImages(it)
-//                }
-//            }
-//        }
-//    }
-//}
+
 @BindingAdapter("drinks")
 fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drinks>?) {
     drinks?.let {
@@ -51,6 +41,23 @@ fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Rating
         }
     }
 }
+
+@BindingAdapter("search")
+fun bindRecyclerViewWithSearch(recyclerView: RecyclerView, search: List<Search>?) {
+    Log.d("Tina","search = $search")
+    search?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is SearchItemAdapter -> {
+                    Log.d("Tina","submitList")
+                    submitList(it)
+                }
+
+            }
+        }
+    }
+}
+
 
 @BindingAdapter("images")
 fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?) {
@@ -80,24 +87,7 @@ fun bindImage(imgView: ImageView, imgUrl: String) {
     }
 }
 
-@BindingAdapter("search")
-fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Search>?) {
-    products?.let {
-        recyclerView.adapter?.apply {
-            when (this) {
-                is SearchItemAdapter -> submitList(it)
-//                is CartAdapter -> {
-//                    when (itemCount) {
-//                        0 -> submitList(it)
-//                        it.size -> notifyDataSetChanged()
-//                        else -> submitList(it)
-//                    }
-//                }
-//                is PaymentAdapter -> submitProducts(products)
-            }
-        }
-    }
-}
+
 
 @BindingAdapter("itemPosition", "itemCount")
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {

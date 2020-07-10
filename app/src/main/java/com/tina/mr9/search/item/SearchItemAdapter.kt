@@ -13,58 +13,64 @@ import com.tina.mr9.databinding.ItemSearchBinding
  * [Product], including computing diffs between lists.
  * @param onClickListener a lambda that takes the
  */
-class SearchItemAdapter(val onClickListener: OnClickListener) :
-        ListAdapter<Search, SearchItemAdapter.ProductViewHolder>(DiffCallback) {
+class SearchItemAdapter(private val onClickListener: OnClickListener) :
+    androidx.recyclerview.widget.ListAdapter<Search, RecyclerView.ViewHolder>(
+        DiffCallback ) {
 
-    class ProductViewHolder(private var binding: ItemSearchBinding):
-            RecyclerView.ViewHolder(binding.root) {
-        fun bind(search: Search) {
-            binding.search = search
-            // This is important, because it forces the data binding to execute immediately,
-            // which allows the RecyclerView to make the correct view size measurements
-            binding.executePendingBindings()
-        }
+    class OnClickListener(val clickListener: (search: Search) -> Unit) {
+        fun onClick(search: Search) = clickListener(search)
     }
 
-    /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Product]
-     * has been updated.
-     */
+
+
     companion object DiffCallback : DiffUtil.ItemCallback<Search>() {
         override fun areItemsTheSame(oldItem: Search, newItem: Search): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: Search, newItem: Search): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Search, newItem:Search): Boolean {
+            return oldItem == newItem
         }
     }
 
-    /**
-     * Create new [RecyclerView] item views (invoked by the layout manager)
-     */
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ProductViewHolder {
-        return ProductViewHolder(ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return LayoutViewHolder.from(parent)
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(product)
+
+
+
+
+
+
+    class LayoutViewHolder(private var binding: ItemSearchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind( search: Search,onClickListener: OnClickListener, itemCount: Int) {
+            binding.search = search
+            binding.root.setOnClickListener { onClickListener.onClick(search) }
+            binding.executePendingBindings()
         }
-        holder.bind(product)
+
+        companion object {
+            fun from(parent: ViewGroup): LayoutViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemSearchBinding
+                    .inflate(layoutInflater, parent, false)
+                return LayoutViewHolder(binding)
+            }
+        }
     }
 
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Product]
-     * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [Product]
-     */
-    class OnClickListener(val clickListener: (search: Search) -> Unit) {
-        fun onClick(search: Search) = clickListener(search)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val search = getItem(position)
+        search?.let {
+            holder.itemView.setOnClickListener {
+                onClickListener.onClick(search)
+            }
+            (holder as LayoutViewHolder).bind(search,onClickListener, itemCount)
+        }
     }
+
+
 }
+
