@@ -6,54 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayout
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.databinding.FragmentSearchBinding
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 class SearchFragment : Fragment() {
 
-    /**
-     * Lazily initialize our [SearchViewModel].
-     */
-    val viewModel by viewModels<SearchViewModel> { getVmFactory() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        init()
-        val binding = FragmentSearchBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-
-//        binding.recyclerHome.adapter = SearchAdapter(SearchAdapter.OnClickListener {
-//            viewModel.navigateToDetail(it)
-//        })
-//
-//        binding.layoutSwipeRefreshHome.setOnRefreshListener {
-//            viewModel.refresh()
-//        }
-//
-//        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                binding.layoutSwipeRefreshHome.isRefreshing = it
-//            }
-//        })
-//
-//        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
-//
-        return binding.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        FragmentSearchBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewpagerCatalog.let {
+                tabsCatalog.setupWithViewPager(it)
+                it.adapter = SearchAdapter(childFragmentManager)
+//                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
+            }
+            return@onCreateView root
+        }
     }
-
-//    private fun init() {
-//        activity?.let {
-//            ViewModelProviders.of(it).get(MainViewModel::class.java).apply {
-//                currentFragmentType.value = CurrentFragmentType.HOME
-//            }
-//        }
-//    }
 }

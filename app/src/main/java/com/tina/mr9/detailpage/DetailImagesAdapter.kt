@@ -27,10 +27,10 @@ class DetailImagesAdapter : RecyclerView.Adapter<DetailImagesAdapter.ImageViewHo
                 binding.imageUrl = it
 
                 // Make sure the size of each image item can display correct
-                val displayMetrics = DisplayMetrics()
-                (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
-                binding.imageDrinks.layoutParams = ConstraintLayout.LayoutParams(displayMetrics.widthPixels,
-                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery))
+//                val displayMetrics = DisplayMetrics()
+//                (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+//                binding.imageDrinks.layoutParams = ConstraintLayout.LayoutParams(displayMetrics.widthPixels,
+//                    context.resources.getDimensionPixelSize(R.dimen.height_detail_gallery))
 
                 binding.executePendingBindings()
             }

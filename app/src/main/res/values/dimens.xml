@@ -41,7 +41,7 @@
     <!-- Detail -->
     <dimen name="space_detail_color">8dp</dimen>
     <dimen name="space_detail_circle">8dp</dimen>
-    <dimen name="height_detail_gallery">500dp</dimen>
+    <dimen name="height_detail_gallery">100dp</dimen>
     <dimen name="size_detail_color">24dp</dimen>
     <dimen name="edge_detail_color">1dp</dimen>
     <dimen name="size_detail_close">44dp</dimen>
@@ -72,4 +72,14 @@
     <dimen name="height_logo">39dp</dimen>
     <dimen name="duration_logo_translate">-575dp</dimen>
     <dimen name="size_particle_logo">30dp</dimen>
+
+    <!-- Catalog -->
+    <dimen name="height_catalog_tab">48dp</dimen>
+    <dimen name="space_catalog_grid">16dp</dimen>
+    <dimen name="width_catalog_item">156dp</dimen>
+    <dimen name="height_catalog_item">220dp</dimen>
+    <dimen name="space_outside_horizontal_catalog_item">16dp</dimen>
+    <dimen name="space_inside_horizontal_catalog_item">8dp</dimen>
+    <dimen name="space_outside_vertical_catalog_item">24dp</dimen>
+    <dimen name="space_inside_vertical_catalog_item">12dp</dimen>
 </resources>

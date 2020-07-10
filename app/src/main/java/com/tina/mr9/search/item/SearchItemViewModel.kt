@@ -1,56 +1,35 @@
-package com.tina.mr9.detailpage
+package com.tina.mr9.search.item
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
+import com.tina.mr9.data.Search
 import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.data.*
 import com.tina.mr9.network.LoadApiStatus
+import com.tina.mr9.data.Result
+import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 /**
- * Created by Yuhsin Liao in Jul. 2020.
+ * Created by Wayne Chen in Jul. 2019.
  *
- * The [ViewModel] that is attached to the [DetailFragment].
+ * The [ViewModel] that is attached to the [SearchItemFragment].
  */
-@RequiresApi(Build.VERSION_CODES.O)
-class DetailViewModel(
-    private val repository: StylishRepository,
-    private val arguments: Drinks
-) : ViewModel() {
+class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
 
-    // Detail has product data from arguments
-    private val _drink = MutableLiveData<Drinks>().apply {
-        value = arguments
-    }
+    private val _search = MutableLiveData<List<Search>>()
 
-    val drink: LiveData<Drinks>
-        get() = _drink
-
-    private val _ratings = MutableLiveData<List<Ratings>>()
-
-    val ratings: LiveData<List<Ratings>>
-        get() = _ratings
+    val search: LiveData<List<Search>>
+        get() = _search
 
 
-
-    val base2String: String? = drink.value?.base?.let { main(it) }
-    val baseText: String? = "base : $base2String"
-
-    val contents2String: String? = drink.value?.contents?.let { main(it) }
-    val contentsText: String? = "Contents : $contents2String"
-
-    val pairings2String: String? = drink.value?.pairings?.let { main(it) }
-    val pairingsText: String? = "Pairings : $pairings2String"
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -71,10 +50,11 @@ class DetailViewModel(
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Ratings>()
+    private val _navigateToDetail = MutableLiveData<Search>()
 
-    val navigateToDetail: LiveData<Ratings>
+    val navigateToDetail: LiveData<Search>
         get() = _navigateToDetail
+
 
     private var viewModelJob = Job()
 
@@ -85,31 +65,28 @@ class DetailViewModel(
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-
-        getRatingsResult()
+        getSearchResult()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun main(args: List<String>): String? {
-        val delim = ", "
-        val res = java.lang.String.join(delim, args)
-        println(res)
-        return res
-    }
 
-    fun getRatingsResult() {
+    fun getSearchResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = drink.value?.id?.let { repository.getRatings(it) }
+//            val result = repository.getSearchList("search")
 
-            _ratings.value = when (result) {
+            val result = searchType.value.let { repository.getSearchList(it) }
+
+            _search.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+
+                    Log.d("Tina","result.data = ${result.data}")
                     result.data
+
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -131,12 +108,28 @@ class DetailViewModel(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+
+
+
+
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(ratings: Ratings) {
-        _navigateToDetail.value = ratings
+    fun navigateToDetail(search: Search) {
+        _navigateToDetail.value = search
     }
+
+    fun refresh() {
+        if (status.value != LoadApiStatus.LOADING) {
+            getSearchResult()
+        }
+    }
+
 
 }

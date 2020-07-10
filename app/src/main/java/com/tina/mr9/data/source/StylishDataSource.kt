@@ -1,6 +1,5 @@
 package com.tina.mr9.data.source
 
-import androidx.lifecycle.LiveData
 import com.tina.mr9.data.*
 import com.tina.mr9.data.Result
 /**
@@ -12,6 +11,8 @@ interface StylishDataSource{
     suspend fun getDrinks(): Result<List<Drinks>>
 
     suspend fun getRatings(drinkId: String): Result<List<Ratings>>
+
+    suspend fun getSearchList(type: String): Result<List<Search>>
 
 
 }

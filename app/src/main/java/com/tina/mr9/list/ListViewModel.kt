@@ -1,4 +1,4 @@
-package com.tina.mr9.detailpage
+package com.tina.mr9.list
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,15 +15,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  *
- * The [ViewModel] that is attached to the [DetailFragment].
+ * The [ViewModel] that is attached to the [ListFragment].
  */
 @RequiresApi(Build.VERSION_CODES.O)
-class DetailViewModel(
+class ListViewModel(
     private val repository: StylishRepository,
     private val arguments: Drinks
 ) : ViewModel() {
@@ -86,7 +85,7 @@ class DetailViewModel(
         Logger.i("------------------------------------")
 
 
-        getRatingsResult()
+//        getRatingsResult()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
