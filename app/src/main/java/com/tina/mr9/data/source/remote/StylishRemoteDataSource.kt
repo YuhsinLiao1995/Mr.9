@@ -1,5 +1,6 @@
 package com.tina.mr9.data.source.remote
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tina.mr9.Mr9Application
@@ -117,6 +118,43 @@ object StylishRemoteDataSource : StylishDataSource {
                     continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
                 }
             }
+
+    }
+
+    override suspend fun getList(searchId: String, column: String): Result<List<Drinks>>  = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+            .collection("drinks")
+            .whereEqualTo(column,searchId)
+
+//            .collectionGroup("rating")
+//            .document("YqgjBwOGFtsoR9VagMPx")
+//            .collection("rating")
+//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .get()
+
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val list = mutableListOf<Drinks>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val drink = document.toObject(Drinks::class.java)
+                        list.add(drink)
+                    }
+                    continuation.resume(Result.Success(list))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
+
+        Log.d("Tina","searchId = $searchId")
+        Log.d("Tina","column = $column")
 
     }
 }

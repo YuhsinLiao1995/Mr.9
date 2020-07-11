@@ -32,21 +32,10 @@ class HomeFragment : Fragment() {
             viewModel.navigateToDetail(it)
         })
 
-//        viewModel.drinks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-//            it?.let {
-//                adapter.submitList(it)
-//            }
-//            Log.d("Tina","it = {$it}")
-//        })
-
-//        binding.recyclerHome.adapter = HomeAdapter(HomeAdapter.OnClickListener {
-//            viewModel.navigateToDetail(it)
-//        })
-//
         binding.layoutSwipeRefreshHome.setOnRefreshListener {
             viewModel.refresh()
         }
-//
+
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.layoutSwipeRefreshHome.isRefreshing = it

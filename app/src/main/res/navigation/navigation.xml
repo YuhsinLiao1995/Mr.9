@@ -28,7 +28,11 @@
         android:id="@+id/searchFragment"
         android:name="com.tina.mr9.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
@@ -62,7 +66,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.tina.mr9.detailpage.DetailFragment"
-        android:label="DetailFragment" >
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
         <argument android:name="drinkKey"
             app:argType="com.tina.mr9.data.Drinks"
             app:nullable="false"/>
@@ -76,5 +81,27 @@
         tools:layout="@layout/fragment_detail"/>
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.tina.mr9.list.ListFragment"
+        android:label="ListFragment"
+        tools:layout="@layout/fragment_list">
+        <argument android:name="SearchKey"
+            app:argType="com.tina.mr9.data.Search"
+            app:nullable="false"/>
+        <argument
+            android:name="type"
+            app:argType="com.tina.mr9.search.SearchTypeFilter" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_listFragment"
+        app:destination="@id/listFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_list_fragment" app:destination="@id/listFragment"/>
+
 
 </navigation>

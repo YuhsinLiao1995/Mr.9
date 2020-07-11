@@ -19,7 +19,8 @@ data class Drinks(
     val main_image: String = "",
     val images: List<String> = emptyList(),
     val tag: List<String> = emptyList(),
-    val rating: Ratings = Ratings()
+    val rating: Ratings = Ratings(),
+    val createdTime: Long = -1
 
 ) : Parcelable {
     lateinit var value: MutableList<Drinks>

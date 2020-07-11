@@ -2,6 +2,7 @@ package com.tina.mr9
 
 import android.util.Log
 import android.widget.ImageView
+import android.widget.ListAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -30,6 +31,18 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
         }
     }
 }
+
+@BindingAdapter("drinkList")
+fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) {
+    drinks?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is com.tina.mr9.list.ListAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 
 @BindingAdapter("ratings")
 fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Ratings>?) {

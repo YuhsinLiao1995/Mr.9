@@ -14,5 +14,7 @@ interface StylishDataSource{
 
     suspend fun getSearchList(type: String): Result<List<Search>>
 
+    suspend fun getList(searchId: String, column: String): Result<List<Drinks>>
+
 
 }

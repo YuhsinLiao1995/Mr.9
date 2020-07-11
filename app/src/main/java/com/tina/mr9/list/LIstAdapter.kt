@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.HomeItem
 import com.tina.mr9.databinding.ItemHomeFullBinding
+import com.tina.mr9.databinding.ItemListBinding
 
 
 /**
@@ -53,7 +54,7 @@ class ListAdapter(private val onClickListener: OnClickListener) :
 
 
 
-    class LayoutViewHolder(private var binding: ItemHomeFullBinding) :
+    class LayoutViewHolder(private var binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind( drinks: Drinks,onClickListener: OnClickListener) {
             binding.drink = drinks
@@ -64,7 +65,7 @@ class ListAdapter(private val onClickListener: OnClickListener) :
         companion object {
             fun from(parent: ViewGroup): LayoutViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemHomeFullBinding
+                val binding = ItemListBinding
                     .inflate(layoutInflater, parent, false)
                 return LayoutViewHolder(binding)
             }

@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.detailpage.DetailViewModel
 
 /**
- * Created by Yuhsin Liao in Jul. 2020.
+ * Created by Yuhsin Liao in Jul. 2020
  */
 class DetailFragment : Fragment() {
 

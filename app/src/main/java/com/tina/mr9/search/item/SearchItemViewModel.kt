@@ -75,7 +75,6 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
 
             _status.value = LoadApiStatus.LOADING
 
-//            val result = repository.getSearchList("search")
 
             val result = searchType.value.let { repository.getSearchList(it) }
 

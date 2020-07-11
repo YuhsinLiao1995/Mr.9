@@ -14,6 +14,7 @@ import com.tina.mr9.detailpage.DetailFragmentArgs
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.search.SearchTypeFilter
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -24,9 +25,9 @@ class ListFragment : Fragment() {
      * Lazily initialize our [ListViewModel].
      */
     val viewModel by viewModels<ListViewModel> { getVmFactory(
-        DetailFragmentArgs.fromBundle(
-            requireArguments()
-        ).drinkKey)  }
+        ListFragmentArgs.fromBundle(requireArguments()).SearchKey,
+        ListFragmentArgs.fromBundle(requireArguments()).type)
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,10 +35,10 @@ class ListFragment : Fragment() {
         val binding = FragmentListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        binding.recyclerList.adapter = ListAdapter(ListAdapter.OnClickListener {
+            viewModel.navigateToDetail(it)
+        })
 
-//        binding.recyclerList.adapter = ListAdapter(ListAdapter.OnClickListener {
-//            viewModel.navigateToDetail(it)
-//        })
 
         return binding.root
 
