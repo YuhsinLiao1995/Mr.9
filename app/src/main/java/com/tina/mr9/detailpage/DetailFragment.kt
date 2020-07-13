@@ -2,6 +2,7 @@ package com.tina.mr9.detailpage
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.util.Logger
 
 /**
  * Created by Yuhsin Liao in Jul. 2020
@@ -29,6 +31,8 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
+        Logger.d("images = ${viewModel.drink.value?.images}")
+
         binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
         })

@@ -34,6 +34,7 @@ class SearchItemFragment(private val searchType: SearchTypeFilter) : Fragment() 
 
         binding.recyclerSearchItem.adapter = SearchItemAdapter(SearchItemAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
+            viewModel.navigateToBarlist(it)
         })
 
         binding.layoutSwipeRefreshCatalogItem.setOnRefreshListener {
@@ -49,8 +50,14 @@ class SearchItemFragment(private val searchType: SearchTypeFilter) : Fragment() 
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToListFragment(it, searchType))
-                viewModel.onDetailNavigated()
+                if (viewModel.typeFilter.value == SearchTypeFilter.BAR.value){
+                    findNavController().navigate(NavigationDirections.navigateToBarlistFragment(it, searchType))
+                    viewModel.onBarlistNavigated()
+                }
+                else {
+                    findNavController().navigate(NavigationDirections.navigateToListFragment(it, searchType))
+                    viewModel.onDetailNavigated()
+                }
             }
         })
 

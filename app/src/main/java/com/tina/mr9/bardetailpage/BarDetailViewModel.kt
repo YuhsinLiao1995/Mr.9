@@ -1,16 +1,15 @@
-package com.tina.mr9.search.item
+package com.tina.mr9.bardetailpage
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Search
 import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.*
 import com.tina.mr9.network.LoadApiStatus
-import com.tina.mr9.data.Result
-import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,18 +17,45 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
- * The [ViewModel] that is attached to the [SearchItemFragment].
+ * The [ViewModel] that is attached to the [BarDetailFragment].
  */
-class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
+@RequiresApi(Build.VERSION_CODES.O)
+class BarDetailViewModel(
+    private val repository: StylishRepository,
+    private val arguments: Bar
+) : ViewModel() {
 
-    val typeFilter: SearchTypeFilter = searchType
+    var statusAbout = MutableLiveData<Boolean>().apply {
+        value = false
+    }
 
-    private val _search = MutableLiveData<List<Search>>()
+    fun setAboutStatus(){
+        statusAbout.value = !statusAbout.value!!
+    }
 
-    val search: LiveData<List<Search>>
-        get() = _search
+    var statusMenu = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    fun setMenuStatus(){
+        statusMenu.value = !statusMenu.value!!
+    }
+
+    // Detail has product data from arguments
+    private val _bar = MutableLiveData<Bar>().apply {
+        value = arguments
+    }
+
+    val bar: LiveData<Bar>
+        get() = _bar
+
+    private val _drinks = MutableLiveData<List<Drinks>>()
+
+    val drinks: LiveData<List<Drinks>>
+        get() = _drinks
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -50,42 +76,49 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Search>()
+    private val _navigateToDetail = MutableLiveData<Drinks>()
 
-    val navigateToDetail: LiveData<Search>
+    val navigateToDetail: LiveData<Drinks>
         get() = _navigateToDetail
-
 
     private var viewModelJob = Job()
 
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+
+
 
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getSearchResult()
+
+        getDrinksResult()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun main(args: List<String>): String? {
+        val delim = ", "
+        val res = java.lang.String.join(delim, args)
+        println(res)
+        return res
     }
 
 
-    fun getSearchResult() {
+    fun getDrinksResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
+            val result = bar.value?.name?.let { repository.getBarDrinks(it) }
 
-            val result = searchType.value.let { repository.getSearchList(it) }
-
-            _search.value = when (result) {
+            _drinks.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-
-                    Log.d("Tina","result.data = ${result.data}")
                     result.data
-
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -107,36 +140,12 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
-
-
-
-
-
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(search: Search) {
-        _navigateToDetail.value = search
+    fun navigateToDetail(drinks: Drinks) {
+        _navigateToDetail.value = drinks
     }
-
-    fun onBarlistNavigated() {
-        _navigateToDetail.value = null
-    }
-
-    fun navigateToBarlist(search: Search) {
-        _navigateToDetail.value = search
-    }
-
-    fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
-            getSearchResult()
-        }
-    }
-
 
 }

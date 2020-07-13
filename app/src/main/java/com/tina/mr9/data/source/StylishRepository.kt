@@ -17,4 +17,10 @@ interface StylishRepository {
     suspend fun getSearchList(type: String): Result<List<Search>>
 
     suspend fun getList(searchId: String, column: String): Result<List<Drinks>>
+
+    suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>>
+
+    suspend fun getBarList(searchId: String, column: String): Result<List<Bar>>
+
+    suspend fun getBarDrinks(searchId: String): Result<List<Drinks>>
 }

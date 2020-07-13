@@ -1,15 +1,15 @@
-package com.tina.mr9.search.item
+package com.tina.mr9.bar_list
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Search
 import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.*
 import com.tina.mr9.network.LoadApiStatus
-import com.tina.mr9.data.Result
 import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -18,18 +18,29 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
- * The [ViewModel] that is attached to the [SearchItemFragment].
+ * The [ViewModel] that is attached to the [BarListFragment].
  */
-class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
+@RequiresApi(Build.VERSION_CODES.O)
+class BarListViewModel(
+    private val repository: StylishRepository,
+    private val arguments: Search,
+    private val type: SearchTypeFilter
+) : ViewModel() {
 
-    val typeFilter: SearchTypeFilter = searchType
+    // Detail has product data from arguments
+    private val _search = MutableLiveData<Search>().apply {
+        value = arguments
+    }
 
-    private val _search = MutableLiveData<List<Search>>()
-
-    val search: LiveData<List<Search>>
+    val search: LiveData<Search>
         get() = _search
+
+    private val _bars = MutableLiveData<List<Bar>>()
+
+    val bars: LiveData<List<Bar>>
+        get() = _bars
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -50,11 +61,10 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Search>()
+    private val _navigateToBarDetail = MutableLiveData<Bar>()
 
-    val navigateToDetail: LiveData<Search>
-        get() = _navigateToDetail
-
+    val navigateToBarDetail: LiveData<Bar>
+        get() = _navigateToBarDetail
 
     private var viewModelJob = Job()
 
@@ -65,27 +75,25 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getSearchResult()
+        getBarResult()
+
     }
 
-
-    fun getSearchResult() {
+    fun getBarResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
+            val result = search.value?.name?.let {
+                repository.getBarList(it, type.value)
+            }
 
-            val result = searchType.value.let { repository.getSearchList(it) }
-
-            _search.value = when (result) {
+            _bars.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-
-                    Log.d("Tina","result.data = ${result.data}")
                     result.data
-
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -107,36 +115,12 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    fun onBarDetailNavigated() {
+        _navigateToBarDetail.value = null
     }
 
-
-
-
-
-    fun onDetailNavigated() {
-        _navigateToDetail.value = null
+    fun navigateToBarDetail(bar: Bar) {
+        _navigateToBarDetail.value = bar
     }
-
-    fun navigateToDetail(search: Search) {
-        _navigateToDetail.value = search
-    }
-
-    fun onBarlistNavigated() {
-        _navigateToDetail.value = null
-    }
-
-    fun navigateToBarlist(search: Search) {
-        _navigateToDetail.value = search
-    }
-
-    fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
-            getSearchResult()
-        }
-    }
-
 
 }

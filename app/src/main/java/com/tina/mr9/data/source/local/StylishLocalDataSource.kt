@@ -1,10 +1,7 @@
 package com.tina.mr9.data.source.local
 
 import android.content.Context
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.Result
-import com.tina.mr9.data.Search
+import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishDataSource
 
 /**
@@ -26,6 +23,18 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
     }
 
     override suspend fun getList(searchId: String, column: String): Result<List<Drinks>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBarList(searchId: String, column: String): Result<List<Bar>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBarDrinksList(searchId: String): Result<List<Drinks>> {
         TODO("Not yet implemented")
     }
 

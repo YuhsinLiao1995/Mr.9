@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.tina.mr9.databinding.FragmentDetailBinding
+import androidx.lifecycle.Observer
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentListBinding
-import com.tina.mr9.detailpage.DetailFragmentArgs
-import com.tina.mr9.detailpage.DetailImagesAdapter
-import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.search.SearchTypeFilter
+import com.tina.mr9.util.Logger
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -37,8 +37,15 @@ class ListFragment : Fragment() {
         binding.viewModel = viewModel
         binding.recyclerList.adapter = ListAdapter(ListAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
+            Logger.d("viewModel.navigateToDetail = ${viewModel.navigateToDetail}")
         })
 
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                    findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                    viewModel.onDetailNavigated()
+            }
+        })
 
         return binding.root
 

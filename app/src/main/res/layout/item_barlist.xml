@@ -4,13 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="drink"
-            type="com.tina.mr9.data.Drinks" />
-        <variable
-            name="product"
-            type="com.tina.mr9.data.Product" />
+            name="bar"
+            type="com.tina.mr9.data.Bar" />
 
     </data>
 
@@ -28,8 +24,8 @@
             android:layout_marginEnd="21dp"
             android:layout_marginBottom="16dp"
             android:scaleType="centerCrop"
+            app:imageUrl="@{bar.main_image}"
             android:background="@drawable/background_corner"
-            app:imageUrl="@{drink.main_image}"
             app:layout_constraintDimensionRatio="2:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,13 +53,13 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
-            android:text="@{drink.name}"
-            app:layout_constraintBottom_toTopOf="@+id/bar"
+            android:text="@{bar.name}"
+            app:layout_constraintBottom_toTopOf="@+id/address"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
             tools:text="Uniqlo 特級超輕羽絨外套" />
 
         <TextView
-            android:id="@+id/bar"
+            android:id="@+id/address"
             style="@style/ItemDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,7 +67,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
-            android:text="@{drink.bar}"
+            android:text="@{bar.address}"
             app:layout_constraintBottom_toBottomOf="@id/image_home_main"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             app:layout_constraintStart_toStartOf="@id/image_home_main"

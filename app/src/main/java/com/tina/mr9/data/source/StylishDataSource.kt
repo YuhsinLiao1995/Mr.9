@@ -16,5 +16,11 @@ interface StylishDataSource{
 
     suspend fun getList(searchId: String, column: String): Result<List<Drinks>>
 
+    suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>>
+
+    suspend fun getBarList(searchId: String, column: String): Result<List<Bar>>
+
+    suspend fun getBarDrinksList(searchId: String): Result<List<Drinks>>
+
 
 }

@@ -1,24 +1,27 @@
-package com.tina.mr9.detailpage
+package com.tina.mr9.bardetailpage
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tina.mr9.databinding.ItemDetailsImagesBinding
+import com.tina.mr9.databinding.ItemBardetailsImagesBinding
+
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  */
-class DetailImagesAdapter : RecyclerView.Adapter<DetailImagesAdapter.ImageViewHolder>() {
+class BarDetailImagesAdapter : RecyclerView.Adapter<BarDetailImagesAdapter.ImageViewHolder>() {
 
     private lateinit var context: Context
     // the data of adapter
     private var images: List<String>? = null
 
-    class ImageViewHolder(private var binding: ItemDetailsImagesBinding): RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(private var binding: ItemBardetailsImagesBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, imageUrl: String) {
 
             imageUrl.let {
+
                 binding.imageUrl = it
 
                 // Make sure the size of each image item can display correct
@@ -29,13 +32,14 @@ class DetailImagesAdapter : RecyclerView.Adapter<DetailImagesAdapter.ImageViewHo
 
                 binding.executePendingBindings()
             }
+            Log.d("Tina","imageUrl = $imageUrl")
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         context = parent.context
-        return ImageViewHolder(ItemDetailsImagesBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false))
+        return ImageViewHolder(ItemBardetailsImagesBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
     }
 
     /**

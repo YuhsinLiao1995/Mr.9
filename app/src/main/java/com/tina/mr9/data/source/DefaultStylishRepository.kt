@@ -29,5 +29,17 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getList(searchId = searchId, column = column)
     }
 
+    override suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>> {
+        return remoteDataSource.getPairingList(searchId = searchId, column = column)
+    }
+
+    override suspend fun getBarList(searchId: String, column: String): Result<List<Bar>> {
+        return remoteDataSource.getBarList(searchId = searchId, column = column)
+    }
+
+    override suspend fun getBarDrinks(searchId: String): Result<List<Drinks>> {
+        return remoteDataSource.getBarDrinksList(searchId = searchId)
+    }
+
 
 }

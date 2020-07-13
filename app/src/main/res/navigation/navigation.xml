@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_searchFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_barListFragment"
+            app:destination="@id/barListFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
@@ -102,6 +105,39 @@
         app:popUpToInclusive="true" />
 
     <action android:id="@+id/navigate_to_list_fragment" app:destination="@id/listFragment"/>
+    <fragment
+        android:id="@+id/barListFragment"
+        android:name="com.tina.mr9.bar_list.BarListFragment"
+        android:label="BarListFragment"
+        tools:layout="@layout/fragment_barlist">
+        <argument android:name="SearchKey"
+            app:argType="com.tina.mr9.data.Search"
+            app:nullable="false"/>
+        <argument
+            android:name="type"
+            app:argType="com.tina.mr9.search.SearchTypeFilter" />
+    </fragment>
+    <action android:id="@+id/navigate_to_barlist_fragment" app:destination="@id/barListFragment"/>
+    <action
+        android:id="@+id/action_global_barListFragment"
+        app:destination="@id/barListFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/barDetailFragment"
+        android:name="com.tina.mr9.bardetailpage.BarDetailFragment"
+        android:label="BarDetailFragment"
+        tools:layout="@layout/fragment_bardetail">
+        <argument android:name="barKey"
+            app:argType="com.tina.mr9.data.Bar"
+            app:nullable="false"/>
+    </fragment>
+    <action android:id="@+id/navigate_to_bardetail_fragment" app:destination="@id/barDetailFragment"/>
+    <action
+        android:id="@+id/action_global_barDetailFragment"
+        app:destination="@id/barDetailFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
 
 
 </navigation>

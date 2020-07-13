@@ -4,12 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.tina.mr9.bar_list.BarListViewModel
+import com.tina.mr9.bardetailpage.BarDetailViewModel
+import com.tina.mr9.data.Bar
 import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Search
 import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.list.ListViewModel
-import com.tina.mr9.search.SearchTypeFilter
+import com.tina.mr9.detailpage.DetailViewModel
 
 /**
  * Created by Yuhsin Liao in Jul. 2030.
@@ -17,10 +16,9 @@ import com.tina.mr9.search.SearchTypeFilter
  * Factory for all ViewModels which need [Drinks].
  */
 @Suppress("UNCHECKED_CAST")
-class ListViewModelFactory(
+class BarViewModelFactory(
     private val stylishRepository: StylishRepository,
-    private val search: Search,
-    private val type: SearchTypeFilter
+    private val bar: Bar
 ) : ViewModelProvider.Factory {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -28,11 +26,8 @@ class ListViewModelFactory(
         with(modelClass) {
             when {
 
-                isAssignableFrom(ListViewModel::class.java) ->
-                    ListViewModel(stylishRepository, search, type)
-
-                isAssignableFrom(BarListViewModel::class.java) ->
-                    BarListViewModel(stylishRepository, search, type)
+                isAssignableFrom(BarDetailViewModel::class.java) ->
+                    BarDetailViewModel(stylishRepository, bar)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

@@ -1,24 +1,16 @@
-package com.tina.mr9.list
+package com.tina.mr9.bardetailpage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.HomeItem
-import com.tina.mr9.databinding.ItemHomeFullBinding
-import com.tina.mr9.databinding.ItemListBinding
-
+import com.tina.mr9.databinding.ItemDrinkBinding
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
- *
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
-class ListAdapter(private val onClickListener: OnClickListener) :
+class BarDetailDrinksAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Drinks, RecyclerView.ViewHolder>(
         DiffCallback ) {
 
@@ -29,8 +21,8 @@ class ListAdapter(private val onClickListener: OnClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is LayoutViewHolder -> {
-                val drink = getItem(position) as Drinks
-                (holder).bind(drink,onClickListener)
+                val drinks = getItem(position) as Drinks
+                (holder).bind(drinks,onClickListener)
 
             }
         }
@@ -50,7 +42,11 @@ class ListAdapter(private val onClickListener: OnClickListener) :
         return LayoutViewHolder.from(parent)
     }
 
-    class LayoutViewHolder(private var binding: ItemListBinding) :
+
+
+
+
+    class LayoutViewHolder(private var binding: ItemDrinkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind( drinks: Drinks,onClickListener: OnClickListener) {
             binding.drink = drinks
@@ -61,13 +57,18 @@ class ListAdapter(private val onClickListener: OnClickListener) :
         companion object {
             fun from(parent: ViewGroup): LayoutViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemListBinding
+                val binding = ItemDrinkBinding
                     .inflate(layoutInflater, parent, false)
                 return LayoutViewHolder(binding)
             }
+
         }
+
+
+
     }
+
+
+
+
 }
-
-
-

@@ -1,7 +1,6 @@
 package com.tina.mr9.list
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,11 +31,13 @@ class ListViewModel(
 
     // Detail has product data from arguments
     private val _search = MutableLiveData<Search>().apply {
-            value = arguments
-        }
+        value = arguments
+    }
 
     val search: LiveData<Search>
         get() = _search
+
+    val typeFilter: SearchTypeFilter = type
 
 
     private val _drinks = MutableLiveData<List<Drinks>>()
@@ -44,7 +45,10 @@ class ListViewModel(
     val drinks: LiveData<List<Drinks>>
         get() = _drinks
 
+    private val _bars = MutableLiveData<List<Bar>>()
 
+    val bars: LiveData<List<Bar>>
+        get() = _bars
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -80,9 +84,12 @@ class ListViewModel(
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        if(type.value == "category"){
-            Log.d("Tina","cate")
-        getCategoryResult()}
+        if (type.value == "category") {
+            getCategoryResult()
+        } else if (type.value == "pairings") {
+            getPairingResult()
+        }
+
     }
 
 
@@ -94,7 +101,8 @@ class ListViewModel(
 
 //            val result = search.value?.id?.let { repository.getList(it,) }
             val result = search.value?.name?.let {
-                repository.getList(it,"category") }
+                repository.getList(it, type.value)
+            }
 
             _drinks.value = when (result) {
                 is Result.Success -> {
@@ -130,9 +138,47 @@ class ListViewModel(
 
 //            val result = search.value?.id?.let { repository.getList(it,) }
             val result = search.value?.name?.let {
-                repository.getList(it,"category") }
+                repository.getPairingList(it, type.value)
+            }
 
             _drinks.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    fun getBarResult() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+//            val result = search.value?.id?.let { repository.getList(it,) }
+            val result = search.value?.name?.let {
+                repository.getBarList(it, type.value)
+            }
+
+            _bars.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

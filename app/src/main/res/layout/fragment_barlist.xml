@@ -9,7 +9,7 @@
 
         <import type="android.view.View"/>
 
-        <variable name="viewModel" type="com.tina.mr9.list.ListViewModel"/>
+        <variable name="viewModel" type="com.tina.mr9.bar_list.BarListViewModel"/>
 
         <variable name="search" type="com.tina.mr9.data.Search"/>
     </data>
@@ -40,9 +40,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:scaleType="centerCrop"
+                    app:imageUrl="@{viewModel.search.main_image}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:imageUrl="@{viewModel.search.main_image}"
                     tools:background="@color/com_facebook_blue"/>
 
                 <ImageView
@@ -64,8 +64,8 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="16dp"
                     android:textSize="36dp"
-                    android:text="@{viewModel.search.name}"
                     style="@style/OverallTitle"
+                    android:text="@{viewModel.search.name}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/main_image"/>
 
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="32dp"
-                    app:drinkList="@{viewModel.drinks}"
+                    app:barList="@{viewModel.bars}"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,8 +95,6 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

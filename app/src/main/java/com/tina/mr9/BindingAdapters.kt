@@ -2,19 +2,22 @@ package com.tina.mr9
 
 import android.util.Log
 import android.widget.ImageView
-import android.widget.ListAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.tina.mr9.bardetailpage.BarDetailDrinksAdapter
+import com.tina.mr9.bardetailpage.BarDetailImagesAdapter
+import com.tina.mr9.data.Bar
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.Ratings
 import com.tina.mr9.data.Search
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
+import com.tina.mr9.list.ListAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
 /**
@@ -37,7 +40,32 @@ fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) 
     drinks?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is com.tina.mr9.list.ListAdapter -> submitList(it)
+                is ListAdapter -> submitList(it)
+
+//                is BarDetailDrinksAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("bardrinkList")
+fun bindRecyclerViewWithDrinks(recyclerView: RecyclerView, drinks: List<Drinks>?) {
+    drinks?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+
+                is BarDetailDrinksAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("barList")
+fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
+    bar?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is com.tina.mr9.bar_list.BarListAdapter -> submitList(it)
             }
         }
     }
@@ -78,6 +106,9 @@ fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?
         recyclerView.adapter?.apply {
             when (this) {
                 is DetailImagesAdapter -> {
+                    submitImages(it)
+                }
+                is BarDetailImagesAdapter -> {
                     submitImages(it)
                 }
             }
