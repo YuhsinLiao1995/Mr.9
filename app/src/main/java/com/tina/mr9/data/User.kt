@@ -8,9 +8,11 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class User(
-    val id: Int,
-    val provider: String,
-    val name: String,
-    val email: String,
-    val picture: String
+    val id: String = "",
+    val image: String = "",
+    val name: String = "",
+    val email: String = "",
+    val followed_by: List<String> = emptyList(),
+    val following: List<String> = emptyList(),
+    val likedList: List<String> = emptyList()
 ) : Parcelable

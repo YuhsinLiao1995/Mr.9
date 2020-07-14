@@ -23,4 +23,6 @@ interface StylishRepository {
     suspend fun getBarList(searchId: String, column: String): Result<List<Bar>>
 
     suspend fun getBarDrinks(searchId: String): Result<List<Drinks>>
+
+//    suspend fun publish(ratings: Ratings): Result<Boolean>
 }

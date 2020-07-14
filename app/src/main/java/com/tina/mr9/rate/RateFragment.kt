@@ -15,7 +15,7 @@ import com.tina.mr9.ext.getVmFactory
 class RateFragment : Fragment() {
 
     /**
-     * Lazily initialize our [HomeViewModel].
+     * Lazily initialize our [RateViewModel].
      */
     val viewModel by viewModels<RateViewModel> { getVmFactory() }
 

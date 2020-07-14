@@ -22,5 +22,7 @@ interface StylishDataSource{
 
     suspend fun getBarDrinksList(searchId: String): Result<List<Drinks>>
 
+//    suspend fun publish(searchId: String): Result<List<Drinks>>
+
 
 }
