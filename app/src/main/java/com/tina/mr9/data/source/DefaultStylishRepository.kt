@@ -41,9 +41,9 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getBarDrinksList(searchId = searchId)
     }
 
-//    override suspend fun publish(ratings: Ratings): Result<Boolean> {
-//        TODO("Not yet implemented")
-//    }
+    override suspend fun publish(ratings: Ratings): Result<Boolean> {
+        return remoteDataSource.publish(ratings = ratings)
+    }
 
 
 }

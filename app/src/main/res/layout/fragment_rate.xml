@@ -5,6 +5,8 @@
 
     <data>
         <variable name="viewModel" type="com.tina.mr9.rate.RateViewModel"/>
+
+        <import type="com.tina.mr9.network.LoadApiStatus"/>
         <import type="android.view.View"/>
     </data>
 
@@ -20,9 +22,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:srcCompat="@drawable/photograph"
+                    app:layout_constraintTop_toTopOf="@id/btn_add_photo"
+                    app:layout_constraintStart_toStartOf="@id/btn_add_photo"
+                    app:layout_constraintEnd_toEndOf="@id/btn_add_photo"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_add_photo"/>
+                <Button
+                    android:id="@+id/btn_add_photo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/background_search"/>
+                <Button
+                    android:id="@+id/btn_take_pic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/btn_add_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/background_search"/>
 
                 <EditText
                     android:id="@+id/name_input"
@@ -30,11 +62,57 @@
                     android:layout_height="50dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
+                    android:hint="Name of the drink"
+                    android:text="@={viewModel.rating.name}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
+
+                <EditText
+                    android:id="@+id/bar_input"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    android:hint="Where?"
+                    android:text="@={viewModel.rating.bar}"
+                    app:layout_constraintTop_toBottomOf="@id/name_input"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#000000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_take_pic"
+                    app:layout_constraintBottom_toTopOf="@id/button_publish"
+                    app:srcCompat="@drawable/search_selected" />
+
+                <Button
+                    android:id="@+id/button_publish"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:background="@color/com_facebook_blue"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:onClick="@{() -> viewModel.publish(viewModel.rating)}"
+                    android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name_input" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

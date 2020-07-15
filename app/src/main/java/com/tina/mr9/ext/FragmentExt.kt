@@ -5,6 +5,7 @@ import com.tina.mr9.Mr9Application
 import com.tina.mr9.data.Bar
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.Search
+import com.tina.mr9.data.User
 import com.tina.mr9.factory.*
 import com.tina.mr9.search.SearchTypeFilter
 
@@ -36,6 +37,11 @@ fun Fragment.getVmFactory(search: Search, type: SearchTypeFilter): ListViewModel
 fun Fragment.getVmFactory(bar: Bar): BarViewModelFactory {
     val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
     return BarViewModelFactory(repository, bar)
+}
+
+fun Fragment.getVmFactory(user: User): AuthorViewModelFactory {
+    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
+    return AuthorViewModelFactory(repository, user)
 }
 
 

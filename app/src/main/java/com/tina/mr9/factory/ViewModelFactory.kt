@@ -28,8 +28,6 @@ class ViewModelFactory constructor(
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(stylishRepository)
 
-                isAssignableFrom(RateViewModel::class.java) ->
-                    RateViewModel(stylishRepository)
 
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(stylishRepository)

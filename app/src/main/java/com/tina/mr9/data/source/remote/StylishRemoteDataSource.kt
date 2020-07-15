@@ -1,6 +1,9 @@
 package com.tina.mr9.data.source.remote
 
+import android.icu.util.Calendar
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tina.mr9.Mr9Application
@@ -244,5 +247,32 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
             }
         Log.d("Tina","BarDrinks searchId = $searchId")
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun publish(ratings: Ratings): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(  "PATH_ARTICLES")
+        val document = articles.document()
+
+        ratings.id = document.id
+        ratings.createdTime = Calendar.getInstance().timeInMillis
+
+        document
+            .set(ratings)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Logger.i("Publish: $ratings")
+
+                    continuation.resume(Result.Success(true))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
     }
 }

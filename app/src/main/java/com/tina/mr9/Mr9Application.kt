@@ -1,6 +1,7 @@
 package com.tina.mr9
 
 import android.app.Application
+import android.content.Context
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.util.ServiceLocator
 import kotlin.properties.Delegates
@@ -19,10 +20,14 @@ class Mr9Application : Application() {
 
     companion object {
         var instance: Mr9Application by Delegates.notNull()
+        lateinit var appContext: Context
     }
 
     override fun onCreate() {
         super.onCreate()
+        Mr9Application.appContext = applicationContext
         instance = this
     }
+
+    fun isLiveDataDesign() = true
 }

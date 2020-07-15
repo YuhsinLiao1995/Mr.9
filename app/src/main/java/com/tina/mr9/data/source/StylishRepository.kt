@@ -24,5 +24,5 @@ interface StylishRepository {
 
     suspend fun getBarDrinks(searchId: String): Result<List<Drinks>>
 
-//    suspend fun publish(ratings: Ratings): Result<Boolean>
+    suspend fun publish(ratings: Ratings): Result<Boolean>
 }

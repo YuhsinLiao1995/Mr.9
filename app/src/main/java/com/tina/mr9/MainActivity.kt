@@ -8,6 +8,7 @@ import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -215,6 +216,13 @@ class MainActivity : BaseActivity() {
             }
             Logger.i("====== ${Build.MODEL} ======")
         }
+    }
+
+    fun permission(){
+        ActivityCompat.requestPermissions(this, arrayOf(
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
     }
 
     /**

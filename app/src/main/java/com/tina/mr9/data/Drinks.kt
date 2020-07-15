@@ -31,28 +31,24 @@ data class Drinks(
 
 @Parcelize
 data class Ratings(
-    val acidic: Long = -1,
-    val alcohol_ABV: Long = -1,
-    val author: String = "",
-    val base: List<String> = emptyList(),
-    val pairings: List<String> = emptyList(),
-    val category: String = "",
-    val comment: String = "",
-    val contents: List<String> = emptyList(),
-    val created_time: Long = -1,
-    val images: List<String> = emptyList(),
-    val overall_rating: Long = -1,
-    val strong: Long = -1,
-    val sweet: Long = -1,
-    val take_again: Boolean = false
+    var id: String = "",
+    var createdTime: Long = -1,
+    var acidic: Long = -1,
+    var alcohol_ABV: Long = -1,
+    var author: String = "",
+    var main_photo: String = "",
+    var base: List<String> = emptyList(),
+    var pairings: List<String> = emptyList(),
+    var category: String = "",
+    var comment: String = "",
+    var contents: List<String> = emptyList(),
+    var created_time: Long = -1,
+    var images: List<String> = emptyList(),
+    var overall_rating: Long = -1,
+    var strong: Long = -1,
+    var sweet: Long = -1,
+    var take_again: Boolean = false,
+    var bar: String = "",
+    var name: String = ""
 ) : Parcelable{
-//
-//    var sizeRange = for (i = 0), i++){
-//
-//    }
-//        if (sizes.size == 1) {
-//        sizes[0]
-//    } else {
-//        "${sizes[0]} - ${sizes[sizes.size - 1]}"
-//    }
 }
