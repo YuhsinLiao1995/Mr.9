@@ -38,8 +38,12 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun publish(ratings: Ratings): Result<Boolean> {
+    override suspend fun publish(ratings: Ratings, drinks: Drinks): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun addDrinks(ratings: Ratings, drinks: Drinks): Result<Boolean> {
+        TODO("Not yet implemented")
     }
 
 

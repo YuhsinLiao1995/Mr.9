@@ -250,7 +250,7 @@ object StylishRemoteDataSource : StylishDataSource {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    override suspend fun publish(ratings: Ratings): Result<Boolean> = suspendCoroutine { continuation ->
+    override suspend fun publish(ratings: Ratings, drinks: Drinks): Result<Boolean> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
             .collection("drinks")
             .whereEqualTo("name",ratings.name)
@@ -263,7 +263,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
                         continuation.resume(Result.DrinkNotExist(ratings))
                     }
-                    val list = mutableListOf<Drinks>()
+//                    val list = mutableListOf<Drinks>()
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
                         val path = document.id
@@ -311,21 +311,19 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
             }
 
-    }
-
     @RequiresApi(Build.VERSION_CODES.N)
-    suspend fun add(ratings: Ratings): Result<Boolean> = suspendCoroutine { continuation ->
-        val articles = FirebaseFirestore.getInstance().collection(  "drinks").document("document.id").collection("rating")
+    override suspend fun addDrinks(ratings: Ratings, drinks: Drinks): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(  "drinks")
         val document = articles.document()
 
-        ratings.id = document.id
-        ratings.createdTime = Calendar.getInstance().timeInMillis
+        drinks.id = document.id
+        drinks.createdTime = Calendar.getInstance().timeInMillis
 
         document
-            .set(ratings)
+            .set(drinks)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Logger.i("Publish: $ratings")
+                    Logger.i("Add: $drinks")
 
                     continuation.resume(Result.Success(true))
                 } else {
@@ -339,3 +337,8 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
             }
     }
+
+
+}
+
+

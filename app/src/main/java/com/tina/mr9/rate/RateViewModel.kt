@@ -1,20 +1,9 @@
 package com.tina.mr9.rate
 
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import com.google.firebase.firestore.auth.User
-import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
@@ -25,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.io.File
+import kotlin.math.absoluteValue
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -34,7 +23,7 @@ import java.io.File
  */
 class RateViewModel(
     private val repository: StylishRepository,
-    private val user: com.tina.mr9.data.User
+    private val user: User
 ) : ViewModel() {
 
     val _rating = MutableLiveData<Ratings>().apply {
@@ -47,13 +36,15 @@ class RateViewModel(
         value = mutableListOf()
     }
 
-//    val images2 : LiveData<String>
-//        get() = images
-//    }
-
     val rating: LiveData<Ratings>
         get() = _rating
 
+    val _drinks = MutableLiveData<Drinks>().apply {
+        value = Drinks()
+    }
+
+    val drinks: LiveData<Drinks>
+        get() = _drinks
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -99,20 +90,20 @@ class RateViewModel(
         Logger.i("------------------------------------")
     }
 
-    fun publish(ratings: Ratings) {
+    fun publish(ratings: Ratings, drinks: Drinks) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.publish(ratings)) {
+            when (val result = repository.publish(ratings, drinks)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.DrinkNotExist -> {
-                    publish2(result.ratings)
+                    publish2(ratings, drinks)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -130,33 +121,49 @@ class RateViewModel(
         }
     }
 
-    fun publish2(ratings: Ratings) {
+    fun publish2(ratings: Ratings, drinks: Drinks) {
         Log.d("Tina","ifcalled")
 
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            when (val result = repository.publish(ratings)) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    leave(true)
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//                else -> {
-//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
-//                    _status.value = LoadApiStatus.ERROR
-//                }
-//            }
-//        }
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.addDrinks(ratings, drinks)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    publish(ratings, drinks)
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    fun bindingDrink(){
+        _drinks.value?.name = rating.value!!.name
+                        _drinks.value?.bar = rating.value!!.bar
+                _drinks.value?.contents = rating.value!!.contents
+                _drinks.value?.base = rating.value!!.base
+                _drinks.value?.contents = rating.value!!.contents
+                _drinks.value?.category = rating.value!!.category
+                _drinks.value?.pairings = rating.value!!.pairings
+                _drinks.value?.strong = rating.value!!.strong
+                _drinks.value?.sweet = rating.value!!.sweet
+                _drinks.value?.take_again = rating.value!!.take_again
+                _drinks.value?.main_image = rating.value!!.main_photo
+                _drinks.value?.images = rating.value!!.images!!
     }
 
     fun leave(needRefresh: Boolean = false) {
@@ -173,17 +180,9 @@ class RateViewModel(
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    fun onRatingChanged(rating: Float){
+        _rating.value?.overall_rating = rating
+        Logger("_rating.value?.overall_rating = ${_rating.value?.overall_rating}")
+    }
 
 }

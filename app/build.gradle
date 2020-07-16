@@ -116,4 +116,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+
+
+    implementation 'com.github.KaelLi1989:NiceRatingBar:1.0.0'
 }
