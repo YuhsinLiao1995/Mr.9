@@ -43,7 +43,7 @@ data class Ratings(
     var comment: String = "",
     var contents: List<String> = emptyList(),
     var created_time: Long = -1,
-    var images: List<String> = emptyList(),
+    var images: List<String>? = emptyList(),
     var overall_rating: Long = -1,
     var strong: Long = -1,
     var sweet: Long = -1,

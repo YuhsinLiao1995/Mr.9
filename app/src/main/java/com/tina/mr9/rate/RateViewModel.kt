@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.FileProvider
@@ -36,7 +37,7 @@ class RateViewModel(
     private val user: com.tina.mr9.data.User
 ) : ViewModel() {
 
-    private val _rating = MutableLiveData<Ratings>().apply {
+    val _rating = MutableLiveData<Ratings>().apply {
             value = Ratings(
                 author = user.id
             )
@@ -45,6 +46,10 @@ class RateViewModel(
     val images = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
     }
+
+//    val images2 : LiveData<String>
+//        get() = images
+//    }
 
     val rating: LiveData<Ratings>
         get() = _rating
@@ -106,6 +111,9 @@ class RateViewModel(
                     _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
+                is Result.DrinkNotExist -> {
+                    publish2(result.ratings)
+                }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
@@ -120,6 +128,35 @@ class RateViewModel(
                 }
             }
         }
+    }
+
+    fun publish2(ratings: Ratings) {
+        Log.d("Tina","ifcalled")
+
+//        coroutineScope.launch {
+//
+//            _status.value = LoadApiStatus.LOADING
+//
+//            when (val result = repository.publish(ratings)) {
+//                is Result.Success -> {
+//                    _error.value = null
+//                    _status.value = LoadApiStatus.DONE
+//                    leave(true)
+//                }
+//                is Result.Fail -> {
+//                    _error.value = result.error
+//                    _status.value = LoadApiStatus.ERROR
+//                }
+//                is Result.Error -> {
+//                    _error.value = result.exception.toString()
+//                    _status.value = LoadApiStatus.ERROR
+//                }
+//                else -> {
+//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+//                    _status.value = LoadApiStatus.ERROR
+//                }
+//            }
+//        }
     }
 
     fun leave(needRefresh: Boolean = false) {

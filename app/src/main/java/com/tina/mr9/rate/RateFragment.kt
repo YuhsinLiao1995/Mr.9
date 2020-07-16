@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +26,9 @@ import com.tina.mr9.Mr9Application
 import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.util.Logger.d
 import kotlinx.android.synthetic.main.fragment_rate.*
 import java.io.File
+import androidx.lifecycle.Observer
 import java.util.*
 import java.util.logging.Logger
 
@@ -50,6 +49,8 @@ class RateFragment : Fragment() {
         val binding = FragmentRateBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        binding.recyclerImages.adapter = RateAdapter(RateAdapter.OnClickListener{})
         if (savedInstanceState != null) {
             saveUri = Uri.parse(savedInstanceState.getString("saveUri"))
         }
@@ -63,15 +64,19 @@ class RateFragment : Fragment() {
             toCamera()
         }
 
+        viewModel.images.observe(viewLifecycleOwner, Observer {
+            Log.i("images", "images = $it")
+            it?.let {
+                (binding.recyclerImages.adapter as RateAdapter).submitList(it)
+                (binding.recyclerImages.adapter as RateAdapter).notifyDataSetChanged()
+            }
+        })
         ContextCompat.checkSelfPermission(Mr9Application.appContext, android.Manifest.permission.CAMERA)
 
         return binding.root
 
 
     }
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +106,7 @@ class RateFragment : Fragment() {
 
     fun toCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val tmpFile = File(Environment.getExternalStorageDirectory().toString(), System.currentTimeMillis().toString() + ".jpg")
+        val tmpFile = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), System.currentTimeMillis().toString() + ".jpg")
         val uriForCamera = FileProvider.getUriForFile(Mr9Application.appContext, "com.tina.mr9.fileprovider", tmpFile)
 
         saveUri = uriForCamera
@@ -184,16 +189,18 @@ class RateFragment : Fragment() {
                     image.value = it.toString()
                     if (firstPhoto) {
                         viewModel.rating.value?.main_photo = image.value!!
-//                        viewModel.user.value?.diarys?.images  =
-//                            listOf(listOf(image.value).toString())
+                        viewModel.rating.value?.images  =
+                            listOf(listOf(image.value).toString())
                         firstPhoto = false
                     } else {
                         viewModel.rating.value?.images =
-                            listOf(listOf(image.value).toString())
+                            listOf(image.toString())
+                        Log.d("Tina","not first photo")
                     }
                     Log.d("Tina","viewModel mainImage = ${viewModel.rating.value?.main_photo}; images = ${viewModel.rating.value?.images}")
                     viewModel.images.value?.add(it.toString())
                     viewModel.images.value = viewModel.images.value
+                    viewModel.rating.value?.images = viewModel.images.value
                 }
             }
     }

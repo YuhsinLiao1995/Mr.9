@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "839580685277-ibemsm868v2s22g9k2jemqohl9bd8gk0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.tina.mr9",
-            "certificate_hash": "9aaa2d4a2a26e2979a7f571f2cffab89267a3646"
-          }
-        },
-        {
           "client_id": "839580685277-ggcjcsq2bv4nvsurs0nle0qtjf0f8nca.apps.googleusercontent.com",
           "client_type": 3
         }

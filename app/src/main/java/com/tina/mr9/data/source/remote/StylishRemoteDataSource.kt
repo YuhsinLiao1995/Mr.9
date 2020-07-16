@@ -251,7 +251,71 @@ object StylishRemoteDataSource : StylishDataSource {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun publish(ratings: Ratings): Result<Boolean> = suspendCoroutine { continuation ->
-        val articles = FirebaseFirestore.getInstance().collection(  "PATH_ARTICLES")
+        FirebaseFirestore.getInstance()
+            .collection("drinks")
+            .whereEqualTo("name",ratings.name)
+            .whereEqualTo("bar",ratings.bar)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+
+                    if (task.result?.size()  == 0){
+
+                        continuation.resume(Result.DrinkNotExist(ratings))
+                    }
+                    val list = mutableListOf<Drinks>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+                        val path = document.id
+
+//                        val drinks = document.toObject(Drinks::class.java)
+//                        list.add(drinks)
+                        val articles = FirebaseFirestore.getInstance().collection(  "drinks").document(document.id).collection("rating")
+                        val document = articles.document()
+
+                        ratings.id = document.id
+                        ratings.createdTime = Calendar.getInstance().timeInMillis
+
+                        document
+                            .set(ratings)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Logger.i("Publish: $ratings")
+
+                                    continuation.resume(Result.Success(true))
+                                } else {
+                                    task.exception?.let {
+
+                                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                        continuation.resume(Result.Error(it))
+                                        return@addOnCompleteListener
+                                    }
+                                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                                }
+                            }
+
+
+
+                    }
+//                    continuation.resume(Result.Success(list))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+
+                    }
+                }
+            }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    suspend fun add(ratings: Ratings): Result<Boolean> = suspendCoroutine { continuation ->
+        val articles = FirebaseFirestore.getInstance().collection(  "drinks").document("document.id").collection("rating")
         val document = articles.document()
 
         ratings.id = document.id
@@ -267,7 +331,7 @@ object StylishRemoteDataSource : StylishDataSource {
                 } else {
                     task.exception?.let {
 
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+//                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                         continuation.resume(Result.Error(it))
                         return@addOnCompleteListener
                     }
@@ -275,4 +339,3 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
             }
     }
-}

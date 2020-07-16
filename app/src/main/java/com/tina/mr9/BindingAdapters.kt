@@ -18,6 +18,7 @@ import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
+import com.tina.mr9.rate.RateAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
 /**
@@ -34,6 +35,17 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
         }
     }
 }
+
+//@BindingAdapter("image2")
+//fun bindRecyclerViewWithImage2(recyclerView: RecyclerView, images: String) {
+//    images?.let {
+//        recyclerView.adapter?.apply {
+//            when (this) {
+//                is RateAdapter -> submitList(it)
+//            }
+//        }
+//    }
+//}
 
 @BindingAdapter("drinkList")
 fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) {
