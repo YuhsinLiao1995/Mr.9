@@ -5,4 +5,7 @@
     <string name="discover">Discover</string>
     <string name="search_title">Search</string>
     <string name="drink_now">Just drink now!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

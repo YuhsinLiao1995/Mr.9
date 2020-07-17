@@ -67,6 +67,7 @@ dependencies {
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
     implementation 'com.google.firebase:firebase-firestore:17.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$version_room"
 
     // Navigation
@@ -118,6 +119,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 
 
-
+    // Rating Bar
     implementation 'com.github.KaelLi1989:NiceRatingBar:1.0.0'
+    // Slider
+    implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
 }

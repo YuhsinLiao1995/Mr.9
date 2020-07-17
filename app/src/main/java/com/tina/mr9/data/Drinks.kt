@@ -36,7 +36,7 @@ data class Drinks(
 data class Ratings(
     var id: String = "",
     var createdTime: Long = -1,
-    var acidic: Long = -1,
+    var acidic: Float = -1f,
     var alcohol_ABV: Long = -1,
     var author: String = "",
     var main_photo: String = "",

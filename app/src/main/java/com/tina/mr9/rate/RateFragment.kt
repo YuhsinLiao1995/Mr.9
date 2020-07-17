@@ -25,9 +25,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
+import com.tina.mr9.R
 import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.util.Logger
+import com.xw.repo.BubbleSeekBar
+import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
 import kotlinx.android.synthetic.main.fragment_rate.*
 import java.io.File
 import java.util.*
@@ -99,6 +103,97 @@ class RateFragment : Fragment() {
             Mr9Application.appContext,
             android.Manifest.permission.CAMERA
         )
+
+        binding.bubbleSeekBar.setProgress(10f)
+
+
+
+        binding.bubbleSeekBar.onProgressChangedListener = object : BubbleSeekBar.OnProgressChangedListenerAdapter() {
+            override fun onProgressChanged(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+
+                Logger("progressFloat = $progressFloat")
+                viewModel.onSlideChanged(progressFloat)
+
+
+            }
+        }
+
+        binding.bubbleSeekBar.setOnProgressChangedListener(object : OnProgressChangedListenerAdapter() {
+            override fun onProgressChanged(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+                val s: Float = progressFloat
+
+                Logger("s = $s")
+
+            }
+        })
+
+        binding.bubbleSeekBar.setOnProgressChangedListener(object : OnProgressChangedListenerAdapter() {
+            override fun onProgressChanged(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+                val s = String.format(
+                    Locale.CHINA,
+                    "onChanged int:%d, float:%.1f",
+                    progress,
+                    progressFloat
+                )
+
+                Logger("progressFloat = $progressFloat")
+                binding.demo4ProgressText1.setText(s)
+            }
+
+            override fun getProgressOnActionUp(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float
+            ) {
+                val s = String.format(
+                    Locale.CHINA,
+                    "onActionUp int:%d, float:%.1f",
+                    progress,
+                    progressFloat
+                )
+                binding.demo4ProgressText2.setText(s)
+                Logger("progressFloat = $progressFloat")
+            }
+
+            override fun getProgressOnFinally(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+                val s = String.format(
+                    Locale.CHINA,
+                    "onFinally int:%d, float:%.1f",
+                    progress,
+                    progressFloat
+                )
+                binding.demo4ProgressText3.setText(s)
+                Logger("progressFloat = $progressFloat")
+            }
+        })
+
+//        binding.buttonSlider.setOnClickListener { v ->
+//            val progress = bubbleSeekBar?.max?.toInt()?.let { Random().nextInt(it) }
+//            if (progress != null) {
+//                bubbleSeekBar?.setProgress(progress.toFloat())
+//            }
+//            Snackbar.make(v, "set random progress = $progress", Snackbar.LENGTH_SHORT).show()
+//        }
 
         return binding.root
 
@@ -193,7 +288,7 @@ class RateFragment : Fragment() {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         val saveUri = data!!.data
-                        imageView.setImageURI(saveUri)
+//                        imageView.setImageURI(saveUri)
                         saveUri?.let { uploadImage(it) }
                     }
                     Activity.RESULT_CANCELED -> {
@@ -210,7 +305,7 @@ class RateFragment : Fragment() {
 
                     Activity.RESULT_OK -> {
                         Log.d("Tina", "RESULT_OK")
-                        Glide.with(this).load(saveUri).into(imageView)
+//                        Glide.with(this).load(saveUri).into(imageView)
                         Log.d("Tina", "saveUri = $saveUri")
                         saveUri?.let { uploadImage(it) }
                     }

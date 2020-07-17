@@ -185,4 +185,9 @@ class RateViewModel(
         Logger("_rating.value?.overall_rating = ${_rating.value?.overall_rating}")
     }
 
+    fun onSlideChanged(slide: Float){
+        _rating.value?.acidic = slide
+        Logger("_rating.value?.acidic = ${_rating.value?.acidic}")
+    }
+
 }
