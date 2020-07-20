@@ -164,4 +164,31 @@
         <item name="colorButtonNormal">@color/white</item>
     </style>
 
+    <style name="ProfileName">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ProfileDescription">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ProfileDescriptionDark">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
 </resources>

@@ -4,7 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.tina.mr9.data.Drinks
 import com.tina.mr9.databinding.ItemDetailsImagesBinding
+import com.tina.mr9.list.ListAdapter
+
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  */
@@ -46,6 +49,13 @@ class DetailImagesAdapter : RecyclerView.Adapter<DetailImagesAdapter.ImageViewHo
         images?.let {
             holder.bind(context, it[getRealPosition(position)])
         }
+//        when (holder) {
+//            is ImageViewHolder -> {
+//                val images = getItem(position) as String
+//                (holder).bind(context,images)
+//
+//            }
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -64,4 +74,5 @@ class DetailImagesAdapter : RecyclerView.Adapter<DetailImagesAdapter.ImageViewHo
         this.images = images
         notifyDataSetChanged()
     }
+    
 }

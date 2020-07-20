@@ -29,10 +29,13 @@ class DetailFragment : Fragment() {
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
-        Logger.d("images = ${viewModel.drink.value?.images}")
-
+        Logger.d("viewModel.drink.value?.overall_rating!! = ${viewModel.drink.value?.overall_rating!!}")
+//
+        if (viewModel.drink.value?.overall_rating != -1f) {
+            binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
+            Logger.d("images = ${viewModel.drink.value?.images}")
+        }
         binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
         })

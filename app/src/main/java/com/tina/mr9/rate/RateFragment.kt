@@ -30,6 +30,7 @@ import com.tina.mr9.R
 import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.profile.ProfileFragmentArgs
 import com.tina.mr9.util.Logger
 import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
@@ -47,7 +48,7 @@ class RateFragment : Fragment() {
     /**
      * Lazily initialize our [RateViewModel].
      */
-    val viewModel by viewModels<RateViewModel> { getVmFactory(user = User()) }
+    val viewModel by viewModels<RateViewModel> { getVmFactory(RateFragmentArgs.fromBundle(requireArguments()).userKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,6 +96,7 @@ class RateFragment : Fragment() {
             viewModel.onRatingChanged(it)
             Log.d("Tina","it = $it")
         })
+
 
 
         binding.buttonPublish.setOnClickListener(){

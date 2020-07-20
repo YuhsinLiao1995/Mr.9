@@ -29,6 +29,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:imageUrl_crop="@{ratings.authorImage}"
             app:srcCompat="@drawable/ic_nav_rate_selector"/>
 
         <TextView
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
-            android:text="@{ratings.author}"
+            android:text="@{ratings.authorName}"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="@id/author_image"
             app:layout_constraintStart_toEndOf="@id/author_image"

@@ -309,8 +309,13 @@ object StylishRemoteDataSource : StylishDataSource {
                                     }
                                 }
 
-                            var i = 0
-                             var y = 0
+
+
+                            // calculate avg rating
+//                            var amtRating = 0
+                             var totalOverallRating = 0f
+                            var totalSweet = 0f
+                            var totalSour = 0f
 
                             FirebaseFirestore.getInstance()
                                 .collection("drinks").document(path).collection("rating")
@@ -318,26 +323,25 @@ object StylishRemoteDataSource : StylishDataSource {
                                 .addOnCompleteListener() {task ->
                                     for (document in task.result!!){
                                         Logger.d(document.id + " => " + document.data)
-                                        i = i + 1
 
-//                                        y = y + document.data.values.filterIndexed { index, any ->  }
-
-
-
-
-                                        Logger.d("newR  =>  $i ")
+                                        val rating = document.toObject(Ratings::class.java)
+                                        Logger.d("rating=$rating")
+                                        totalOverallRating += rating.overall_rating
+                                        totalSweet += rating.sweet
+                                        totalSour += rating.sour
                                     }
+
+                                    val avgOverallRating = totalOverallRating / task.result!!.size().toFloat()
+                                    val avgSweet = totalSweet / task.result!!.size().toFloat()
+                                    val avgSour = totalSour / task.result!!.size().toFloat()
+                                    Logger.d("rating avg=$avgOverallRating")
+
+
+                                    FirebaseFirestore.getInstance()
+                                        .collection("drinks").document(path)
+                                        .update("overall_rating",avgOverallRating,"sweet",avgSweet,"sour",avgSour,"amtRating",task.result!!.size())
+                                    Logger.d("path = $path")
                                 }
-
-
-
-
-
-                            FirebaseFirestore.getInstance()
-                                .collection("drinks").document(path)
-//                                .update("overall_rating","3.3f")
-
-                            Logger.d("path = $path")
 
                         }
 

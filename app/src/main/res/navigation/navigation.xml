@@ -23,7 +23,14 @@
         android:id="@+id/rateFragment"
         android:name="com.tina.mr9.rate.RateFragment"
         android:label="RateFragment"
-        tools:layout="@layout/fragment_rate"/>
+        tools:layout="@layout/fragment_rate">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.tina.mr9.search.SearchFragment"
@@ -146,6 +153,43 @@
         app:destination="@id/barDetailFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/likedFragment"
+        android:name="com.tina.mr9.profile.item.LikedFragment"
+        android:label="LikedFragment"
+        tools:layout="@layout/fragment_liked">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_likedFragment"
+        app:destination="@id/likedFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/myRatingFragment"
+        android:name="com.tina.mr9.profile.item.MyRatingFragment"
+        android:label="MyRatingFragment"
+        tools:layout="@layout/fragment_my_rating">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
+    </fragment>
+    <action
+        android:id="@+id/action_global_myRatingFragment"
+        app:destination="@id/myRatingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+
 
 
 </navigation>

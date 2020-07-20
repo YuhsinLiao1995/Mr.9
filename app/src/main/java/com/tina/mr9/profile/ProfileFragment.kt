@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.tina.mr9.R
 import com.tina.mr9.databinding.FragmentProfileBinding
 import com.tina.mr9.ext.getVmFactory
 
@@ -18,6 +22,8 @@ class ProfileFragment : Fragment() {
      * Lazily initialize our [ProfileViewModel].
      */
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory(ProfileFragmentArgs.fromBundle(requireArguments()).userKey) }
+    private lateinit var viewPager: ViewPager
+    private lateinit var PagerAdapter: PagesAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        init()
@@ -25,35 +31,19 @@ class ProfileFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-//        binding.recyclerHome.adapter = ProfileAdapter(ProfileAdapter.OnClickListener {
-//            viewModel.navigateToDetail(it)
-//        })
-//
-//        binding.layoutSwipeRefreshHome.setOnRefreshListener {
-//            viewModel.refresh()
-//        }
-//
-//        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                binding.layoutSwipeRefreshHome.isRefreshing = it
-//            }
-//        })
-//
-//        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
-//                viewModel.onDetailNavigated()
-//            }
-//        })
-//
+
         return binding.root
     }
 
-//    private fun init() {
-//        activity?.let {
-//            ViewModelProviders.of(it).get(MainViewModel::class.java).apply {
-//                currentFragmentType.value = CurrentFragmentType.HOME
-//            }
-//        }
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        PagerAdapter = PagesAdapter(childFragmentManager)
+        viewPager = view.findViewById(R.id.viewpager_profile)
+        viewPager.adapter = PagerAdapter
+    }
+
+    companion object {
+        fun newInstance() = ProfileFragment()
+    }
+
+
 }

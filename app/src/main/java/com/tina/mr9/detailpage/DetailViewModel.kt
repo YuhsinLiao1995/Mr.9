@@ -7,15 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
+import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Ratings
+import com.tina.mr9.data.Result
 import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.data.*
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
+import java.math.BigDecimal
+import kotlin.math.roundToLong
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -51,6 +54,24 @@ class DetailViewModel(
 
     val pairings2String: String? = drink.value?.pairings?.let { main(it) }
     val pairingsText: String? = "Pairings : $pairings2String"
+
+    val overallRating2String: String = drink.value?.overall_rating?.toDouble()?.toBigDecimal()?.setScale(2, BigDecimal.ROUND_HALF_UP).toString()
+
+
+
+//    fun qw(){
+//        var f = 34.232323f
+//        var b: BigDecimal = BigDecimal(f)
+//        var f1: Float = b.setScale(2, BigDecimal.ROUND_HALF_UP)
+//            .toFloat()
+//
+//        Logger.d("f1 = $f1")
+//    }
+
+
+
+    // b.setScale(2, BigDecimal.ROUND_HALF_UP)
+
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()

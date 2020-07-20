@@ -23,13 +23,18 @@ import kotlin.math.absoluteValue
  */
 class RateViewModel(
     private val repository: StylishRepository,
-    private val user: User
+    private val arguments: User?
 ) : ViewModel() {
 
     val _rating = MutableLiveData<Ratings>().apply {
-        value = Ratings(
-            author = user.uid
-        )
+        if (arguments != null) {
+            value = Ratings(
+                author = arguments.uid,
+                authorName = arguments.name,
+                authorImage = arguments.image
+
+            )
+        }
     }
 
     val images = MutableLiveData<MutableList<String>>().apply {
@@ -211,7 +216,6 @@ class RateViewModel(
         _bar.value?.images = drinks.value!!.images
 
     }
-
 
 
     fun leave(needRefresh: Boolean = false) {

@@ -120,7 +120,25 @@
                     app:layout_constraintTop_toTopOf="@id/title"
                     android:textColor="@color/black_3f3a3a"
                     android:textSize="20sp"
+                    android:text="@{viewModel.overallRating2String}"
                     tools:text="5.0"/>
+
+                <com.kaelli.niceratingbar.NiceRatingBar
+                    android:id="@+id/niceRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/avg_rating"
+                    app:layout_constraintTop_toBottomOf="@id/avg_rating"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="8dp"
+                    app:nrb_rating="5"
+                    app:nrb_ratingStatus="Disable"
+                    app:nrb_starEmptyResource="@drawable/star_blank"
+                    app:nrb_starFullResource="@drawable/star_full"
+                    app:nrb_starHalfResource="@drawable/star_half"
+                    app:nrb_starImageHeight="15dp"
+                    app:nrb_starImagePadding="6dp"
+                    app:nrb_starImageWidth="15dp" />
 
                 <TextView
                     android:id="@+id/amt_ratings"
@@ -129,6 +147,7 @@
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toEndOf="@id/avg_rating"
                     app:layout_constraintBottom_toBottomOf="@id/avg_rating"
+                    android:text="@{String.valueOf(viewModel.drink.amtRating)}"
                     tools:text="45 ratings"/>
 
                 <TextView

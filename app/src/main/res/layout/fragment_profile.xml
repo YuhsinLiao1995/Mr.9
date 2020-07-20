@@ -30,25 +30,133 @@
 
                 <ImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginStart="24dp"
-                    android:scaleType="centerCrop"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
                     android:background="@drawable/ic_nav_profile"
-                    app:imageUrl_crop="@{userManager.INSTANCE.user.image}"/>
+                    android:scaleType="centerCrop"
+                    app:imageUrl_crop="@{userManager.INSTANCE.user.image}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/user_name"
+                    style="@style/ProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
+                    android:text="@{userManager.INSTANCE.user.name}"
                     app:layout_constraintStart_toEndOf="@id/profile_image"
                     app:layout_constraintTop_toTopOf="@id/profile_image"
-                    tools:text="My name"
-                    style="@style/DetailTitle"
-                    android:text="@{userManager.INSTANCE.user.name}"/>
+                    tools:text="My name" />
+
+                <TextView
+                    android:id="@+id/user_posts"
+                    style="@style/ProfileDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:text="8 posts"
+                    app:layout_constraintStart_toEndOf="@id/profile_image"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text="8 posts" />
+
+                <TextView
+                    android:id="@+id/amt_followers"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:text="15"
+                    android:gravity="center"
+                    style="@style/ProfileDescriptionDark"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintEnd_toStartOf="@+id/amt_following"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+                <TextView
+                    android:id="@+id/amt_following"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="18"
+                    android:gravity="center"
+                    style="@style/ProfileDescriptionDark"
+                    app:layout_constraintEnd_toStartOf="@+id/user_level"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/amt_followers"
+                    app:layout_constraintTop_toTopOf="@id/amt_followers" />
+
+                <TextView
+                    android:id="@+id/user_level"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="Novice"
+                    style="@style/ProfileDescriptionDark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/amt_following"
+                    app:layout_constraintTop_toTopOf="@id/amt_following" />
+
+                <TextView
+                    android:id="@+id/followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/amt_followers"
+                    app:layout_constraintEnd_toEndOf="@id/amt_followers"
+                    app:layout_constraintTop_toBottomOf="@id/amt_followers"
+                    android:text="followers"/>
+
+                <TextView
+                    android:id="@+id/following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/amt_following"
+                    app:layout_constraintEnd_toEndOf="@id/amt_following"
+                    app:layout_constraintTop_toBottomOf="@id/amt_following"
+                    android:text="following"/>
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/user_level"
+                    app:layout_constraintEnd_toEndOf="@id/user_level"
+                    app:layout_constraintTop_toBottomOf="@id/user_level"
+                    android:text="level"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/followers">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs_catalog"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_catalog_tab"
+                        app:tabIndicatorColor="@color/black_3f3a3a"
+                        app:tabSelectedTextColor="@color/black_3f3a3a"
+                        app:tabTextColor="@color/gray_888888">
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.viewpager.widget.ViewPager>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

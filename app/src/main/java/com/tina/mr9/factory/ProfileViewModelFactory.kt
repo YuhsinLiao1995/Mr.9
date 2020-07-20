@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.User
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.profile.ProfileViewModel
+import com.tina.mr9.profile.item.LikedViewModel
+import com.tina.mr9.profile.item.MyRatingViewModel
+import com.tina.mr9.rate.RateViewModel
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -21,6 +24,18 @@ class ProfileViewModelFactory(
 
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             return ProfileViewModel(stylishRepository, user) as T
+        }
+
+        if (modelClass.isAssignableFrom(MyRatingViewModel::class.java)) {
+            return MyRatingViewModel(stylishRepository, user) as T
+        }
+
+        if (modelClass.isAssignableFrom(LikedViewModel::class.java)) {
+            return LikedViewModel(stylishRepository, user) as T
+        }
+
+        if (modelClass.isAssignableFrom(RateViewModel::class.java)) {
+            return RateViewModel(stylishRepository, user) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

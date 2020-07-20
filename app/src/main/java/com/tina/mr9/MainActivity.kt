@@ -1,7 +1,5 @@
 package com.tina.mr9
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -17,16 +15,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.gms.tasks.Task
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.CurrentFragmentType
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import com.tina.mr9.databinding.ActivityMainBinding
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
@@ -58,7 +52,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_rate -> {
 
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalRateFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalRateFragment(UserManager.user))
                 return@OnNavigationItemSelectedListener true
             }
 
@@ -69,7 +63,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_profile -> {
 
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalProfileFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalProfileFragment(UserManager.user))
                 return@OnNavigationItemSelectedListener true
 
 
