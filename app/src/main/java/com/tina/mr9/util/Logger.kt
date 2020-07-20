@@ -12,8 +12,5 @@ object Logger {
     fun i(content: String) { if (BuildConfig.LOGGER_VISIABLE) Log.i(TAG, content) }
     fun w(content: String) { if (BuildConfig.LOGGER_VISIABLE) Log.w(TAG, content) }
     fun e(content: String) { if (BuildConfig.LOGGER_VISIABLE) Log.e(TAG, content) }
-    operator fun invoke(s: String) {
-
-    }
 
 }

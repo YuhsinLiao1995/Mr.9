@@ -56,16 +56,24 @@
         app:destination="@id/friendsFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.tina.mr9.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
     <action
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.tina.mr9.detailpage.DetailFragment"

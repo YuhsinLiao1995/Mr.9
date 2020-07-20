@@ -27,9 +27,9 @@ class RateViewModel(
 ) : ViewModel() {
 
     val _rating = MutableLiveData<Ratings>().apply {
-            value = Ratings(
-                author = user.id
-            )
+        value = Ratings(
+            author = user.uid
+        )
     }
 
     val images = MutableLiveData<MutableList<String>>().apply {
@@ -45,6 +45,13 @@ class RateViewModel(
 
     val drinks: LiveData<Drinks>
         get() = _drinks
+
+    val _bar = MutableLiveData<Bar>().apply {
+        value = Bar()
+    }
+
+    val bar: LiveData<Bar>
+        get() = _bar
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -90,20 +97,20 @@ class RateViewModel(
         Logger.i("------------------------------------")
     }
 
-    fun publish(ratings: Ratings, drinks: Drinks) {
+    fun publish(ratings: Ratings, drinks: Drinks, bar: Bar) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.publish(ratings, drinks)) {
+            when (val result = repository.publish(ratings, drinks, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.DrinkNotExist -> {
-                    publish2(ratings, drinks)
+                    publish2(ratings, drinks, bar)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -121,18 +128,51 @@ class RateViewModel(
         }
     }
 
-    fun publish2(ratings: Ratings, drinks: Drinks) {
-        Log.d("Tina","ifcalled")
+    fun publish2(ratings: Ratings, drinks: Drinks, bar: Bar) {
+        Log.d("Tina", "ifcalled")
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.addDrinks(ratings, drinks)) {
+            when (val result = repository.addDrinks(ratings, drinks, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    publish(ratings, drinks)
+                    publish(ratings, drinks, bar)
+                    leave(true)
+                }
+                is Result.BarNotExist -> {
+                    addBar(ratings, drinks, bar)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    fun addBar(ratings: Ratings, drinks: Drinks, bar: Bar) {
+        Log.d("Tina", "ifcalledbar")
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.addBar(ratings, drinks, bar)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    publish(ratings, drinks, bar)
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -151,20 +191,28 @@ class RateViewModel(
         }
     }
 
-    fun bindingDrink(){
+    fun bindingDrink() {
         _drinks.value?.name = rating.value!!.name
-                        _drinks.value?.bar = rating.value!!.bar
-                _drinks.value?.contents = rating.value!!.contents
-                _drinks.value?.base = rating.value!!.base
-                _drinks.value?.contents = rating.value!!.contents
-                _drinks.value?.category = rating.value!!.category
-                _drinks.value?.pairings = rating.value!!.pairings
-                _drinks.value?.strong = rating.value!!.strong
-                _drinks.value?.sweet = rating.value!!.sweet
-                _drinks.value?.take_again = rating.value!!.take_again
-                _drinks.value?.main_image = rating.value!!.main_photo
-                _drinks.value?.images = rating.value!!.images!!
+        _drinks.value?.bar = rating.value!!.bar
+        _drinks.value?.contents = rating.value!!.contents
+        _drinks.value?.base = rating.value!!.base
+        _drinks.value?.contents = rating.value!!.contents
+        _drinks.value?.category = rating.value!!.category
+        _drinks.value?.pairings = rating.value!!.pairings
+        _drinks.value?.strong = rating.value!!.strong
+        _drinks.value?.sweet = rating.value!!.sweet
+        _drinks.value?.sour = rating.value!!.sour
+        _drinks.value?.take_again = rating.value!!.take_again
+        _drinks.value?.main_image = rating.value!!.main_photo
+        _drinks.value?.images = rating.value!!.images!!
+
+        _bar.value?.name = drinks.value!!.bar
+        _bar.value?.main_image = drinks.value!!.main_image
+        _bar.value?.images = drinks.value!!.images
+
     }
+
+
 
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
@@ -180,14 +228,19 @@ class RateViewModel(
         }
     }
 
-    fun onRatingChanged(rating: Float){
+    fun onRatingChanged(rating: Float) {
         _rating.value?.overall_rating = rating
-        Logger("_rating.value?.overall_rating = ${_rating.value?.overall_rating}")
+        Logger.d("_rating.value?.overall_rating = ${_rating.value?.overall_rating}")
     }
 
-    fun onSlideChanged(slide: Float){
-        _rating.value?.acidic = slide
-        Logger("_rating.value?.acidic = ${_rating.value?.acidic}")
+    fun onSeekSourChanged(rating: Float) {
+        _rating.value?.sour = rating
+        Logger.d("_rating.value?.sour = ${_rating.value?.sour}")
+    }
+
+    fun onSeekSweetChanged(rating: Float) {
+        _rating.value?.sweet = rating
+        Logger.d("_rating.value?.acidic = ${_rating.value?.sweet}")
     }
 
 }

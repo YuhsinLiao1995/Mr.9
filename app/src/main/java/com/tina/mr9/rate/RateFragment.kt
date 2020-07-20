@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -74,12 +75,17 @@ class RateFragment : Fragment() {
             )
             toCamera()
         }
+        viewModel.images.value?.clear()
 
         viewModel.images.observe(viewLifecycleOwner, Observer {
             Log.i("images", "images = $it")
             it?.let {
                 (binding.recyclerImages.adapter as RateAdapter).submitList(it)
                 (binding.recyclerImages.adapter as RateAdapter).notifyDataSetChanged()
+
+                if(it.size != 0) {
+                    binding.recyclerImages.visibility = View.VISIBLE
+                }
             }
         })
 
@@ -94,7 +100,7 @@ class RateFragment : Fragment() {
         binding.buttonPublish.setOnClickListener(){
 
             viewModel.bindingDrink()
-            viewModel.publish(viewModel.rating.value!!, viewModel.drinks.value!!)
+            viewModel.publish(viewModel.rating.value!!, viewModel.drinks.value!!,viewModel.bar.value!!)
         }
 
 
@@ -104,55 +110,23 @@ class RateFragment : Fragment() {
             android.Manifest.permission.CAMERA
         )
 
-        binding.bubbleSeekBar.setProgress(10f)
+        binding.bubbleSeekBarSweet.setProgress(5f)
 
+        binding.bubbleSeekBarSour.setProgress(5f)
 
-
-        binding.bubbleSeekBar.onProgressChangedListener = object : BubbleSeekBar.OnProgressChangedListenerAdapter() {
+        binding.bubbleSeekBarSweet.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
             override fun onProgressChanged(
                 bubbleSeekBar: BubbleSeekBar,
                 progress: Int,
                 progressFloat: Float,
                 fromUser: Boolean
             ) {
+                Logger.d("onProgressChanged")
 
-                Logger("progressFloat = $progressFloat")
-                viewModel.onSlideChanged(progressFloat)
+                val test: Float = progressFloat
 
-
-            }
-        }
-
-        binding.bubbleSeekBar.setOnProgressChangedListener(object : OnProgressChangedListenerAdapter() {
-            override fun onProgressChanged(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-                val s: Float = progressFloat
-
-                Logger("s = $s")
-
-            }
-        })
-
-        binding.bubbleSeekBar.setOnProgressChangedListener(object : OnProgressChangedListenerAdapter() {
-            override fun onProgressChanged(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-                val s = String.format(
-                    Locale.CHINA,
-                    "onChanged int:%d, float:%.1f",
-                    progress,
-                    progressFloat
-                )
-
-                Logger("progressFloat = $progressFloat")
-                binding.demo4ProgressText1.setText(s)
+                Logger.d("progressFloat = $progressFloat")
+//                binding.demo4ProgressText11.text = s
             }
 
             override fun getProgressOnActionUp(
@@ -160,14 +134,8 @@ class RateFragment : Fragment() {
                 progress: Int,
                 progressFloat: Float
             ) {
-                val s = String.format(
-                    Locale.CHINA,
-                    "onActionUp int:%d, float:%.1f",
-                    progress,
-                    progressFloat
-                )
-                binding.demo4ProgressText2.setText(s)
-                Logger("progressFloat = $progressFloat")
+
+                viewModel.onSeekSweetChanged(progressFloat)
             }
 
             override fun getProgressOnFinally(
@@ -176,24 +144,63 @@ class RateFragment : Fragment() {
                 progressFloat: Float,
                 fromUser: Boolean
             ) {
-                val s = String.format(
-                    Locale.CHINA,
-                    "onFinally int:%d, float:%.1f",
-                    progress,
-                    progressFloat
-                )
-                binding.demo4ProgressText3.setText(s)
-                Logger("progressFloat = $progressFloat")
+                viewModel._rating.value?.sweet = progressFloat
             }
-        })
+        }
 
-//        binding.buttonSlider.setOnClickListener { v ->
-//            val progress = bubbleSeekBar?.max?.toInt()?.let { Random().nextInt(it) }
-//            if (progress != null) {
-//                bubbleSeekBar?.setProgress(progress.toFloat())
+        binding.bubbleSeekBarSour.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
+            override fun onProgressChanged(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+                Logger.d("onProgressChanged")
+            }
+
+            override fun getProgressOnActionUp(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float
+            ) {
+
+                viewModel.onSeekSourChanged(progressFloat)
+            }
+
+            override fun getProgressOnFinally(
+                bubbleSeekBar: BubbleSeekBar,
+                progress: Int,
+                progressFloat: Float,
+                fromUser: Boolean
+            ) {
+//                binding.demo4ProgressText3.setText(s)
+                Logger.d("progressFloat = $progressFloat")
+
+//                viewModel._rating.value?.sour = progressFloat
+//                Logger.d("viewModel._rating.value?.sour = ${viewModel._rating.value?.sour}")
+            }
+        }
+
+//        var pg = viewModel._rating.value?.alcohol_ABV
+
+
+
+//        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+////                discount.setText(progress.toString() + "%")
+////                after.setText("${editText.text.toString().toFloat() * progress/100}")
+//                pg= progress
+//                Logger.d("pg = ${progress.toString()}")
 //            }
-//            Snackbar.make(v, "set random progress = $progress", Snackbar.LENGTH_SHORT).show()
-//        }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//
+//                Logger.d("pg = ${pg}")
+//            }
+//        })
 
         return binding.root
 

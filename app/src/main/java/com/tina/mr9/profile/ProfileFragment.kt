@@ -15,9 +15,9 @@ import com.tina.mr9.ext.getVmFactory
 class ProfileFragment : Fragment() {
 
     /**
-     * Lazily initialize our [HomeViewModel].
+     * Lazily initialize our [ProfileViewModel].
      */
-    val viewModel by viewModels<ProfileViewModel> { getVmFactory() }
+    private val viewModel by viewModels<ProfileViewModel> { getVmFactory(ProfileFragmentArgs.fromBundle(requireArguments()).userKey) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        init()

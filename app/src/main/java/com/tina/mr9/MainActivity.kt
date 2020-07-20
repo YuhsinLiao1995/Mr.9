@@ -1,5 +1,6 @@
 package com.tina.mr9
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -16,13 +17,18 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.tasks.Task
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.CurrentFragmentType
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.tina.mr9.databinding.ActivityMainBinding
+import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.launch
 
@@ -95,7 +101,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        startActivity(Intent(this, LogoActivity::class.java))
+//        startActivity(Intent(this, LoginActivity::class.java))
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.myNavHostFragment)
@@ -143,6 +149,13 @@ class MainActivity : BaseActivity() {
         setupToolbar()
         setupBottomNav()
         setupNavController()
+
+        UserManager.user.uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        UserManager.user.name = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        UserManager.user.email = FirebaseAuth.getInstance().currentUser?.email.toString()
+        UserManager.user.image = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+
+        Logger.d("UserManager.user.image = ${UserManager.user.image}")
     }
 
     /**
@@ -303,5 +316,22 @@ class MainActivity : BaseActivity() {
             super.onBackPressed()
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if(requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK){
+//            var imageUri = data?.data
+//            var uid = FirebaseAuth.getInstance().currentUser?.uid
+//            var storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
+//            storageRef.putFile(imageUri!!).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+//                return@continueWithTask storageRef.downloadUrl
+//            }.addOnSuccessListener { uri ->
+//                var map = HashMap<String,Any>()
+//                map["image"] = uri.toString()
+//                FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(map)
+//            }
+//        }
+//    }
 }
 

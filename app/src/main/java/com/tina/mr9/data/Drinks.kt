@@ -21,8 +21,10 @@ data class Drinks(
     var tag: List<String> = emptyList(),
     var rating: Ratings = Ratings(),
     var strong: Long = -1,
-    var sweet: Long = -1,
+    var sweet: Float = -1f,
+    var sour: Float = -1f,
     var take_again: Boolean = false,
+    var overall_rating: Float = -1f,
     var createdTime: Long = -1
 
 ) : Parcelable {
@@ -37,7 +39,7 @@ data class Ratings(
     var id: String = "",
     var createdTime: Long = -1,
     var acidic: Float = -1f,
-    var alcohol_ABV: Long = -1,
+    var alcohol_ABV: Int = -1,
     var author: String = "",
     var main_photo: String = "",
     var base: List<String> = emptyList(),
@@ -49,9 +51,13 @@ data class Ratings(
     var images: List<String>? = emptyList(),
     var overall_rating: Float = -1f,
     var strong: Long = -1,
-    var sweet: Long = -1,
+    var sweet: Float = -1f,
+    var sour: Float = -1f,
     var take_again: Boolean = false,
     var bar: String = "",
     var name: String = ""
 ) : Parcelable{
 }
+
+
+

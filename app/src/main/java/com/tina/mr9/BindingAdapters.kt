@@ -18,7 +18,6 @@ import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
-import com.tina.mr9.rate.RateAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
 /**
@@ -139,6 +138,21 @@ fun bindImage(imgView: ImageView, imgUrl: String) {
                 RequestOptions()
                     .placeholder(R.drawable.ic_starred)
                     .error(R.drawable.ic_starred))
+            .into(imgView)
+    }
+}
+
+@BindingAdapter("imageUrl_crop")
+fun bindImage1(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder))
             .into(imgView)
     }
 }

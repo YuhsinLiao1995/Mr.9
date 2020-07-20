@@ -10,17 +10,18 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Bar(
     var id: String = "",
-    val name: String = "",
-    val address: String = "",
-    val amt_rating: Long = -1,
-    val avg_rating: Long = -1,
-    val drinks: List<String> = emptyList(),
-    val images: List<String> = emptyList(),
-    val pairings: List<String> = emptyList(),
-    val food: List<String> = emptyList(),
-    val main_image: String = "",
-    val min_charge: Long = -1,
-    val type_bar: List<String> = emptyList()
+    var name: String = "",
+    var address: String = "",
+    var amt_rating: Long = -1,
+    var avg_rating: Long = -1,
+    var drinks: List<String> = emptyList(),
+    var images: List<String> = emptyList(),
+    var pairings: List<String> = emptyList(),
+    var food: List<String> = emptyList(),
+    var main_image: String = "",
+    var min_charge: Long = -1,
+    var type_bar: List<String> = emptyList(),
+    var createdTime: Long = -1
 
 ) : Parcelable {
 

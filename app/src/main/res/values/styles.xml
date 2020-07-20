@@ -160,6 +160,8 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
-
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/white</item>
+    </style>
 
 </resources>
