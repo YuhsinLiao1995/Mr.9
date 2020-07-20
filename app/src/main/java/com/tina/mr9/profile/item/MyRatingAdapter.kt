@@ -3,59 +3,72 @@ package com.tina.mr9.profile.item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-//
-//class CatalogAdapter(val onClickListener: OnClickListener) : ListAdapter<Product, RecyclerView.ViewHolder>(DiffCallback) {
-//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        val product = getItem(position) as Product
-//        (holder as ProductLayoutViewHolder).bind(product, onClickListener)
-//
-//    }
-//
-//    companion object DiffCallback : DiffUtil.ItemCallback<Product>() {
-//        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-//            return oldItem === newItem
-//        }
-//
-//        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        return ProductLayoutViewHolder.from(parent)
-//    }
-//    class OnClickListener(val clickListener: (product: Product) -> Unit) {
-//        fun onClick(product: Product) = clickListener(product)
-//    }
-//
-//
-//}
-//
-//class ProductLayoutViewHolder(private var binding: ProductViewItemBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//    fun bind(
-//        product: Product,
-//        onClickListener: CatalogAdapter.OnClickListener
-//    ) {
-//        binding.product = product
-//        binding.root.setOnClickListener {
-//            onClickListener.onClick(product)
-//        }
-//        binding.executePendingBindings()
-//    }
-//
-//    companion object {
-//        fun from(parent: ViewGroup): ProductLayoutViewHolder {
-//            val layoutInflater = LayoutInflater.from(parent.context)
-//            val binding = ProductViewItemBinding
-//                    .inflate(layoutInflater, parent, false)
-//            return ProductLayoutViewHolder(binding)
-//        }
-//
-//    }
-//
-//
-//
-//}
+import com.tina.mr9.data.Ratings
+import com.tina.mr9.databinding.ItemMyRatingBinding
+import com.tina.mr9.util.Logger
+
+
+class MyRatingAdapter(private val onClickListener: OnClickListener) :
+    androidx.recyclerview.widget.ListAdapter<Ratings, RecyclerView.ViewHolder>(
+        DiffCallback ) {
+
+    class OnClickListener(val clickListener: (ratings: Ratings) -> Unit) {
+        fun onClick(ratings: Ratings) = clickListener(ratings)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is LayoutViewHolder -> {
+                val ratings = getItem(position) as Ratings
+                (holder).bind(ratings,onClickListener)
+
+            }
+        }
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<Ratings>() {
+        override fun areItemsTheSame(oldItem: Ratings, newItem: Ratings): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Ratings, newItem: Ratings): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return LayoutViewHolder.from(parent)
+    }
+
+
+
+
+
+    class LayoutViewHolder(private var binding: ItemMyRatingBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(ratings: Ratings, onClickListener: OnClickListener) {
+            binding.rating = ratings
+            if (ratings.overall_rating != -1f) {
+                binding.niceRatingBar.setRating(ratings.overall_rating)
+            }
+            Logger.d("ratings.overall_rating = ${ratings.overall_rating}")
+            binding.root.setOnClickListener { onClickListener.onClick(ratings) }
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): LayoutViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemMyRatingBinding
+                    .inflate(layoutInflater, parent, false)
+                return LayoutViewHolder(binding)
+            }
+
+        }
+
+
+
+    }
+
+}

@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.tina.mr9.detailpage.DetailViewModel" />
+
         <variable
             name="ratings"
             type="com.tina.mr9.data.Ratings" />
@@ -30,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:imageUrl_crop="@{ratings.authorImage}"
-            app:srcCompat="@drawable/ic_nav_rate_selector"/>
+            app:srcCompat="@drawable/ic_nav_profile"/>
 
         <TextView
             android:id="@+id/author_name"

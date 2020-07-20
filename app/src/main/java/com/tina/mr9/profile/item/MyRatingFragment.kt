@@ -41,6 +41,14 @@ class MyRatingFragment : Fragment() {
 //            viewModel.displayProductDetails(it)
 //        })
 
+        binding.recyclerRatings.adapter = MyRatingAdapter(MyRatingAdapter.OnClickListener{
+            viewModel.navigateToDetail
+        })
+
+
+
+
+
 
 
 

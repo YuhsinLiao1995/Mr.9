@@ -32,9 +32,14 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
         Logger.d("viewModel.drink.value?.overall_rating!! = ${viewModel.drink.value?.overall_rating!!}")
 //
-        if (viewModel.drink.value?.overall_rating != -1f) {
+        if (viewModel.drink.value?.overall_rating!! > 0f) {
             binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
             Logger.d("images = ${viewModel.drink.value?.images}")
+        }else{
+            binding.niceRatingBar.setRating(0f)
+            binding.amtRatings.text = "o"
+            binding.avgRating.text = "NA"
+            Logger.d("-1f")
         }
         binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
             viewModel.navigateToDetail(it)

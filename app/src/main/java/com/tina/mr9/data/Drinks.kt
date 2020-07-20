@@ -10,6 +10,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Drinks(
     var id: String = "",
+    var address: String = "",
     var name: String = "",
     var bar: String = "",
     var base: List<String> = emptyList(),
@@ -44,6 +45,7 @@ data class Ratings(
     var author: String = "",
     var authorName: String = "",
     var authorImage:String = "",
+    var address:String = "",
     var main_photo: String = "",
     var base: List<String> = emptyList(),
     var pairings: List<String> = emptyList(),

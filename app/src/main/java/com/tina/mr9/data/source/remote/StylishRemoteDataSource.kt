@@ -440,6 +440,44 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
         }
 
+    override suspend fun getMyRatingDrinks(user: User): Result<List<Ratings>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+            .collectionGroup("rating")
+//            .collectionGroup("rating")
+//            .document()
+//            .collection("rating")
+//            .whereEqualTo("author","hqDdgoltA5airhWFgn6iN8LZrOy1")
+//            .collectionGroup("rating")
+//            .document("YqgjBwOGFtsoR9VagMPx")
+//            .collection("rating")
+//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+            .get()
+
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val list = mutableListOf<Ratings>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val rating = document.toObject(Ratings::class.java)
+                        list.add(rating)
+                    }
+                    continuation.resume(Result.Success(list))
+                    Logger.d("task.result.size = ${task.result!!.size()}")
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
+
+
+    }
+
 
 }
 

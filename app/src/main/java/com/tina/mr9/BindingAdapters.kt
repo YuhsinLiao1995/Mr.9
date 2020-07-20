@@ -7,6 +7,9 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.tina.mr9.bardetailpage.BarDetailDrinksAdapter
 import com.tina.mr9.bardetailpage.BarDetailImagesAdapter
@@ -18,6 +21,7 @@ import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
+import com.tina.mr9.profile.item.MyRatingAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
 /**
@@ -52,6 +56,19 @@ fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) 
         recyclerView.adapter?.apply {
             when (this) {
                 is ListAdapter -> submitList(it)
+
+//                is BarDetailDrinksAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("rating")
+fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Ratings>?) {
+    ratings?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is MyRatingAdapter -> submitList(it)
 
 //                is BarDetailDrinksAdapter -> submitList(it)
             }
@@ -142,6 +159,21 @@ fun bindImage(imgView: ImageView, imgUrl: String) {
     }
 }
 
+@BindingAdapter("imageUrl_crop2")
+fun bindImage2(imgView: ImageView, imgUrl: String) {
+    imgUrl.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .transform(MultiTransformation(FitCenter(), RoundedCorners(50)))
+                    .placeholder(R.drawable.ic_starred)
+                    .error(R.drawable.ic_starred))
+            .into(imgView)
+    }
+}
+
 @BindingAdapter("imageUrl_crop")
 fun bindImage1(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
@@ -151,8 +183,8 @@ fun bindImage1(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions()
                     .circleCrop()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder))
+                    .placeholder(R.drawable.ic_nav_profile)
+                    .error(R.drawable.ic_nav_profile))
             .into(imgView)
     }
 }

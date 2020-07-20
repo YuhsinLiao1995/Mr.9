@@ -109,7 +109,8 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@id/bar"
                     app:layout_constraintStart_toStartOf="@id/title"
-                    tools:text="Address : 台北市信義區永吉路30巷5號"/>
+                    tools:text="Address : 台北市信義區永吉路30巷5號"
+                    android:text="@{viewModel.drink.address}"/>
 
                 <TextView
                     android:id="@+id/avg_rating"
@@ -120,7 +121,7 @@
                     app:layout_constraintTop_toTopOf="@id/title"
                     android:textColor="@color/black_3f3a3a"
                     android:textSize="20sp"
-                    android:text="@{viewModel.overallRating2String}"
+                    android:text="@{drink.overall_rating != -1f ? viewModel.overallRating2String : 0}"
                     tools:text="5.0"/>
 
                 <com.kaelli.niceratingbar.NiceRatingBar
@@ -148,7 +149,16 @@
                     app:layout_constraintStart_toEndOf="@id/avg_rating"
                     app:layout_constraintBottom_toBottomOf="@id/avg_rating"
                     android:text="@{String.valueOf(viewModel.drink.amtRating)}"
-                    tools:text="45 ratings"/>
+                    tools:text="45"/>
+
+                <TextView
+                    android:id="@+id/amt_ratings_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@id/amt_ratings"
+                    app:layout_constraintBottom_toBottomOf="@id/avg_rating"
+                    android:text="ratings"/>
 
                 <TextView
                     android:id="@+id/base"
