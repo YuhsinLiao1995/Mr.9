@@ -21,6 +21,7 @@ data class Drinks(
     var images: List<String> = emptyList(),
     var tag: List<String> = emptyList(),
     var rating: Ratings = Ratings(),
+    var likedBy: List<String> = emptyList(),
     var amtRating: Int = -1,
     var strong: Long = -1,
     var sweet: Float = -1f,

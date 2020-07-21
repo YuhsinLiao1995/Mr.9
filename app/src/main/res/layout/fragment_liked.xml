@@ -17,7 +17,7 @@
         tools:context=".catalog.AccessoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/photos_grid"
+            android:id="@+id/liked_grid"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingStart="8dp"
@@ -28,6 +28,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:drinks="@{viewModel.drinks}"
             app:spanCount="2"
             tools:itemCount="6"
             tools:listitem="@layout/item_liked" />

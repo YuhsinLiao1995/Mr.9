@@ -31,4 +31,8 @@ interface StylishRepository {
     suspend fun addBar(ratings: Ratings, drinks: Drinks, bar: Bar): Result<Boolean>
 
     suspend fun getMyRatingDrinks(user: User): Result<List<Ratings>>
+
+    suspend fun updateLikedBy(likedStatus: Boolean, user: User, drinks: Drinks): Result<Boolean>
+
+    suspend fun getLikedDrinks(user: User): Result<List<Drinks>>
 }

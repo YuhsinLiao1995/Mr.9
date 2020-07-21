@@ -5,58 +5,67 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tina.mr9.data.Drinks
+import com.tina.mr9.databinding.ItemLikedBinding
 
 //
-//class LikedAdapter(val onClickListener: OnClickListener) : ListAdapter<Drinks, RecyclerView.ViewHolder>(DiffCallback) {
-//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        val product = getItem(position) as Product
-//        (holder as ProductLayoutViewHolder).bind(product, onClickListener)
-//
-//    }
-//
-//    companion object DiffCallback : DiffUtil.ItemCallback<Product>() {
-//        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-//            return oldItem === newItem
-//        }
-//
-//        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        return ProductLayoutViewHolder.from(parent)
-//    }
-//    class OnClickListener(val clickListener: (product: Product) -> Unit) {
-//        fun onClick(product: Product) = clickListener(product)
-//    }
-//
-//
-//}
-//
-//class ProductLayoutViewHolder(private var binding: ProductViewItemBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//    fun bind(
-//        product: Product,
-//        onClickListener: CatalogAdapter.OnClickListener
-//    ) {
-//        binding.product = product
-//        binding.root.setOnClickListener {
-//            onClickListener.onClick(product)
-//        }
-//        binding.executePendingBindings()
-//    }
-//
-//    companion object {
-//        fun from(parent: ViewGroup): ProductLayoutViewHolder {
-//            val layoutInflater = LayoutInflater.from(parent.context)
-//            val binding = ProductViewItemBinding
-//                    .inflate(layoutInflater, parent, false)
-//            return ProductLayoutViewHolder(binding)
-//        }
-//
-//    }
-//
+class LikedAdapter(private val onClickListener: OnClickListener) :
+    androidx.recyclerview.widget.ListAdapter<Drinks, RecyclerView.ViewHolder>(
+        DiffCallback ) {
+
+    class OnClickListener(val clickListener: (drinks:Drinks) -> Unit) {
+        fun onClick(drinks:Drinks) = clickListener(drinks)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is LayoutViewHolder -> {
+                val drinks = getItem(position) as Drinks
+                (holder).bind(drinks,onClickListener)
+
+            }
+        }
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<Drinks>() {
+        override fun areItemsTheSame(oldItem: Drinks, newItem: Drinks): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Drinks, newItem: Drinks): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return LayoutViewHolder.from(parent)
+    }
 
 
-//}
+
+
+
+    class LayoutViewHolder(private var binding: ItemLikedBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(drinks:Drinks, onClickListener: OnClickListener) {
+            binding.drink = drinks
+
+            binding.root.setOnClickListener { onClickListener.onClick(drinks) }
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): LayoutViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemLikedBinding
+                    .inflate(layoutInflater, parent, false)
+                return LayoutViewHolder(binding)
+            }
+
+        }
+
+
+
+    }
+
+}

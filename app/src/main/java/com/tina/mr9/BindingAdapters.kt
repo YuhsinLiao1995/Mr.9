@@ -21,6 +21,7 @@ import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
+import com.tina.mr9.profile.item.LikedAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
@@ -34,6 +35,8 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeAdapter -> submitList(it)
+
+                is LikedAdapter -> submitList(it)
             }
         }
     }

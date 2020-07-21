@@ -1,6 +1,8 @@
 package com.tina.mr9.detailpage
 
 import android.os.Build
+import android.os.UserManager
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +12,9 @@ import com.tina.mr9.R
 import com.tina.mr9.data.Drinks
 import com.tina.mr9.data.Ratings
 import com.tina.mr9.data.Result
+import com.tina.mr9.data.User
 import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.login.UserManager.user
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
-import kotlin.math.roundToLong
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -44,7 +47,36 @@ class DetailViewModel(
     val ratings: LiveData<List<Ratings>>
         get() = _ratings
 
+    private val _user = MutableLiveData<User>().apply {
+        value = com.tina.mr9.login.UserManager.user
+    }
 
+    val user: LiveData<User>
+        get() = _user
+
+    var statusAbout = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    fun setAboutStatus(){
+        statusAbout.value = !statusAbout.value!!
+
+        if (statusAbout.value == true){
+            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
+            Logger.d("liked")
+            updateLikedBy(true, user.value!!,drink.value!! )
+        } else{
+            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
+            Logger.d("unliked")
+            updateLikedBy(false, user.value!!,drink.value!! )
+        }
+    }
+
+
+    private val _leave = MutableLiveData<Boolean>()
+
+    val leave: LiveData<Boolean>
+        get() = _leave
 
     val base2String: String? = drink.value?.base?.let { main(it) }
     val baseText: String? = "base : $base2String"
@@ -158,6 +190,47 @@ class DetailViewModel(
 
     fun navigateToDetail(ratings: Ratings) {
         _navigateToDetail.value = ratings
+    }
+
+//    fun onClick(){
+//        if (statusAbout.value == true){
+//            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
+//            Logger.d("liked")
+//        } else{
+//            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
+//            Logger.d("unliked")
+//        }
+//    }
+
+    fun updateLikedBy(likedStatus: Boolean, user: User, drinks:Drinks) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateLikedBy(likedStatus,user,drinks)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+    fun leave(needRefresh: Boolean = false) {
+        _leave.value = needRefresh
     }
 
 }

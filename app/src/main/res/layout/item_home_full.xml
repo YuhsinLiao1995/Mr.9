@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/gray_trans"/>
+            android:background="@color/gray_transDark"/>
 
         <TextView
             android:id="@+id/text_home_title"

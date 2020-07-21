@@ -310,18 +310,17 @@ object StylishRemoteDataSource : StylishDataSource {
                                 }
 
 
-
                             // calculate avg rating
 //                            var amtRating = 0
-                             var totalOverallRating = 0f
+                            var totalOverallRating = 0f
                             var totalSweet = 0f
                             var totalSour = 0f
 
                             FirebaseFirestore.getInstance()
                                 .collection("drinks").document(path).collection("rating")
                                 .get()
-                                .addOnCompleteListener() {task ->
-                                    for (document in task.result!!){
+                                .addOnCompleteListener() { task ->
+                                    for (document in task.result!!) {
                                         Logger.d(document.id + " => " + document.data)
 
                                         val rating = document.toObject(Ratings::class.java)
@@ -331,7 +330,8 @@ object StylishRemoteDataSource : StylishDataSource {
                                         totalSour += rating.sour
                                     }
 
-                                    val avgOverallRating = totalOverallRating / task.result!!.size().toFloat()
+                                    val avgOverallRating =
+                                        totalOverallRating / task.result!!.size().toFloat()
                                     val avgSweet = totalSweet / task.result!!.size().toFloat()
                                     val avgSour = totalSour / task.result!!.size().toFloat()
                                     Logger.d("rating avg=$avgOverallRating")
@@ -339,7 +339,16 @@ object StylishRemoteDataSource : StylishDataSource {
 
                                     FirebaseFirestore.getInstance()
                                         .collection("drinks").document(path)
-                                        .update("overall_rating",avgOverallRating,"sweet",avgSweet,"sour",avgSour,"amtRating",task.result!!.size())
+                                        .update(
+                                            "overall_rating",
+                                            avgOverallRating,
+                                            "sweet",
+                                            avgSweet,
+                                            "sour",
+                                            avgSour,
+                                            "amtRating",
+                                            task.result!!.size()
+                                        )
                                     Logger.d("path = $path")
                                 }
 
@@ -388,14 +397,20 @@ object StylishRemoteDataSource : StylishDataSource {
                                     } else {
                                         continuation.resume(Result.Success(true))
                                     }
-                                }else {
+                                } else {
                                     task.exception?.let {
 
 //                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
                                         continuation.resume(Result.Error(it))
                                         return@addOnCompleteListener
                                     }
-                                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                                    continuation.resume(
+                                        Result.Fail(
+                                            Mr9Application.instance.getString(
+                                                R.string.you_know_nothing
+                                            )
+                                        )
+                                    )
                                 }
 
 
@@ -440,13 +455,95 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
         }
 
-    override suspend fun getMyRatingDrinks(user: User): Result<List<Ratings>> = suspendCoroutine { continuation ->
-        FirebaseFirestore.getInstance()
-            .collectionGroup("rating")
+    override suspend fun getMyRatingDrinks(user: User): Result<List<Ratings>> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance()
+                .collectionGroup("rating")
 //            .collectionGroup("rating")
 //            .document()
 //            .collection("rating")
-//            .whereEqualTo("author","hqDdgoltA5airhWFgn6iN8LZrOy1")
+            .whereEqualTo("author", user.uid)
+//            .collectionGroup("rating")
+//            .document("YqgjBwOGFtsoR9VagMPx")
+//            .collection("rating")
+//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Ratings>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val rating = document.toObject(Ratings::class.java)
+                            list.add(rating)
+                        }
+                        continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun updateLikedBy(
+        likedStatus: Boolean,
+        user: User,
+        drinks: Drinks
+    ): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            var newList: List<String> = if (likedStatus) {
+                drinks.likedBy.plus(user.uid)
+            } else {
+                drinks.likedBy.minus(user.uid)
+            }
+
+            Logger.d("newlist = $newList")
+            FirebaseFirestore.getInstance().collection("drinks")
+                .document(drinks.id)
+                .update("likedBy", newList)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+//                        for (document in task.result) {
+//                            Logger.d(document.id + " => " + document.data)
+//
+//                            val rating = document.toObject(Drinks::class.java)
+//                        }
+                        Logger.d("success drinks.id = ${drinks.id}")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                Mr9Application.instance.getString(
+                                    R.string.you_know_nothing
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+
+    override suspend fun getLikedDrinks(user: User): Result<List<Drinks>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+
+            .collection("drinks")
+            .whereArrayContains("likedBy",user.uid)
 //            .collectionGroup("rating")
 //            .document("YqgjBwOGFtsoR9VagMPx")
 //            .collection("rating")
@@ -455,15 +552,15 @@ object StylishRemoteDataSource : StylishDataSource {
 
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = mutableListOf<Ratings>()
+                    val list = mutableListOf<Drinks>()
                     for (document in task.result!!) {
                         Logger.d(document.id + " => " + document.data)
 
-                        val rating = document.toObject(Ratings::class.java)
-                        list.add(rating)
+                        val drink = document.toObject(Drinks::class.java)
+                        list.add(drink)
+                        Logger.d("task.result.size() = ${task.result!!.size()}")
                     }
                     continuation.resume(Result.Success(list))
-                    Logger.d("task.result.size = ${task.result!!.size()}")
                 } else {
                     task.exception?.let {
 
@@ -477,8 +574,9 @@ object StylishRemoteDataSource : StylishDataSource {
 
 
     }
-
-
 }
+
+
+
 
 

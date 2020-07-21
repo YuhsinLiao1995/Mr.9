@@ -40,6 +40,10 @@ class LikedFragment : Fragment() {
 //            viewModel.displayProductDetails(it)
 //        })
 
+        binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
+            viewModel.navigateToDetail
+        })
+
 
 
 
