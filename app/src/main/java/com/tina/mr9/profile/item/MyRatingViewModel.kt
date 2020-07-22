@@ -1,6 +1,7 @@
 package com.tina.mr9.profile.item
 
 //import android.arch.lifecycle.ViewModel
+import android.os.UserManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,10 +23,8 @@ import kotlinx.coroutines.launch
 class MyRatingViewModel (private val repository: StylishRepository, private val arguments: User?) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
-        arguments.let {
-            value = it
-            Logger.d("arguments.image = ${arguments?.image}")
-        }
+
+            value = com.tina.mr9.login.UserManager.user
 
     }
 

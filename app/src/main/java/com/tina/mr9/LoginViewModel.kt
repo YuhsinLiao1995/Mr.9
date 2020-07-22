@@ -1,38 +1,39 @@
 package com.tina.mr9
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Result
-import com.tina.mr9.data.User
+import com.tina.mr9.Mr9Application
+import com.tina.mr9.network.LoadApiStatus
+import com.tina.mr9.R
+import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.login.UserManager
-import com.tina.mr9.network.LoadApiStatus
-import com.tina.mr9.util.CurrentFragmentType
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
- * The [ViewModel] that is attached to the [MainActivity].
+ * The [ViewModel] that is attached to the [RateFragment].
  */
-class MainViewModel(private val repository: StylishRepository) : ViewModel() {
-
-    // Record current fragment to support data binding
-    val currentFragmentType = MutableLiveData<CurrentFragmentType>()
+class LoginViewModel(
+    private val repository: StylishRepository
+) : ViewModel() {
 
     val _user = MutableLiveData<User>().apply {
 
-        value = UserManager.user
+            value = UserManager.user
     }
 
     val user: LiveData<User>
         get() = _user
+
 
 
     val _drinks = MutableLiveData<Drinks>().apply {
@@ -41,6 +42,7 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
 
     val drinks: LiveData<Drinks>
         get() = _drinks
+
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -85,38 +87,13 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
+
     }
 
-    fun updateUser(user: User) {
 
-        coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
 
-            Logger.d("uid = ${user.uid}")
 
-            when (val result = repository.updateUser(user)) {
-                is Result.Success -> {
-                    _error.value = null
-                    _status.value = LoadApiStatus.DONE
-                    leave(true)
-                }
-                is Result.Fail -> {
-                    _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
-                }
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
-                }
-                else -> {
-                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
-                }
-
-            }
-        }
-    }
 
 
     fun leave(needRefresh: Boolean = false) {
@@ -132,6 +109,7 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
             _refresh.value = true
         }
     }
+
 
 
 }

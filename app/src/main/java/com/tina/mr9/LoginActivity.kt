@@ -17,6 +17,8 @@ import android.content.pm.PackageManager
 import android.os.UserManager
 import android.util.Base64
 import android.util.Log
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -25,6 +27,8 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.tina.mr9.data.User
+import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.login.UserManager.user
 import com.tina.mr9.util.Logger
 import java.security.MessageDigest
@@ -33,6 +37,9 @@ import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
+
+//    val viewModel by viewModels<LoginViewModel> { getVmFactory() }
+
     var auth : FirebaseAuth? = null
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
@@ -161,6 +168,9 @@ class LoginActivity : AppCompatActivity() {
                     Logger.d("uid = ${com.tina.mr9.login.UserManager.user.uid}")
                 }
 
+
+
+
             }
         }
     }
@@ -210,9 +220,12 @@ class LoginActivity : AppCompatActivity() {
     }
     fun moveMainPage(user:FirebaseUser?){
         if(user != null){
+
             startActivity(Intent(this,MainActivity::class.java))
             Log.d("Tina","move to main")
             finish()
         }
     }
+
+
 }

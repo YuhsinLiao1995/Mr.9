@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.HomeItem
 import com.tina.mr9.data.Product
+import com.tina.mr9.data.User
 import com.tina.mr9.databinding.ItemFriendsBinding
 
 /**
@@ -17,14 +18,14 @@ import com.tina.mr9.databinding.ItemFriendsBinding
  * @param onClickListener a lambda that takes the
  */
 class FriendsAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<HomeItem, RecyclerView.ViewHolder>(DiffCallback) {
+        ListAdapter<User, FriendsAdapter.FullProductViewHolder>(DiffCallback) {
     /**
      * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Product]
      * associated with the current item to the [onClick] function.
      * @param clickListener lambda that will be called with the current [Product]
      */
-    class OnClickListener(val clickListener: (product: Product) -> Unit) {
-        fun onClick(product: Product) = clickListener(product)
+    class OnClickListener(val clickListener: (user: User) -> Unit) {
+        fun onClick(user: User) = clickListener(user)
     }
 
 
@@ -32,22 +33,22 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
     class FullProductViewHolder(private var binding: ItemFriendsBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product, onClickListener: OnClickListener) {
+        fun bind(user: User, onClickListener: OnClickListener) {
 
-            binding.product = product
-            binding.root.setOnClickListener { onClickListener.onClick(product) }
+            binding.user = user
+            binding.root.setOnClickListener { onClickListener.onClick(user) }
             binding.executePendingBindings()
         }
     }
 
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<HomeItem>() {
-        override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
         }
 
         private const val ITEM_VIEW_TYPE_TITLE            = 0x00
@@ -55,7 +56,7 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
         private const val ITEM_VIEW_TYPE_PRODUCT_COLLAGE  = 0x02
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
         return FullProductViewHolder(ItemFriendsBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
@@ -63,9 +64,9 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FullProductViewHolder, position: Int) {
 
-//                holder.bind((getItem(position) as HomeItem.FullProduct).product, onClickListener)
+                holder.bind((getItem(position) as User), onClickListener)
 
         }
     }

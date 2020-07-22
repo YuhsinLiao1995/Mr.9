@@ -36,9 +36,6 @@ class LikedFragment : Fragment() {
         val binding = FragmentLikedBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-//        binding.photosGrid.adapter = CatalogAdapter(CatalogAdapter.OnClickListener{
-//            viewModel.displayProductDetails(it)
-//        })
 
         binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
             viewModel.navigateToDetail

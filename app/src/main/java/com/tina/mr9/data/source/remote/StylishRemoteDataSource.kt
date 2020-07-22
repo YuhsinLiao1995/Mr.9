@@ -5,7 +5,6 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.*
@@ -13,8 +12,6 @@ import com.tina.mr9.data.source.StylishDataSource
 import com.tina.mr9.util.Logger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import com.tina.mr9.network.StylishApi
-import com.tina.mr9.util.Util.isInternetConnected
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -459,14 +456,7 @@ object StylishRemoteDataSource : StylishDataSource {
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collectionGroup("rating")
-//            .collectionGroup("rating")
-//            .document()
-//            .collection("rating")
-            .whereEqualTo("author", user.uid)
-//            .collectionGroup("rating")
-//            .document("YqgjBwOGFtsoR9VagMPx")
-//            .collection("rating")
-//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .whereEqualTo("author", user.uid)
                 .get()
 
                 .addOnCompleteListener { task ->
@@ -574,6 +564,171 @@ object StylishRemoteDataSource : StylishDataSource {
 
 
     }
+
+
+    override suspend fun getUserResult(searchId: String): Result<List<User>> =
+        suspendCoroutine { continuation ->
+
+            Logger.d("remotedatasource")
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .orderBy("email")
+                .startAt(searchId)
+                .endAt(searchId + "\uf8ff")
+                .get()
+
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<User>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val user = document.toObject(User::class.java)
+                            list.add(user)
+                        }
+                        continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun updateUser(user: User): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("uid", user.uid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                        Logger.d("task.isSuccessful")
+
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+
+                        }
+
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+
+                        if (task.result!!.size() == 0) {
+
+                            Logger.d("add new User")
+                            val articles = FirebaseFirestore.getInstance().collection("users")
+                            val document = articles.document(user.uid)
+
+                            Logger.d("val document = articles.document()")
+
+                            user.createdTime = Calendar.getInstance().timeInMillis
+
+                            Logger.d("user.createdTime = ${user.createdTime}")
+
+                            document
+                                .set(user)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Logger.i("Add: $user")
+
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+
+                                        Logger.d("else")
+
+                                        task.exception?.let {
+
+//                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+
+
+                                        }
+                                        continuation.resume(
+                                            Result.Fail(
+                                                Mr9Application.instance.getString(
+                                                    R.string.you_know_nothing
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+
+                            Logger.d("not complete")
+
+
+                        } else {
+
+                            Logger.d("Update User")
+
+
+                            val articles = FirebaseFirestore.getInstance().collection("users")
+                            val document = articles.document(user.uid)
+
+                            Logger.d("val document = articles.document()")
+
+
+                            Logger.d("user.createdTime = ${user.createdTime}")
+
+                            document
+                                .update(
+                                    "name",
+                                    user.name,
+                                    "email",
+                                    user.email,
+                                    "image",
+                                    user.image
+                                )
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Logger.i("Update: $user")
+
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        task.exception?.let {
+
+//                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                            return@addOnCompleteListener
+
+                                            Logger.d("else")
+                                        }
+                                        continuation.resume(
+                                            Result.Fail(
+                                                Mr9Application.instance.getString(
+                                                    R.string.you_know_nothing
+                                                )
+                                            )
+                                        )
+                                    }
+                                }
+                        }
+
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+            Logger.d("not Complete")
+
+
+        }
 }
 
 

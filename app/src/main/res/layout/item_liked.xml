@@ -12,8 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="0dp">
 
@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="6dp"
-            android:scaleType="centerCrop"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintDimensionRatio="W,1.41:1"
             android:adjustViewBounds="true"
             app:imageUrl_crop2="@{drink.main_image}"
@@ -37,6 +37,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginTop="0dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,22 +57,22 @@
             app:layout_constraintTop_toBottomOf="@+id/product_image"/>
 
         <TextView
-            android:id="@+id/dollar_sign"
+            android:id="@+id/bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/product_title"
             app:layout_constraintTop_toBottomOf="@+id/product_title"
-            android:text="NT$"/>
-
-
+            android:text="@{drink.bar}"
+            style="@style/DetailContentBig"
+            tools:text="Bar"/>
 
         <TextView
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/dollar_sign"
+            app:layout_constraintStart_toEndOf="@+id/bar"
             app:layout_constraintTop_toBottomOf="@+id/product_title"/>
 
 

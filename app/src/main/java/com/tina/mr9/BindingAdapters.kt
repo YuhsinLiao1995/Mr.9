@@ -8,17 +8,16 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.tina.mr9.bardetailpage.BarDetailDrinksAdapter
 import com.tina.mr9.bardetailpage.BarDetailImagesAdapter
-import com.tina.mr9.data.Bar
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.Search
+import com.tina.mr9.data.*
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
+import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
 import com.tina.mr9.profile.item.LikedAdapter
@@ -42,16 +41,17 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
     }
 }
 
-//@BindingAdapter("image2")
-//fun bindRecyclerViewWithImage2(recyclerView: RecyclerView, images: String) {
-//    images?.let {
-//        recyclerView.adapter?.apply {
-//            when (this) {
-//                is RateAdapter -> submitList(it)
-//            }
-//        }
-//    }
-//}
+@BindingAdapter("user")
+fun bindRecyclerViewWithUser(recyclerView: RecyclerView, user: List<User>?) {
+    user?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is FriendsAdapter -> submitList(it)
+
+            }
+        }
+    }
+}
 
 @BindingAdapter("drinkList")
 fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) {
@@ -170,7 +170,7 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .transform(MultiTransformation(FitCenter(), RoundedCorners(50)))
+                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
                     .placeholder(R.drawable.ic_starred)
                     .error(R.drawable.ic_starred))
             .into(imgView)

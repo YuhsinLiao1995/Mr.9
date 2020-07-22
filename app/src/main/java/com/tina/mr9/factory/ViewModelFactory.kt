@@ -2,6 +2,7 @@ package com.tina.mr9.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.tina.mr9.LoginViewModel
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
@@ -28,6 +29,9 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(FriendsViewModel::class.java) ->
                     FriendsViewModel(stylishRepository)
+
+                isAssignableFrom(LoginViewModel::class.java) ->
+                    LoginViewModel(stylishRepository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

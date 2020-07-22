@@ -149,7 +149,8 @@ class MainActivity : BaseActivity() {
         UserManager.user.email = FirebaseAuth.getInstance().currentUser?.email.toString()
         UserManager.user.image = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
 
-        Logger.d("UserManager.user.image = ${UserManager.user.image}")
+        viewModel.updateUser(UserManager.user)
+
     }
 
     /**

@@ -12,6 +12,7 @@ data class User(
     var image: String = "",
     var name: String = "",
     var email: String = "",
+    var createdTime: Long = -1,
     var myPost: List<String> = emptyList(),
     var followed_by: List<String> = emptyList(),
     var following: List<String> = emptyList(),

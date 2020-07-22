@@ -1,12 +1,21 @@
 package com.tina.mr9.friends
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import com.tina.mr9.R
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.databinding.FragmentFriendsBinding
+import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.util.Logger
 import com.tina.mr9.util.ServiceLocator.stylishRepository
 
 /**
@@ -15,16 +24,59 @@ import com.tina.mr9.util.ServiceLocator.stylishRepository
 class FriendsFragment : Fragment() {
 
     /**
-     * Lazily initialize our [HomeViewModel].
+     * Lazily initialize our [FriendsViewModel].
      */
 //    private val viewModel by viewModels<FriendsViewModel>
-    private val viewModel  = stylishRepository?.let { FriendsViewModel(it) }
+    val viewModel by viewModels<FriendsViewModel> { getVmFactory() }
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        init()
         val binding = FragmentFriendsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        binding.listView.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
+            viewModel?.navigateToDetail
+        })
+
+
+
+
+        binding.searchText.addTextChangedListener(object  : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                val searchText = binding.searchText.text.toString().trim()
+//                Logger.d("viewModel?.seearchText = ${viewModel?.searchText}")
+
+                viewModel.getUserResult(searchText)
+                Logger.d("searchText = $searchText")
+
+                Logger.d("viewModel.searchedUser = ${viewModel.searchedUser}")
+
+
+                viewModel.searchedUser.observe(viewLifecycleOwner, Observer {
+                    it?.let {
+                        binding.listView.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
+                            viewModel?.navigateToDetail
+                        })
+                    }
+                })
+
+            }
+        } )
+
+
+
 
 
 //        binding.recyclerHome.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
@@ -51,11 +103,41 @@ class FriendsFragment : Fragment() {
         return binding.root
     }
 
-//    private fun init() {
-//        activity?.let {
-//            ViewModelProviders.of(it).get(MainViewModel::class.java).apply {
-//                currentFragmentType.value = CurrentFragmentType.HOME
+//    private fun loadFirebaseData(searchText : String) {
+//
+//        if(searchText.isEmpty()){
+//
+//            FirebaseRecyclerAdapter.cleanup()
+//            mRecyclerView.adapter = FirebaseRecyclerAdapter
+//
+//        }else {
+//
+//            viewModel.
+//
+//
+//            val firebaseSearchQuery = mDatabase.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff")
+//
+//            FirebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<User, BlankFragment.UsersViewHolder>(
+//
+//                User::class.java,
+//                R.layout.layout_list,
+//                BlankFragment.UsersViewHolder::class.java,
+//                firebaseSearchQuery
+//
+//
+//            ) {
+//                override fun populateViewHolder(viewHolder: BlankFragment.UsersViewHolder, model: User?, position: Int) {
+//
+//
+//                    viewHolder.mview.userName.setText(model?.name)
+//                    viewHolder.mview.userStatus.setText(model?.status)
+//
+//                }
+//
 //            }
+//
+//            mRecyclerView.adapter = FirebaseRecyclerAdapter
+//
 //        }
 //    }
 }

@@ -35,4 +35,8 @@ interface StylishRepository {
     suspend fun updateLikedBy(likedStatus: Boolean, user: User, drinks: Drinks): Result<Boolean>
 
     suspend fun getLikedDrinks(user: User): Result<List<Drinks>>
+
+    suspend fun getUserResult(searchId: String): Result<List<User>>
+
+    suspend fun updateUser(user: User): Result<Boolean>
 }

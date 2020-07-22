@@ -41,15 +41,15 @@ class DetailFragment : Fragment() {
 //
         if (viewModel.drink.value?.overall_rating!! > 0f) {
             binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
-            Logger.d("images = ${viewModel.drink.value?.images}")
-
-        }else{
-
-            binding.niceRatingBar.setRating(0f)
-            binding.amtRatings.text = "o"
-            binding.avgRating.text = "NA"
-            Logger.d("-1f")
         }
+
+        else {
+
+        binding.niceRatingBar.setRating(0f)
+
+        }
+
+
         binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
         })
@@ -58,11 +58,6 @@ class DetailFragment : Fragment() {
             viewModel.statusAbout.value = true
 //            Logger.d("已讚")
         }
-
-
-
-
-
 
         return binding.root
 
