@@ -1,4 +1,4 @@
-package com.tina.mr9.profile.item
+package com.tina.mr9.others_profile.item
 
 
 import androidx.lifecycle.LiveData
@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.Result
-import com.tina.mr9.data.User
+import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
@@ -19,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class LikedViewModel(private val repository: StylishRepository, private val arguments: User?) : ViewModel() {
+class OthersLikedViewModel(private val repository: StylishRepository, private val arguments: User) : ViewModel() {
 
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
@@ -28,6 +25,15 @@ class LikedViewModel(private val repository: StylishRepository, private val argu
 
     val user: LiveData<User>
         get() = _user
+
+    private val _searchUser = MutableLiveData<User>().apply {
+        value = arguments
+        Logger.d("OthersLikedViewModel argument = $arguments")
+
+    }
+
+    val searchUser: LiveData<User>
+        get() = _searchUser
 
     private val _drink = MutableLiveData<List<Drinks>>()
 
@@ -82,12 +88,12 @@ class LikedViewModel(private val repository: StylishRepository, private val argu
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = user.value.let {
+            val result = searchUser.value.let {
                 repository.getLikedDrinks(it!!)
             }
-            Logger.d("repository.getLikedDrinks(it!!)")
-            Logger.d("uid = ${user.value?.uid} ")
-            Logger.d("result = $result ")
+            Logger.d("repository.getOthersLikedDrinks(it!!)")
+            Logger.d("search uid = ${searchUser.value?.uid} ")
+            Logger.d("search result = $result ")
 
 
             _drink.value = when (result) {

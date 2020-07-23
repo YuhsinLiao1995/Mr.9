@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.R
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.databinding.FragmentFriendsBinding
@@ -64,16 +66,23 @@ class FriendsFragment : Fragment() {
                 Logger.d("viewModel.searchedUser = ${viewModel.searchedUser}")
 
 
-                viewModel.searchedUser.observe(viewLifecycleOwner, Observer {
+                viewModel.searchedUser.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
                         binding.listView.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
-                            viewModel?.navigateToDetail
+                            viewModel.navigateToDetail(it)
                         })
                     }
                 })
 
             }
         } )
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToOthersProfileFragment(it))
+                viewModel.onDetailNavigated()
+            }
+        })
 
 
 

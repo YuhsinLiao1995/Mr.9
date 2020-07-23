@@ -18,7 +18,11 @@
         android:id="@+id/friendsFragment"
         android:name="com.tina.mr9.friends.FriendsFragment"
         android:label="FriendsFragment"
-        tools:layout="@layout/fragment_friends"/>
+        tools:layout="@layout/fragment_friends">
+        <action
+            android:id="@+id/action_friendsFragment_to_othersProfileFragment"
+            app:destination="@id/othersProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/rateFragment"
         android:name="com.tina.mr9.rate.RateFragment"
@@ -189,7 +193,54 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 
+    <fragment
+        android:id="@+id/othersProfileFragment"
+        android:name="com.tina.mr9.others_profile.OthersProfileFragment"
+        android:label="OthersProfileFragment"
+        tools:layout="@layout/fragment_others_profile">
+        <argument android:name="searchUser"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersProfileFragment"
+        app:destination="@id/othersProfileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
 
+
+    <fragment
+        android:id="@+id/othersLikedFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersLikedFragment"
+        android:label="OthersLikedFragment"
+        tools:layout="@layout/fragment_others_liked">
+    <argument android:name="searchUser"
+        app:argType="com.tina.mr9.data.User"
+        app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersLikedFragment"
+        app:destination="@id/othersLikedFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+
+    <fragment
+        android:id="@+id/othersRatingFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersRatingFragment"
+        android:label="OthersRatingFragment"
+        tools:layout="@layout/fragment_others_rating">
+        <argument android:name="searchUser"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersRatingFragment"
+        app:destination="@id/othersRatingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_others_profile_fragment" app:destination="@id/othersProfileFragment"/>
 
 
 </navigation>

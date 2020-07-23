@@ -20,6 +20,8 @@ import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
+import com.tina.mr9.others_profile.item.OthersLikedAdapter
+import com.tina.mr9.others_profile.item.OthersRatingAdapter
 import com.tina.mr9.profile.item.LikedAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
@@ -36,6 +38,8 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
                 is HomeAdapter -> submitList(it)
 
                 is LikedAdapter -> submitList(it)
+
+                is OthersLikedAdapter -> submitList(it)
             }
         }
     }
@@ -73,7 +77,7 @@ fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Ratings
             when (this) {
                 is MyRatingAdapter -> submitList(it)
 
-//                is BarDetailDrinksAdapter -> submitList(it)
+                is OthersRatingAdapter -> submitList(it)
             }
         }
     }

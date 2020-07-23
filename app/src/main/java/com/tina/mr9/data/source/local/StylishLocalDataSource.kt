@@ -58,11 +58,19 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun updateFollowedBy(likedStatus: Boolean, user: User, searchUser: User): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getLikedDrinks(user: User): Result<List<Drinks>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getUserResult(searchId: String): Result<List<User>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getMyProfileResult(searchId: String): Result<User> {
         TODO("Not yet implemented")
     }
 

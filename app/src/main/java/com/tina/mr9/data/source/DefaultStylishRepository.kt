@@ -57,10 +57,14 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getMyRatingDrinks(user = user)
     }
 
-    override suspend fun updateLikedBy(
-        likedStatus: Boolean, user:User,drinks: Drinks
+    override suspend fun updateLikedBy(likedStatus: Boolean, user:User,drinks: Drinks
     ): Result<Boolean> {
         return remoteDataSource.updateLikedBy(likedStatus = likedStatus, user = user, drinks =drinks)
+    }
+
+    override suspend fun updateFollowedBy(likedStatus: Boolean, user: User, searchUser: User
+    ): Result<Boolean> {
+        return remoteDataSource.updateFollowedBy(likedStatus = likedStatus, user = user, searchUser = searchUser)
     }
 
     override suspend fun getLikedDrinks(user: User): Result<List<Drinks>> {
@@ -69,6 +73,10 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
 
     override suspend fun getUserResult(searchId: String): Result<List<User>> {
         return remoteDataSource.getUserResult(searchId = searchId)
+    }
+
+    override suspend fun getMyProfileResult(searchId: String): Result<User> {
+        return remoteDataSource.getMyProfileResult(searchId = searchId)
     }
 
     override suspend fun updateUser(user: User): Result<Boolean> {

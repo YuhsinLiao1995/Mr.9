@@ -23,10 +23,10 @@ import com.tina.mr9.data.Result
  */
 class FriendsViewModel(private val stylishRepository: StylishRepository) : ViewModel() {
 
-    private val _user = MutableLiveData<List<User>>()
-
-    val user: LiveData<List<User>>
-        get() = _user
+//    private val _user = MutableLiveData<List<User>>()
+//
+//    val user: LiveData<List<User>>
+//        get() = _user
 
     private val _searchedUser = MutableLiveData<List<User>>()
 
@@ -58,9 +58,9 @@ class FriendsViewModel(private val stylishRepository: StylishRepository) : ViewM
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Product>()
+    private val _navigateToDetail = MutableLiveData<User>()
 
-    val navigateToDetail: LiveData<Product>
+    val navigateToDetail: LiveData<User>
         get() = _navigateToDetail
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -133,8 +133,8 @@ class FriendsViewModel(private val stylishRepository: StylishRepository) : ViewM
         }
     }
 
-    fun navigateToDetail(product: Product) {
-        _navigateToDetail.value = product
+    fun navigateToDetail(searchUser: User) {
+        _navigateToDetail.value = searchUser
     }
 
     fun onDetailNavigated() {

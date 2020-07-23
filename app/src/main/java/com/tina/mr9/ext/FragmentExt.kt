@@ -2,11 +2,9 @@ package com.tina.mr9.ext
 
 import androidx.fragment.app.Fragment
 import com.tina.mr9.Mr9Application
-import com.tina.mr9.data.Bar
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Search
-import com.tina.mr9.data.User
+import com.tina.mr9.data.*
 import com.tina.mr9.factory.*
+import com.tina.mr9.others_profile.OthersProfileViewModel
 import com.tina.mr9.search.SearchTypeFilter
 
 /**
@@ -47,6 +45,11 @@ fun Fragment.getVmFactory(bar: Bar): BarViewModelFactory {
 fun Fragment.getVmFactory(user: User?): ProfileViewModelFactory {
     val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
     return ProfileViewModelFactory(repository, user)
+}
+
+fun Fragment.getVmFactory(searchUser: User): OthersProfileViewModelFactory {
+    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
+    return OthersProfileViewModelFactory(repository, searchUser)
 }
 
 

@@ -24,8 +24,8 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
      * associated with the current item to the [onClick] function.
      * @param clickListener lambda that will be called with the current [Product]
      */
-    class OnClickListener(val clickListener: (user: User) -> Unit) {
-        fun onClick(user: User) = clickListener(user)
+    class OnClickListener(val clickListener: (searchUser: User) -> Unit) {
+        fun onClick(searchUser: User) = clickListener(searchUser)
     }
 
 
@@ -33,10 +33,10 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
     class FullProductViewHolder(private var binding: ItemFriendsBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(user: User, onClickListener: OnClickListener) {
+        fun bind(searchUser: User, onClickListener: OnClickListener) {
 
-            binding.user = user
-            binding.root.setOnClickListener { onClickListener.onClick(user) }
+            binding.user = searchUser
+            binding.root.setOnClickListener { onClickListener.onClick(searchUser) }
             binding.executePendingBindings()
         }
     }
@@ -51,9 +51,6 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
             return oldItem == newItem
         }
 
-        private const val ITEM_VIEW_TYPE_TITLE            = 0x00
-        private const val ITEM_VIEW_TYPE_PRODUCT_FULL     = 0x01
-        private const val ITEM_VIEW_TYPE_PRODUCT_COLLAGE  = 0x02
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
@@ -71,10 +68,4 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
         }
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return when (getItem(position)) {
-//            is HomeItem.Title -> ITEM_VIEW_TYPE_TITLE
-//            is HomeItem.FullProduct -> ITEM_VIEW_TYPE_PRODUCT_FULL
-//            is HomeItem.CollageProduct -> ITEM_VIEW_TYPE_PRODUCT_COLLAGE
-//        }
-//    }
+

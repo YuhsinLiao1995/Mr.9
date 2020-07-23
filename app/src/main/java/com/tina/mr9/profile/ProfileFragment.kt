@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
-import androidx.viewpager.widget.PagerAdapter
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.tina.mr9.R
 import com.tina.mr9.databinding.FragmentProfileBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.util.Logger
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -32,6 +32,14 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
 
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.calculate()
+                Logger.d("amt_followedBy = ${viewModel.amtFollowedBy.value}")
+                Logger.d("amt_following = ${viewModel.amtFollowing.value}")
+            }
+        })
+        Logger.d("amt_following = ${viewModel.user.value?.amtFollowing}")
         return binding.root
     }
 

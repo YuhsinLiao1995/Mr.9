@@ -1,40 +1,54 @@
-package com.tina.mr9.profile.item
+package com.tina.mr9.others_profile.item
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.databinding.FragmentLikedBinding
+import com.tina.mr9.databinding.FragmentMyRatingBinding
+import com.tina.mr9.databinding.FragmentOthersRatingBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.item.LikedViewModel
+import com.tina.mr9.profile.ProfileFragmentArgs
 import com.tina.mr9.profile.ProfileViewModel
+import com.tina.mr9.util.Logger
 
-
-class LikedFragment : Fragment() {
+class OthersRatingFragment : Fragment() {
 
     companion object {
-        fun newInstance() = LikedFragment()
+        fun newInstance() = OthersRatingFragment()
     }
-
 
     /**
      * Lazily initialize our [ProfileViewModel].
      */
-    private val viewModel by viewModels<LikedViewModel> { getVmFactory(LikedFragmentArgs.fromBundle(requireArguments()).userKey) }
+    private val viewModel by viewModels<OthersRatingViewModel> { getVmFactory(OthersRatingFragmentArgs.fromBundle(requireArguments()).searchUser) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentLikedBinding.inflate(inflater)
+        val binding = FragmentOthersRatingBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
+        Logger.d("test=${viewModel.user.value}")
+//        binding.photosGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
+//            viewModel.displayProductDetails(it)
+//        })
+
+        binding.recyclerRatings.adapter = OthersRatingAdapter(OthersRatingAdapter.OnClickListener{
             viewModel.navigateToDetail
         })
+
+
+
+
 
 
 

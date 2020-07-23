@@ -9,6 +9,7 @@ import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishDataSource
+import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -529,15 +530,164 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
         }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun updateFollowedBy(
+        likedStatus: Boolean,
+        user: User,
+        searchUser: User
+    ): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+
+
+            var followingList: List<String> = if (likedStatus) {
+                UserManager.user.following.plus(searchUser.uid)
+//                plus(searchUser.uid)
+
+            } else {
+                UserManager.user.following.minus(searchUser.uid)
+            }
+
+
+            var followedByList: List<String> = if (likedStatus) {
+                searchUser.followedBy.plus(user.uid)
+            } else {
+                searchUser.followedBy.minus(user.uid)
+            }
+
+            Logger.d("followingList = $followingList")
+            FirebaseFirestore.getInstance().collection("users")
+                .document(user.uid)
+                .update("following", followingList)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+//                        for (document in task.result) {
+//                            Logger.d(document.id + " => " + document.data)
+//
+//                            val rating = document.toObject(Drinks::class.java)
+//                        }
+                        Logger.d("success user.uid = ${user.uid}")
+//                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                Mr9Application.instance.getString(
+                                    R.string.you_know_nothing
+                                )
+                            )
+                        )
+                    }
+
+
+                }
+
+
+            FirebaseFirestore.getInstance().collection("users")
+                .document(searchUser.uid)
+                .update("followedBy", followedByList)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+//                        for (document in task.result) {
+//                            Logger.d(document.id + " => " + document.data)
+//
+//                            val rating = document.toObject(Drinks::class.java)
+//                        }
+                        Logger.d("success searchUser.uid = ${searchUser.uid}")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                Mr9Application.instance.getString(
+                                    R.string.you_know_nothing
+                                )
+                            )
+                        )
+                    }
+                }
+
+            // Update myProfile to UserManager
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("uid",user.uid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        var user : User = UserManager.user
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val searchUser = document.toObject(User::class.java)
+                            user = searchUser
+                        }
+                        UserManager.user = user
+                        Logger.d("UserManager.user = ${UserManager.user}")
+//                        continuation.resume(Result.Success(user))
+
+                        Logger.d("profile task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+
+            // Update OthersProfile
+//            FirebaseFirestore.getInstance()
+//                .collection("users")
+//                .whereEqualTo("uid",searchUser.uid)
+//                .get()
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        var user : User = UserManager.user
+//                        for (document in task.result!!) {
+//                            Logger.d(document.id + " => " + document.data)
+//
+//                            val searchUser = document.toObject(User::class.java)
+//                            user = searchUser
+//                        }
+//                        UserManager.user = user
+//                        Logger.d("UserManager.user = ${UserManager.user}")
+////                        continuation.resume(Result.Success(user))
+//
+//                        Logger.d("profile task.result.size = ${task.result!!.size()}")
+//                    } else {
+//                        task.exception?.let {
+//
+//                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+//                            continuation.resume(Result.Error(it))
+//                            return@addOnCompleteListener
+//                        }
+//                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+//                    }
+//                }
+
+
+
+        }
+
     override suspend fun getLikedDrinks(user: User): Result<List<Drinks>> = suspendCoroutine { continuation ->
         FirebaseFirestore.getInstance()
 
             .collection("drinks")
             .whereArrayContains("likedBy",user.uid)
-//            .collectionGroup("rating")
-//            .document("YqgjBwOGFtsoR9VagMPx")
-//            .collection("rating")
-//            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
             .get()
 
             .addOnCompleteListener { task ->
@@ -561,8 +711,6 @@ object StylishRemoteDataSource : StylishDataSource {
                     continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
                 }
             }
-
-
     }
 
 
@@ -583,11 +731,45 @@ object StylishRemoteDataSource : StylishDataSource {
                         for (document in task.result!!) {
                             Logger.d(document.id + " => " + document.data)
 
-                            val user = document.toObject(User::class.java)
-                            list.add(user)
+                            val searchUser = document.toObject(User::class.java)
+                            list.add(searchUser)
                         }
                         continuation.resume(Result.Success(list))
                         Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
+
+
+    override suspend fun getMyProfileResult(searchId: String): Result<User> =
+        suspendCoroutine { continuation ->
+
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("uid",searchId)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        var user : User = UserManager.user
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val searchUser = document.toObject(User::class.java)
+                            user = searchUser
+                        }
+                        continuation.resume(Result.Success(user))
+
+                        Logger.d("profile task.result.size = ${task.result!!.size()}")
                     } else {
                         task.exception?.let {
 

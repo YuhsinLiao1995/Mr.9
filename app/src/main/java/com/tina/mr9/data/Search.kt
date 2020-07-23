@@ -16,3 +16,23 @@ data class Search(
 ) : Parcelable {
 
 }
+
+@Parcelize
+data class User(
+    var uid: String = "",
+    var image: String = "",
+    var name: String = "",
+    var email: String = "",
+    var createdTime: Long = -1,
+    var myPost: List<String> = emptyList(),
+    var followedBy: List<String> = emptyList(),
+    var following: List<String> = emptyList(),
+    var likedList: List<String> = emptyList()
+
+) : Parcelable {
+
+    @IgnoredOnParcel
+    var amtFollowedBy: String = followedBy.size.toString()
+    @IgnoredOnParcel
+    var amtFollowing: String = following.size.toString()
+}

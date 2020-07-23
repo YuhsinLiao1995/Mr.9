@@ -228,4 +228,7 @@
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:letterSpacing">0.15</item>
     </style>
+
+
+
 </resources>

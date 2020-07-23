@@ -1,17 +1,13 @@
-package com.tina.mr9.profile.item
+package com.tina.mr9.others_profile.item
 
-
+//import android.arch.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.Result
-import com.tina.mr9.data.User
+import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -19,15 +15,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class LikedViewModel(private val repository: StylishRepository, private val arguments: User?) : ViewModel() {
-
+class OthersRatingViewModel(private val repository: StylishRepository, private val arguments: User) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
-            value = UserManager.user
+
+            value = com.tina.mr9.login.UserManager.user
+
     }
 
     val user: LiveData<User>
         get() = _user
+
+    private val _searchUser = MutableLiveData<User>().apply {
+        value = arguments
+
+    }
+
+    val searchUser: LiveData<User>
+        get() = _searchUser
 
     private val _drink = MutableLiveData<List<Drinks>>()
 
@@ -73,24 +78,23 @@ class LikedViewModel(private val repository: StylishRepository, private val argu
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getLikedDrinks()
+        getDrinksResult()
     }
 
-    fun getLikedDrinks() {
+    fun getDrinksResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = user.value.let {
-                repository.getLikedDrinks(it!!)
+            val result = searchUser.value.let {
+                repository.getMyRatingDrinks(it!!)
+
             }
-            Logger.d("repository.getLikedDrinks(it!!)")
-            Logger.d("uid = ${user.value?.uid} ")
-            Logger.d("result = $result ")
+            Logger.d("repository.getMyRatingDrinks(it!!)")
 
 
-            _drink.value = when (result) {
+            _rating.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -131,9 +135,8 @@ class LikedViewModel(private val repository: StylishRepository, private val argu
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getLikedDrinks()
+//            getDrinksResult()
         }
     }
 
 }
-

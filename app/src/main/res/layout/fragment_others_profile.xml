@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="com.tina.mr9.profile.ProfileViewModel"/>
+        <variable name="viewModel" type="com.tina.mr9.others_profile.OthersProfileViewModel"/>
         <import type="android.view.View"/>
         <variable
             name="userManager"
@@ -36,7 +36,7 @@
                     android:layout_marginTop="32dp"
                     android:background="@drawable/ic_nav_profile"
                     android:scaleType="centerCrop"
-                    app:imageUrl_crop="@{userManager.INSTANCE.user.image}"
+                    app:imageUrl_crop="@{viewModel.searchUser.image}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="0dp"
-                    android:text="@{userManager.INSTANCE.user.name}"
+                    android:text="@{viewModel.searchUser.name}"
                     app:layout_constraintStart_toEndOf="@id/profile_image"
                     app:layout_constraintTop_toTopOf="@id/profile_image"
                     tools:text="My name" />
@@ -136,15 +136,33 @@
                     app:layout_constraintTop_toBottomOf="@id/user_level"
                     android:text="level"/>
 
+                <Button
+                    android:id="@+id/btn_follow"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="@id/followers"
+                    app:layout_constraintEnd_toEndOf="@id/user_level"
+                    app:layout_constraintTop_toBottomOf="@id/following"
+                    android:layout_marginTop="16dp"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/comfortaa"
+                    android:letterSpacing="0.15"
+                    android:textStyle="bold"
+                    android:textColor="@{viewModel.statusAbout == false ? @color/white : @color/black_3f3a3a}"
+                    android:background="@{viewModel.statusAbout == false ? @drawable/background_follow : @drawable/background_followed }"
+                    android:text='@{viewModel.statusAbout == false ? "Follow" : "Following"}'
+                    android:onClick="@{() -> viewModel.setAboutStatus()}"/>
+
+
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewpager_profile"
+                    android:id="@+id/viewpager_profile_others"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/followers">
+                    app:layout_constraintTop_toBottomOf="@id/btn_follow">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs_catalog"
