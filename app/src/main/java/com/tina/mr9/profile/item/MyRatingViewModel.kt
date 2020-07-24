@@ -1,8 +1,6 @@
 package com.tina.mr9.profile.item
 
 //import android.arch.lifecycle.ViewModel
-import android.os.UserManager
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -76,10 +74,10 @@ class MyRatingViewModel (private val repository: StylishRepository, private val 
         Logger.i("------------------------------------")
 
 //        getAllData()
-        getDrinksResult()
+        getRatingResult()
     }
 
-    fun getDrinksResult() {
+    private fun getRatingResult() {
 
         coroutineScope.launch {
 
@@ -133,7 +131,7 @@ class MyRatingViewModel (private val repository: StylishRepository, private val 
 
     fun refresh() {
         if (status.value != LoadApiStatus.LOADING) {
-            getDrinksResult()
+            getRatingResult()
         }
     }
 

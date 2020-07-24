@@ -25,11 +25,7 @@ class ProfileViewModel(private val stylishRepository: StylishRepository, private
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
-        arguments?.let {
-            value = it
-            Logger.d("arguments.image = ${arguments.image}")
-        }
-
+        value = UserManager.user
     }
 
     val user: LiveData<User>
@@ -87,7 +83,6 @@ class ProfileViewModel(private val stylishRepository: StylishRepository, private
     }
 
     init {
-
         user.value?.uid?.let { getUserResult(it) }
     }
 

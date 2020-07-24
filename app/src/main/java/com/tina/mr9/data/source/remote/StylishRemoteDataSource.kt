@@ -485,6 +485,80 @@ object StylishRemoteDataSource : StylishDataSource {
 
         }
 
+
+
+
+    override suspend fun getRatingResult(followingList: List<String>): Result<List<Ratings>> =
+        suspendCoroutine { continuation ->
+
+//            var amtFollowing: Int = 0
+            val listAll = mutableListOf<Ratings>()
+
+            for ((index, document) in followingList.withIndex()) {
+
+                Logger.i("index=$index")
+
+                FirebaseFirestore.getInstance()
+                    .collectionGroup("rating")
+                    .whereEqualTo("author", followingList[index])
+                    .get()
+
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            Logger.i("followingList[$index] Success")
+
+                            val list = mutableListOf<Ratings>()
+
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
+
+                                val rating = document.toObject(Ratings::class.java)
+
+                                Logger.i("rating=$rating")
+
+                                listAll.add(rating)
+                            }
+
+//                            listAll.addAll(list)
+//                            Logger.d("list.size = ${list.size}")
+//                            Logger.d("listAll.size = ${listAll.size}")
+//                            Logger.d("getRatingResult task.result.size = ${task.result!!.size()}")
+
+
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                        }
+
+//                        Logger.d("listAll end = $listAll")
+//                        Logger.d("listAll.size end = ${listAll.size}")
+
+
+//                        Logger.w("listAll before sort")
+//                        listAll.forEach {
+//                            Logger.w("$it")
+//                        }
+
+                        listAll.sortByDescending {
+                            it.createdTime
+                        }
+
+                        Logger.w("listAll after sort")
+                        listAll.forEach {
+                            Logger.v("$it")
+                        }
+                    }
+            }
+            continuation.resume(Result.Success(listAll))
+        }
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun updateLikedBy(
         likedStatus: Boolean,

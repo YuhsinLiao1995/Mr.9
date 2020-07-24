@@ -219,6 +219,16 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <style name="ReadMoreButton">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
     <style name="MyRatingTitleDark">
         <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
         <item name="android:maxLines">1</item>
@@ -229,6 +239,32 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <style name="FriendsRatingTitleDark">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
 
+    <style name="FriendsRatingTitle">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="FriendsRatingDetail">
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
 
 </resources>

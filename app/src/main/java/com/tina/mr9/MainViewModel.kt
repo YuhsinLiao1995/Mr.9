@@ -11,6 +11,7 @@ import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.CurrentFragmentType
 import com.tina.mr9.util.Logger
+import com.tina.mr9.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,6 +42,12 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
 
     val drinks: LiveData<Drinks>
         get() = _drinks
+
+    // status for the loading icon of swl
+    private val _refreshStatus = MutableLiveData<Boolean>()
+
+    val refreshStatus: LiveData<Boolean>
+        get() = _refreshStatus
 
 
     private val _leave = MutableLiveData<Boolean>()
@@ -100,6 +107,7 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     leave(true)
+                    getUserResult(user.uid)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -116,6 +124,47 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
 
             }
         }
+    }
+    fun getUserResult(searchId : String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = repository.getMyProfileResult(searchId)
+
+            Logger.d("profile result = $result")
+
+            _user.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.app_name)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            updateUserManager(_user.value!!)
+            _refreshStatus.value = false
+        }
+    }
+
+    fun updateUserManager(user: User){
+        UserManager.user = user
+        Logger.d("Usermanager.user = ${UserManager.user}")
     }
 
 

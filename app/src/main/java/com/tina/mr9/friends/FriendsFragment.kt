@@ -44,6 +44,15 @@ class FriendsFragment : Fragment() {
             viewModel?.navigateToDetail
         })
 
+        binding.recyclerPosts.adapter = FriendsRatingAdapter(FriendsRatingAdapter.OnClickListener{
+            viewModel?.navigateToDetail
+            Logger.d("binding.recyclerPosts.adapter")
+        }, viewModel.statusAbout.value!!)
+
+
+
+
+
 
 
 
@@ -65,7 +74,6 @@ class FriendsFragment : Fragment() {
 
                 Logger.d("viewModel.searchedUser = ${viewModel.searchedUser}")
 
-
                 viewModel.searchedUser.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
                         binding.listView.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
@@ -73,6 +81,12 @@ class FriendsFragment : Fragment() {
                         })
                     }
                 })
+
+                if (searchText != ""){
+                    binding.listView.visibility = View.VISIBLE
+                } else {
+                    binding.listView.visibility = View.GONE
+                }
 
             }
         } )

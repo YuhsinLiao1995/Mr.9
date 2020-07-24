@@ -18,6 +18,7 @@ import com.tina.mr9.data.*
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
 import com.tina.mr9.friends.FriendsAdapter
+import com.tina.mr9.friends.FriendsRatingAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
 import com.tina.mr9.others_profile.item.OthersLikedAdapter
@@ -78,6 +79,9 @@ fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Ratings
                 is MyRatingAdapter -> submitList(it)
 
                 is OthersRatingAdapter -> submitList(it)
+
+                is FriendsRatingAdapter -> submitList(it)
+
             }
         }
     }
@@ -174,7 +178,7 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(50)))
+                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(10)))
                     .placeholder(R.drawable.ic_starred)
                     .error(R.drawable.ic_starred))
             .into(imgView)

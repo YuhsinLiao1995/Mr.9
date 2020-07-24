@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/UserImageView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/UserImageView"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:text="@{user.name}"
             style="@style/DetailContentBig"
             app:layout_constraintStart_toEndOf="@id/UserImageView"
@@ -46,13 +46,21 @@
             android:text="@{user.email}"
             style="@style/DetailContent"
             tools:text="soft8520@gmail.com"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="0dp"
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/gray_646464"/>
+
+        <TextView
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toTopOf="parent"
             android:background="@color/gray_646464"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
