@@ -72,10 +72,15 @@ class SuccessDialog : AppCompatDialogFragment() {
         binding.viewModel = viewModel
 
 
-
-        binding.root.setOnClickListener() {
+        binding.successDialog.setOnClickListener() {
             dismiss()
             Log.d("ifinit", "close") }
+
+        binding.closeBtn.setOnClickListener() {
+            dismiss()
+            Log.d("binding.closeBtn", "close") }
+
+
 
 
 

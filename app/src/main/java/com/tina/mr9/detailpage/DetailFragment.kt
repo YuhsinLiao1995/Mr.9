@@ -36,9 +36,7 @@ class DetailFragment : Fragment() {
         if (viewModel.drink.value?.overall_rating!! > 0f) {
             binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
         } else {
-
             binding.niceRatingBar.setRating(0f)
-
         }
         viewModel.drink.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.argument ${viewModel.drink}")

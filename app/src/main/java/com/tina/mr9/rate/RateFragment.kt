@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -33,6 +34,7 @@ import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
 import java.io.File
 import java.util.*
+import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -92,31 +94,34 @@ class RateFragment : Fragment() {
         })
 
         binding.buttonPublish.setOnClickListener(){
-            viewModel.bindingDrink()
-            viewModel.publish(viewModel.rating.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
-            viewModel.getRatedDrinks()
+            if (viewModel.images.value?.size!! > 0){
+                viewModel.bindingDrink()
+                viewModel.publish(viewModel.rating.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
+                viewModel.getRatedDrinks()
 
 
-            viewModel.upDatedDrink.observe(viewLifecycleOwner, Observer {
-                it.let {
-                    Logger.d("viewModel.updatedDrink.value = ${viewModel.upDatedDrink.value}")
-                    if (viewModel.upDatedDrink.value?.id != null && viewModel.upDatedDrink.value?.id != ""){
-                        findNavController().navigate(NavigationDirections.navigateToDetailFragment(
-                            viewModel.upDatedDrink.value!!
-                        ))
+                viewModel.upDatedDrink.observe(viewLifecycleOwner, Observer {
+                    it.let {
+                        Logger.d("viewModel.updatedDrink.value = ${viewModel.upDatedDrink.value}")
+                        if (viewModel.upDatedDrink.value?.id != null && viewModel.upDatedDrink.value?.id != ""){
+                            findNavController().navigate(NavigationDirections.navigateToDetailFragment(
+                                viewModel.upDatedDrink.value!!
+                            ))
+                            viewModel.navigateToAddedSuccess(viewModel.rating.value!!)
+                        }
                     }
-//                        viewModel.onDetailNavigated()
-                }
-            })
+                })
+            } else {
+                Toast.makeText(Mr9Application.appContext,"Please add a photo! ",Toast.LENGTH_LONG).show()
+            }
 
-//            viewModel.navigateToDetail(viewModel.drink.value!!)
-//            viewModel.navigateToAddedSuccess(viewModel.rating.value!!)
         }
 
         viewModel.navigateToAddedSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToSuccessDialog(viewModel.rating.value!!))
                 viewModel.onAddedSuccessNavigated()
+                Logger.d("findNavController().navigate(NavigationDirections.navigateToSuccessDialog(viewModel.rating.value!!))")
             }
         })
 
