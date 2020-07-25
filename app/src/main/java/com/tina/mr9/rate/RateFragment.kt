@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -21,20 +20,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.storage.FirebaseStorage
 import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
-import com.tina.mr9.R
-import com.tina.mr9.data.User
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.ProfileFragmentArgs
 import com.tina.mr9.util.Logger
 import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
-import kotlinx.android.synthetic.main.fragment_rate.*
 import java.io.File
 import java.util.*
 
@@ -90,20 +86,43 @@ class RateFragment : Fragment() {
             }
         })
 
-
-
         binding.niceRatingBar.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onRatingChanged(it)
             Log.d("Tina","it = $it")
         })
 
-
-
         binding.buttonPublish.setOnClickListener(){
-
             viewModel.bindingDrink()
-            viewModel.publish(viewModel.rating.value!!, viewModel.drinks.value!!,viewModel.bar.value!!)
+            viewModel.publish(viewModel.rating.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
+            viewModel.getRatedDrinks()
+
+
+            viewModel.upDatedDrink.observe(viewLifecycleOwner, Observer {
+                it.let {
+                    Logger.d("viewModel.updatedDrink.value = ${viewModel.upDatedDrink.value}")
+                    if (viewModel.upDatedDrink.value?.id != null && viewModel.upDatedDrink.value?.id != ""){
+                        findNavController().navigate(NavigationDirections.navigateToDetailFragment(
+                            viewModel.upDatedDrink.value!!
+                        ))
+                    }
+//                        viewModel.onDetailNavigated()
+                }
+            })
+
+//            viewModel.navigateToDetail(viewModel.drink.value!!)
+//            viewModel.navigateToAddedSuccess(viewModel.rating.value!!)
         }
+
+        viewModel.navigateToAddedSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToSuccessDialog(viewModel.rating.value!!))
+                viewModel.onAddedSuccessNavigated()
+            }
+        })
+
+
+
+
 
 
 

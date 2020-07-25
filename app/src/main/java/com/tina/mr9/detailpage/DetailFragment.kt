@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.login.UserManager
@@ -34,20 +35,21 @@ class DetailFragment : Fragment() {
 //
         if (viewModel.drink.value?.overall_rating!! > 0f) {
             binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
-        }
+        } else {
 
-        else {
-
-        binding.niceRatingBar.setRating(0f)
+            binding.niceRatingBar.setRating(0f)
 
         }
-
-
-        binding.recyclerRatings.adapter = DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
-            viewModel.navigateToDetail(it)
+        viewModel.drink.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.argument ${viewModel.drink}")
         })
 
-        if (viewModel.drink.value!!.likedBy.contains(UserManager.user.uid)){
+        binding.recyclerRatings.adapter =
+            DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
+                viewModel.navigateToDetail(it)
+            })
+
+        if (viewModel.drink.value!!.likedBy.contains(UserManager.user.uid)) {
             viewModel.statusAbout.value = true
         }
 

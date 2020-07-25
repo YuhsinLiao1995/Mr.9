@@ -4,6 +4,7 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
@@ -979,12 +980,40 @@ object StylishRemoteDataSource : StylishDataSource {
                         continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
                     }
                 }
-
-
-            Logger.d("not Complete")
-
-
         }
+
+
+    override suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+
+            .collection("drinks")
+            .whereEqualTo("name",drinks.name)
+            .whereEqualTo("bar", drinks.bar)
+            .whereEqualTo("address",drinks.address)
+            .get()
+
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    var drink : Drinks = drinks
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        drink = document.toObject(Drinks::class.java)
+
+                        Logger.d("task.result.size() = ${task.result!!.size()}")
+                    }
+                    continuation.resume(Result.Success(drink))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
 }
 
 

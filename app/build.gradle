@@ -128,4 +128,6 @@ dependencies {
     implementation 'com.github.KaelLi1989:NiceRatingBar:1.0.0'
     // Slider
     implementation 'com.xw.repo:bubbleseekbar:3.20-lite'
+
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }

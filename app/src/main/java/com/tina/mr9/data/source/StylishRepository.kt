@@ -45,4 +45,6 @@ interface StylishRepository {
     suspend fun getMyProfileResult(searchId: String): Result<User>
 
     suspend fun updateUser(user: User): Result<Boolean>
+
+    suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks>
 }

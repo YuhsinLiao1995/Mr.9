@@ -82,5 +82,9 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks> {
+        TODO("Not yet implemented")
+    }
+
 
 }

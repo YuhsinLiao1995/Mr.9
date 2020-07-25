@@ -31,9 +31,6 @@ class FriendsFragment : Fragment() {
 //    private val viewModel by viewModels<FriendsViewModel>
     val viewModel by viewModels<FriendsViewModel> { getVmFactory() }
 
-
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        init()
         val binding = FragmentFriendsBinding.inflate(inflater, container, false)

@@ -18,20 +18,16 @@ import kotlinx.coroutines.launch
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
- * The [ViewModel] that is attached to the [RateFragment].
+ * The [ViewModel] that is attached to the [SuccessDialog].
  */
 class SuccessViewModel(
     private val repository: StylishRepository,
-    private val arguments: User?
+    private val arguments: Ratings?
 ) : ViewModel() {
 
     val _rating = MutableLiveData<Ratings>().apply {
         if (arguments != null) {
             value = Ratings(
-                author = arguments.uid,
-                authorName = arguments.name,
-                authorImage = arguments.image
-
             )
         }
     }

@@ -87,5 +87,9 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.updateUser(user = user)
     }
 
+    override suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks> {
+        return remoteDataSource.getRatedDrinks(drinks = drinks)
+    }
+
 
 }

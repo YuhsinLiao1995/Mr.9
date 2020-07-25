@@ -242,5 +242,21 @@
 
     <action android:id="@+id/navigate_to_others_profile_fragment" app:destination="@id/othersProfileFragment"/>
 
+    <dialog
+        android:id="@+id/successDialog"
+        android:name="com.tina.mr9.success.SuccessDialog"
+        android:label="SuccessDialog"
+        tools:layout="@layout/dialog_success">
+        <argument android:name="ratingKey"
+            app:argType="com.tina.mr9.data.Ratings"
+            app:nullable="false"/>
+    </dialog>
+    <action
+        android:id="@+id/action_global_successDialog"
+        app:destination="@id/successDialog"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
+
 
 </navigation>
