@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentSearchBinding
 import com.tina.mr9.ext.getVmFactory
@@ -25,29 +26,29 @@ import com.tina.mr9.util.Logger
 class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel> { getVmFactory() }
-    private lateinit var viewPager: ViewPager
-    private lateinit var SearchAdapter: PagesAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentSearchBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        binding.map.setOnClickListener {
-            Logger.d("clicked")
-        }
+//        val binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        FragmentSearchBinding.inflate(inflater, container, false).apply {
+
+        val binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             viewpagerCatalog.let {
                 tabsCatalog.setupWithViewPager(it)
                 it.adapter = SearchAdapter(childFragmentManager)
-//                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
+                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
             }
 //            return@onCreateView root
+        }
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.map.setOnClickListener {
+            Logger.d("clicked")
         }
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -92,15 +93,15 @@ class SearchFragment : Fragment() {
                 })
 
                 if (searchText != "" && viewModel.statusType.value == true) {
-                    binding.listViewDrink.visibility = View.VISIBLE
-                    binding.listViewBar.visibility = View.GONE
+                    binding.scrolllistViewDrink.visibility = View.VISIBLE
+                    binding.scrolllistViewBar.visibility = View.GONE
 
                 } else if (searchText != "" && viewModel.statusType.value == false){
-                    binding.listViewDrink.visibility = View.GONE
-                    binding.listViewBar.visibility = View.VISIBLE
+                    binding.scrolllistViewDrink.visibility = View.GONE
+                    binding.scrolllistViewBar.visibility = View.VISIBLE
                 } else{
-                    binding.listViewDrink.visibility = View.GONE
-                    binding.listViewBar.visibility = View.GONE
+                    binding.scrolllistViewDrink.visibility = View.GONE
+                    binding.scrolllistViewBar.visibility = View.GONE
                 }
 
             }

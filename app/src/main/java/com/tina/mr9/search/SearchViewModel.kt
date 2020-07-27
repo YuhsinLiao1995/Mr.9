@@ -69,11 +69,11 @@ class SearchViewModel(
         statusType.value = !statusType.value!!
         Logger.d("setAboutStatus")
         if (statusType.value == true) {
-            Toast.makeText(Mr9Application.instance, "Search Bar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(Mr9Application.instance, "Search Drink", Toast.LENGTH_SHORT).show()
             Logger.d("statusType.value = ${statusType.value}")
 //            updateLikedBy(true, user.value!!, drink.value!!)
         } else {
-            Toast.makeText(Mr9Application.instance, "Search Drink", Toast.LENGTH_SHORT).show()
+            Toast.makeText(Mr9Application.instance, "Search Bar", Toast.LENGTH_SHORT).show()
             Logger.d("statusType.value = ${statusType.value}")
 //            updateLikedBy(false, user.value!!, drink.value!!)
         }
