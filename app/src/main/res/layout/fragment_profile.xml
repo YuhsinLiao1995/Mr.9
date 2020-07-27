@@ -69,7 +69,7 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="@{viewModel.amtFollowedBy.toString()}"
                     android:gravity="center"
                     style="@style/ProfileDescriptionDark"
@@ -96,12 +96,13 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="32dp"
+                    android:gravity="center"
                     android:text="Novice"
-                    style="@style/ProfileDescriptionDark"
+                    style="@style/DetailDescription"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/amt_following"
-                    app:layout_constraintTop_toTopOf="@id/amt_following" />
+                    app:layout_constraintBottom_toBottomOf="@id/amt_following" />
 
                 <TextView
                     android:id="@+id/followers"
@@ -140,7 +141,7 @@
                     android:id="@+id/viewpager_profile"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

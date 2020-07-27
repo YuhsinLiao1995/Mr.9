@@ -185,6 +185,7 @@
                     <ScrollView
                         android:id="@+id/scrolllist_view_drink"
                         android:visibility="gone"
+                        android:background="@color/translucent_40"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -214,6 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="gone"
+                android:background="@color/translucent_40"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_type">
 

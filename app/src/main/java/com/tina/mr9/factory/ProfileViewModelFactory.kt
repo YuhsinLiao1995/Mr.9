@@ -36,9 +36,9 @@ class ProfileViewModelFactory(
             return LikedViewModel(stylishRepository, user) as T
         }
 
-        if (modelClass.isAssignableFrom(RateViewModel::class.java)) {
-            return RateViewModel(stylishRepository, user) as T
-        }
+//        if (modelClass.isAssignableFrom(RateViewModel::class.java)) {
+//            return RateViewModel(stylishRepository, user) as T
+//        }
 
         if (modelClass.isAssignableFrom(OthersRatingViewModel::class.java)) {
             return OthersRatingViewModel(stylishRepository, user) as T

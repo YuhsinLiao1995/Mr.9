@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.navigation_rate -> {
 
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalRateFragment(UserManager.user))
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.actionGlobalRateFragment(null))
                 return@OnNavigationItemSelectedListener true
             }
 

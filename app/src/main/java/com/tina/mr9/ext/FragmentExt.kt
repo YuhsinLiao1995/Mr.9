@@ -37,6 +37,11 @@ fun Fragment.getVmFactory(bar: Bar): BarViewModelFactory {
     return BarViewModelFactory(repository, bar)
 }
 
+fun Fragment.getVmFactory(drinks: Drinks?): RateViewModelFactory {
+    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
+    return RateViewModelFactory(repository, drinks)
+}
+
 //fun Fragment.getVmFactory(user: User): AuthorViewModelFactory {
 //    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
 //    return AuthorViewModelFactory(repository, user)

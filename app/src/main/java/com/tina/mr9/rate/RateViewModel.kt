@@ -9,6 +9,7 @@ import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
 import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,19 +23,37 @@ import kotlinx.coroutines.launch
  */
 class RateViewModel(
     private val repository: StylishRepository,
-    private val arguments: User?
+    private val arguments: Drinks?
 ) : ViewModel() {
 
     val _rating = MutableLiveData<Ratings>().apply {
-        if (arguments != null) {
+
             value = Ratings(
-                author = arguments.uid,
-                authorName = arguments.name,
-                authorImage = arguments.image
+                author = UserManager.user.uid,
+                authorName = UserManager.user.name,
+                authorImage = UserManager.user.image
+            )
+
+        arguments?.let {
+            value = Ratings(
+                name = arguments.name,
+                bar = arguments.bar,
+                contents = arguments.contents,
+                base = arguments.base,
+                category = arguments.category,
+                pairings = arguments.pairings,
+                author = UserManager.user.uid,
+                authorName = UserManager.user.name,
+                authorImage = UserManager.user.image
 
             )
+
+
         }
+
     }
+
+
 
     val images = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
@@ -51,8 +70,10 @@ class RateViewModel(
     val rating: LiveData<Ratings>
         get() = _rating
 
-    val _drink = MutableLiveData<Drinks>().apply {
-        value = Drinks()
+    val _drink = MutableLiveData<Drinks>().apply {arguments?.let {
+        value = it
+    }
+
     }
 
     val drink: LiveData<Drinks>
@@ -132,6 +153,7 @@ class RateViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+        Logger.d("rating.value.author = ${rating.value?.author}")
     }
 
     fun publish(ratings: Ratings, drinks: Drinks, bar: Bar) {

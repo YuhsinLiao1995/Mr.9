@@ -73,7 +73,7 @@
                     android:id="@+id/sub_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="18dp"
                     android:layout_marginBottom="8dp"
                     android:textSize="18dp"
                     android:text="@string/drink_now"
@@ -86,9 +86,10 @@
                     android:id="@+id/recycler_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="0dp"
+                    android:padding="20dp"
                     app:barList="@{viewModel.bars}"
-                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintTop_toBottomOf="@id/sub_title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -101,14 +102,7 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-                android:theme="@style/ProgressTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         <TextView
             android:layout_width="wrap_content"

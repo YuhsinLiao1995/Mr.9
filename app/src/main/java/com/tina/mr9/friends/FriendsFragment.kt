@@ -47,6 +47,11 @@ class FriendsFragment : Fragment() {
             Logger.d("binding.recyclerPosts.adapter")
         }, viewModel.statusAbout.value!!)
 
+        binding.layoutMine.setOnClickListener {
+            Logger.d("clicked")
+            findNavController().navigate(NavigationDirections.navigateToRateFragment(null))
+        }
+
         binding.searchText.addTextChangedListener(object  : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 

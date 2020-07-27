@@ -3,6 +3,7 @@ package com.tina.mr9
 import android.os.Build
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
@@ -19,6 +20,7 @@ import com.tina.mr9.bardetailpage.BarDetailImagesAdapter
 import com.tina.mr9.data.*
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailRatingsAdapter
+import com.tina.mr9.ext.toDisplayFormat
 import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.friends.FriendsRatingAdapter
 import com.tina.mr9.home.HomeAdapter
@@ -116,6 +118,11 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
     }
 }
 
+@BindingAdapter("timeToDisplayFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat()
+}
+
 
 @BindingAdapter("ratings")
 fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Ratings>?) {
@@ -184,7 +191,7 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(10)))
+                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(20)))
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.placeholder))
             .into(imgView)
@@ -200,6 +207,21 @@ fun bindImage3(imgView: ImageView, imgUrl: String) {
             .apply(
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(25)))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder))
+            .into(imgView)
+    }
+}
+
+@BindingAdapter("imageUrl_crop4")
+fun bindImage4(imgView: ImageView, imgUrl: String) {
+    imgUrl.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(35)))
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.placeholder))
             .into(imgView)

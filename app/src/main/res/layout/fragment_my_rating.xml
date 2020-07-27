@@ -13,14 +13,13 @@
         android:id="@+id/accessory_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="8dp"
         android:background="@android:color/white">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_ratings"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:clipToPadding="false"
             app:rating="@{viewModel.rating}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

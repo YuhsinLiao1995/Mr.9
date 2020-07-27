@@ -86,12 +86,14 @@
                     android:id="@+id/recycler_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="0dp"
+                    android:padding="20dp"
                     app:drinkList="@{viewModel.drinks}"
-                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintTop_toBottomOf="@id/sub_title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/item_list"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
@@ -103,14 +105,7 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-                android:theme="@style/ProgressTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         <TextView
             android:layout_width="wrap_content"

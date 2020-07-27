@@ -19,6 +19,7 @@
         android:name="com.tina.mr9.friends.FriendsFragment"
         android:label="FriendsFragment"
         tools:layout="@layout/fragment_friends">
+
         <action
             android:id="@+id/action_friendsFragment_to_othersProfileFragment"
             app:destination="@id/othersProfileFragment" />
@@ -29,11 +30,14 @@
         android:label="RateFragment"
         tools:layout="@layout/fragment_rate">
         <argument
-            android:name="userKey"
-            app:argType="com.tina.mr9.data.User"
+            android:name="drinkKey"
+            app:argType="com.tina.mr9.data.Drinks"
             app:nullable="true"
             android:defaultValue="@null"/>
     </fragment>
+
+    <action android:id="@+id/navigate_to_rate_fragment" app:destination="@id/rateFragment"/>
+
 
     <fragment
         android:id="@+id/searchFragment"

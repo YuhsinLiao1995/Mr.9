@@ -49,7 +49,7 @@ class RateFragment : Fragment() {
     /**
      * Lazily initialize our [RateViewModel].
      */
-    val viewModel by viewModels<RateViewModel> { getVmFactory(RateFragmentArgs.fromBundle(requireArguments()).userKey) }
+    val viewModel by viewModels<RateViewModel> { getVmFactory(RateFragmentArgs.fromBundle(requireArguments()).drinkKey) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

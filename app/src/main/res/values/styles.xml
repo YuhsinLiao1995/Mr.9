@@ -122,6 +122,24 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <style name="LoginTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="LoginTitleBig">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">144sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
     <style name="DetailSubTitle">
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/black_3f3a3a</item>

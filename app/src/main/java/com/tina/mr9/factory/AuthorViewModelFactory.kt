@@ -20,9 +20,7 @@ class AuthorViewModelFactory(
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
-        if (modelClass.isAssignableFrom(RateViewModel::class.java)) {
-            return RateViewModel(repository, user) as T
-        }
+
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

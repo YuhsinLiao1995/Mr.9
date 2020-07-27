@@ -48,6 +48,11 @@ class DetailFragment : Fragment() {
                 viewModel.navigateToDetail(it)
             })
 
+        binding.btnRate.setOnClickListener {
+            Logger.d("clicked")
+            findNavController().navigate(NavigationDirections.navigateToRateFragment(viewModel.drink.value))
+        }
+
         viewModel.drink.observe(viewLifecycleOwner, Observer {
             it?.let {
 

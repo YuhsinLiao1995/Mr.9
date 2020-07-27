@@ -48,18 +48,18 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
-        email_login_button.setOnClickListener {
-            signinAndSignup()
-        }
+//        email_login_button.setOnClickListener {
+//            signinAndSignup()
+//        }
         google_sign_in_button.setOnClickListener {
             //First step
             Logger.d("google_sign_in_button")
             googleLogin()
         }
-        facebook_login_button.setOnClickListener {
-            //First step
-            facebookLogin()
-        }
+//        facebook_login_button.setOnClickListener {
+//            //First step
+//            facebookLogin()
+//        }
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("839580685277-ggcjcsq2bv4nvsurs0nle0qtjf0f8nca.apps.googleusercontent.com")
             .requestEmail()
@@ -189,35 +189,35 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-    fun signinAndSignup(){
-        auth?.createUserWithEmailAndPassword(email_edittext.text.toString(),password_edittext.text.toString())
-            ?.addOnCompleteListener {
-            task ->
-                if(task.isSuccessful){
-                    //Creating a user account
-                    moveMainPage(task.result?.user)
-                }else if(task.exception?.message.isNullOrEmpty()){
-                    //Show the error message
-                    Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
-                }else{
-                    //Login if you have account
-                    signinEmail()
-                }
-        }
-    }
-    fun signinEmail(){
-        auth?.signInWithEmailAndPassword(email_edittext.text.toString(),password_edittext.text.toString())
-            ?.addOnCompleteListener {
-                    task ->
-                if(task.isSuccessful){
-                    //Login
-                    moveMainPage(task.result?.user)
-                }else{
-                    //Show the error message
-                    Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
-                }
-            }
-    }
+//    fun signinAndSignup(){
+//        auth?.createUserWithEmailAndPassword(email_edittext.text.toString(),password_edittext.text.toString())
+//            ?.addOnCompleteListener {
+//            task ->
+//                if(task.isSuccessful){
+//                    //Creating a user account
+//                    moveMainPage(task.result?.user)
+//                }else if(task.exception?.message.isNullOrEmpty()){
+//                    //Show the error message
+//                    Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
+//                }else{
+//                    //Login if you have account
+//                    signinEmail()
+//                }
+//        }
+//    }
+//    fun signinEmail(){
+//        auth?.signInWithEmailAndPassword(email_edittext.text.toString(),password_edittext.text.toString())
+//            ?.addOnCompleteListener {
+//                    task ->
+//                if(task.isSuccessful){
+//                    //Login
+//                    moveMainPage(task.result?.user)
+//                }else{
+//                    //Show the error message
+//                    Toast.makeText(this,task.exception?.message,Toast.LENGTH_LONG).show()
+//                }
+//            }
+//    }
     fun moveMainPage(user:FirebaseUser?){
         if(user != null){
 
