@@ -1,7 +1,9 @@
 package com.tina.mr9
 
+import android.os.Build
 import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -164,8 +166,8 @@ fun bindImage(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.ic_starred)
-                    .error(R.drawable.ic_starred))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder))
             .into(imgView)
     }
 }
@@ -179,11 +181,35 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .apply(
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(10)))
-                    .placeholder(R.drawable.ic_starred)
-                    .error(R.drawable.ic_starred))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder))
             .into(imgView)
     }
 }
+
+@BindingAdapter("imageUrl_crop3")
+fun bindImage3(imgView: ImageView, imgUrl: String) {
+    imgUrl.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(25)))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder))
+            .into(imgView)
+    }
+}
+
+//@RequiresApi(Build.VERSION_CODES.O)
+//@BindingAdapter("conetent2String")
+//fun main(args: List<String>): String? {
+//    val delim = ", "
+//    val res = java.lang.String.join(delim, args)
+//    println(res)
+//    return res
+//}
 
 @BindingAdapter("imageUrl_crop")
 fun bindImage1(imgView: ImageView, imgUrl: String?) {

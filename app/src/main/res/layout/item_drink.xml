@@ -17,47 +17,81 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_drink"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_drink"
+        android:layout_height="120dp"
         android:padding="8dp"
         android:layout_marginBottom="8dp"
         android:elevation="4dp">
 
         <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_drink"/>
+
+        <ImageView
             android:id="@+id/main_image"
-            android:background="@color/com_facebook_blue"
-            android:layout_width="60dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            app:imageUrl="@{drink.main_image}"
+            app:imageUrl_crop3="@{drink.main_image}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_nav_rate_selector"/>
+            app:srcCompat="@drawable/wine"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginStart="90dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/background"/>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             style="@style/BarDrinkTitle"
             android:text="@{drink.name}"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="@id/main_image"
             app:layout_constraintStart_toEndOf="@id/main_image"
             tools:text="draft land"/>
 
         <TextView
             android:id="@+id/rating"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            app:layout_constraintBottom_toBottomOf="@id/main_image"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/main_image"
-            android:text="@{drink.contentsText}"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Tequila, Gin, Rum, Orange Juice,"/>
+
+
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="17dp"
+            app:nrb_starImagePadding="6dp"
+            app:nrb_starImageWidth="17dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

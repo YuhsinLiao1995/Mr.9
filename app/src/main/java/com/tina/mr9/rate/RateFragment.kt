@@ -5,11 +5,14 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
 import com.google.firebase.storage.FirebaseStorage
 import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
@@ -34,7 +38,6 @@ import com.xw.repo.BubbleSeekBar
 import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
 import java.io.File
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -57,6 +60,61 @@ class RateFragment : Fragment() {
         val binding = FragmentRateBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+
+        val chipGroup = binding.groupProfileTag
+        val addChip = binding.imageView2
+        val newChip = binding.conetentInput
+
+        fun chipFun(taglist: MutableList<String>) {
+
+            for (index in taglist.indices) {
+                val tagName = taglist[index]
+                val chip = Chip(chipGroup.context)
+                val paddingDp = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    10f,
+                    resources.displayMetrics
+                ).toInt()
+                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+                chip.text = tagName
+                chip.textSize = 14f
+                chip.setTextColor(Color.WHITE)
+                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+                val chipColors = intArrayOf(Color.parseColor("#3f3a3a"))
+                val chipColorsStateList = ColorStateList(states, chipColors)
+                chip.chipBackgroundColor = chipColorsStateList
+                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+                chip.setOnClickListener {
+                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+                    //Added click listener on close icon to remove tag from ChipGroup
+                    chip.setOnCloseIconClickListener {
+                        taglist.remove(tagName)
+                        chipGroup.removeView(chip)
+                        Logger.d("$taglist.toString()")
+                    }
+                }
+                chip.text = newChip.text
+                chipGroup.addView(chip)
+            }
+            viewModel.newtag.value = null
+        }
+
+
+
+
+
+        addChip.setOnClickListener {
+            if (viewModel.newtag.value != "") {
+                viewModel.taglist.value?.add(newChip.text.toString())
+                chipFun(mutableListOf(newChip.text.toString()))
+                Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
+            } else{
+                Toast.makeText(Mr9Application.appContext,"Please write a content",Toast.LENGTH_LONG).show()
+            }
+        }
+
+
 
         binding.recyclerImages.adapter = RateAdapter(RateAdapter.OnClickListener {})
         if (savedInstanceState != null) {
@@ -84,12 +142,24 @@ class RateFragment : Fragment() {
 
                 if(it.size != 0) {
                     binding.recyclerImages.visibility = View.VISIBLE
+                    binding.line1.visibility = View.VISIBLE
+                    binding.line2.visibility = View.VISIBLE
                 }
             }
         })
 
         binding.niceRatingBar.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onRatingChanged(it)
+            Log.d("Tina","it = $it")
+        })
+
+        binding.niceRatingBarSweet.setOnRatingChangedListener(OnRatingChangedListener {
+            viewModel.onSeekSweetChanged(it)
+            Log.d("Tina","it = $it")
+        })
+
+        binding.niceRatingBarSour.setOnRatingChangedListener(OnRatingChangedListener {
+            viewModel.onSeekSourChanged(it)
             Log.d("Tina","it = $it")
         })
 
@@ -131,81 +201,84 @@ class RateFragment : Fragment() {
 
 
 
+
+
+
         ContextCompat.checkSelfPermission(
             Mr9Application.appContext,
             android.Manifest.permission.CAMERA
         )
 
-        binding.bubbleSeekBarSweet.setProgress(5f)
-
-        binding.bubbleSeekBarSour.setProgress(5f)
-
-        binding.bubbleSeekBarSweet.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
-            override fun onProgressChanged(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-                Logger.d("onProgressChanged")
-
-                val test: Float = progressFloat
-
-                Logger.d("progressFloat = $progressFloat")
-//                binding.demo4ProgressText11.text = s
-            }
-
-            override fun getProgressOnActionUp(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float
-            ) {
-
-                viewModel.onSeekSweetChanged(progressFloat)
-            }
-
-            override fun getProgressOnFinally(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-                viewModel._rating.value?.sweet = progressFloat
-            }
-        }
-
-        binding.bubbleSeekBarSour.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
-            override fun onProgressChanged(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-                Logger.d("onProgressChanged")
-            }
-
-            override fun getProgressOnActionUp(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float
-            ) {
-
-                viewModel.onSeekSourChanged(progressFloat)
-            }
-
-            override fun getProgressOnFinally(
-                bubbleSeekBar: BubbleSeekBar,
-                progress: Int,
-                progressFloat: Float,
-                fromUser: Boolean
-            ) {
-//                binding.demo4ProgressText3.setText(s)
-                Logger.d("progressFloat = $progressFloat")
-
-//                viewModel._rating.value?.sour = progressFloat
-//                Logger.d("viewModel._rating.value?.sour = ${viewModel._rating.value?.sour}")
-            }
-        }
+//        binding.bubbleSeekBarSweet.setProgress(5f)
+//
+//        binding.bubbleSeekBarSour.setProgress(5f)
+//
+//        binding.bubbleSeekBarSweet.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
+//            override fun onProgressChanged(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float,
+//                fromUser: Boolean
+//            ) {
+//                Logger.d("onProgressChanged")
+//
+//                val test: Float = progressFloat
+//
+//                Logger.d("progressFloat = $progressFloat")
+////                binding.demo4ProgressText11.text = s
+//            }
+//
+//            override fun getProgressOnActionUp(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float
+//            ) {
+//
+//                viewModel.onSeekSweetChanged(progressFloat)
+//            }
+//
+//            override fun getProgressOnFinally(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float,
+//                fromUser: Boolean
+//            ) {
+//                viewModel._rating.value?.sweet = progressFloat
+//            }
+//        }
+//
+//        binding.bubbleSeekBarSour.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
+//            override fun onProgressChanged(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float,
+//                fromUser: Boolean
+//            ) {
+//                Logger.d("onProgressChanged")
+//            }
+//
+//            override fun getProgressOnActionUp(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float
+//            ) {
+//
+//                viewModel.onSeekSourChanged(progressFloat)
+//            }
+//
+//            override fun getProgressOnFinally(
+//                bubbleSeekBar: BubbleSeekBar,
+//                progress: Int,
+//                progressFloat: Float,
+//                fromUser: Boolean
+//            ) {
+////                binding.demo4ProgressText3.setText(s)
+//                Logger.d("progressFloat = $progressFloat")
+//
+////                viewModel._rating.value?.sour = progressFloat
+////                Logger.d("viewModel._rating.value?.sour = ${viewModel._rating.value?.sour}")
+//            }
+//        }
 
 //        var pg = viewModel._rating.value?.alcohol_ABV
 
@@ -250,7 +323,6 @@ class RateFragment : Fragment() {
     companion object {
         val PHOTO_FROM_GALLERY = 0
         val PHOTO_FROM_CAMERA = 1
-
     }
 
     fun toAlbum() {

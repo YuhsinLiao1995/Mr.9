@@ -14,6 +14,9 @@
         android:layout_height="wrap_content"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
+        android:layout_margin="8dp"
+        android:elevation="5dp"
+        android:background="@drawable/background_drink"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="0dp">
 
@@ -21,10 +24,9 @@
             android:id="@+id/product_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            app:layout_constraintDimensionRatio="W,1.41:1"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="W,1:1.5"
             android:adjustViewBounds="true"
             app:imageUrl_crop2="@{drink.main_image}"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +50,10 @@
             android:id="@+id/product_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="0dp"
             android:text="@{drink.name}"
             tools:text="Drink Name"
-            style="@style/DetailSubTitle"
+            style="@style/DetailContentBig"
             android:layout_marginStart="14dp"
             app:layout_constraintStart_toStartOf="@id/product_image"
             app:layout_constraintTop_toBottomOf="@+id/product_image"/>
@@ -60,11 +62,11 @@
             android:id="@+id/bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintStart_toStartOf="@id/product_title"
             app:layout_constraintTop_toBottomOf="@+id/product_title"
             android:text="@{drink.bar}"
-            style="@style/DetailContentBig"
+            style="@style/DetailContent"
             tools:text="Bar"/>
 
         <TextView
@@ -74,6 +76,25 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/bar"
             app:layout_constraintTop_toBottomOf="@+id/product_title"/>
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/bar"
+            app:layout_constraintTop_toBottomOf="@id/bar"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="15dp"
+            app:nrb_starImagePadding="8dp"
+            app:nrb_starImageWidth="15dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

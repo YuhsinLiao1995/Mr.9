@@ -50,6 +50,12 @@ class BarDetailDrinksAdapter(private val onClickListener: OnClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind( drinks: Drinks,onClickListener: OnClickListener) {
             binding.drink = drinks
+
+            if (drinks.overall_rating!! > 0f) {
+                binding.niceRatingBar.setRating(drinks.overall_rating!!)
+            } else {
+                binding.niceRatingBar.setRating(0f)
+            }
             binding.root.setOnClickListener { onClickListener.onClick(drinks) }
             binding.executePendingBindings()
         }

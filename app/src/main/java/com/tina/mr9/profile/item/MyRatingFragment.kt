@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentLikedBinding
 import com.tina.mr9.databinding.FragmentMyRatingBinding
 import com.tina.mr9.ext.getVmFactory
@@ -42,6 +44,8 @@ class MyRatingFragment : Fragment() {
 //        })
 
         binding.recyclerRatings.adapter = MyRatingAdapter(MyRatingAdapter.OnClickListener{
+//            viewModel.getMyRatedDrink()
+//            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
             viewModel.navigateToDetail
         })
 

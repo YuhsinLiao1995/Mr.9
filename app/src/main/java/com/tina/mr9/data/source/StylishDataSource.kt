@@ -45,4 +45,6 @@ interface StylishDataSource{
     suspend fun updateUser(user: User): Result<Boolean>
 
     suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks>
+
+    suspend fun getMyRatedDrink(ratings: Ratings): Result<Drinks>
 }

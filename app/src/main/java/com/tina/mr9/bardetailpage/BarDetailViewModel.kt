@@ -28,7 +28,7 @@ class BarDetailViewModel(
 ) : ViewModel() {
 
     var statusAbout = MutableLiveData<Boolean>().apply {
-        value = false
+        value = true
     }
 
     fun setAboutStatus(){

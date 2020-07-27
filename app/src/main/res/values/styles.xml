@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="chipIconTint">@color/gray_646464</item>
     </style>
 
 
@@ -56,6 +57,13 @@
         <item name="android:letterSpacing">0.15</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DetailContentSmall">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="LoginDialog">

@@ -24,10 +24,10 @@
 
         <ImageView
             android:id="@+id/author_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:imageUrl_crop="@{ratings.authorImage}"
@@ -54,15 +54,17 @@
             app:layout_constraintStart_toEndOf="@id/author_image"
             tools:text="20200102"/>
 
+
+
         <TextView
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="@{ratings.comment}"
-            app:layout_constraintTop_toBottomOf="@id/author_image"
+            app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
             app:layout_constraintStart_toStartOf="@id/author_image"
             app:layout_constraintBottom_toTopOf="@id/line1"
             tools:text="goooooooooooooooood"/>
@@ -75,11 +77,28 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/black_3f3a3a"
+            android:layout_marginBottom="0dp"
+            android:background="@color/gray_999999"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/author_image"
+            app:layout_constraintTop_toBottomOf="@id/author_image"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="15dp"
+            app:nrb_starImagePadding="6dp"
+            app:nrb_starImageWidth="15dp" />
 
 
 

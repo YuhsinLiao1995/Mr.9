@@ -42,26 +42,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <ImageView
-                    android:id="@+id/search_background"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title"
-                    android:background="@drawable/background_search"/>
 
                 <ImageView
                     android:id="@+id/search_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="10dp"
-                    app:layout_constraintStart_toStartOf="@id/search_background"
-                    app:layout_constraintTop_toTopOf="@id/search_background"
-                    app:layout_constraintBottom_toBottomOf="@id/search_background"
+                    app:layout_constraintStart_toStartOf="@id/search_edit"
+                    app:layout_constraintTop_toTopOf="@id/search_edit"
+                    app:layout_constraintBottom_toBottomOf="@id/search_edit"
                     app:srcCompat="@drawable/search_icon"/>
 
 
@@ -69,14 +58,29 @@
                 <EditText
                     android:id="@+id/search_edit"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin= "8dp"
-                    app:layout_constraintStart_toEndOf="@id/search_icon"
-                    app:layout_constraintEnd_toEndOf="@id/search_background"
-                    app:layout_constraintTop_toTopOf="@id/search_background"
-                    app:layout_constraintBottom_toBottomOf="@id/search_background"
+                    android:layout_height="wrap_content"
+                    android:layout_margin= "16dp"
+                    android:paddingStart="32dp"
+                    android:paddingVertical="16dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title"
                     android:hint="tell me what you'd like"
-                    android:background="#00FFFFFF"/>
+                    android:background="@drawable/background_search"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/search_edit"
+                    tools:listitem="@layout/item_friends"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
                 
                 <ImageView
                     android:layout_width="0dp"
@@ -116,7 +120,7 @@
                     android:layout_height="20dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toTopOf="@id/search_background"
+                    app:layout_constraintBottom_toTopOf="@id/search_edit"
                     app:layout_constraintEnd_toEndOf="@id/search_edit"
                     app:srcCompat="@drawable/map"
                     tools:layout_editor_absoluteX="89dp"

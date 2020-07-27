@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentLikedBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.profile.item.LikedViewModel
@@ -33,6 +35,7 @@ class LikedFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
             viewModel.navigateToDetail
         })
 

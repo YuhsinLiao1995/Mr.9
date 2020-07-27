@@ -43,13 +43,14 @@
                     android:id="@+id/recycler_detail_images"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginVertical="10dp"
                     android:orientation="horizontal"
                     app:images="@{viewModel.drink.images}"
-                    app:layout_constraintTop_toBottomOf="@id/btn_like"
+                    app:layout_constraintTop_toBottomOf="@id/line2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/about"
+                    app:layout_constraintBottom_toTopOf="@id/line1"
+                    tools:listitem="@layout/item_details_images"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
@@ -58,21 +59,22 @@
                     android:id="@+id/review"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:text="Reviews"
                     style="@style/DetailContent"
-                    app:layout_constraintTop_toBottomOf="@id/pairings"
+                    app:layout_constraintTop_toBottomOf="@id/line3"
                     app:layout_constraintStart_toStartOf="@id/title"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_ratings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="0dp"
                     app:ratings="@{viewModel.ratings}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_detail_rating"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                 </androidx.recyclerview.widget.RecyclerView>
@@ -81,16 +83,19 @@
                     android:id="@+id/line2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/black_3f3a3a"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_999999"
+                    app:layout_constraintTop_toBottomOf="@id/btn_rate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/recycler_detail_images"/>
+                    app:layout_constraintBottom_toTopOf="@id/recycler_detail_images"/>
 
 
                 <TextView
                     android:id="@+id/line1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/black_3f3a3a"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray_999999"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recycler_detail_images"/>
 
@@ -98,17 +103,18 @@
                     android:id="@+id/line3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@color/black_3f3a3a"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/review"/>
+                    android:background="@color/gray_999999"
+                    app:layout_constraintTop_toBottomOf="@id/pairing_icon"/>
 
                 <TextView
                     android:id="@+id/line4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/black_3f3a3a"
+                    android:visibility="invisible"
+                    android:background="@color/gray_888888"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review"/>
 
@@ -135,12 +141,12 @@
                     style="@style/DetailContent"
                     app:layout_constraintTop_toBottomOf="@id/title"
                     app:layout_constraintStart_toStartOf="@id/title"
-                    tools:text="Bar : draft land"/>
+                    tools:text="draft land"/>
 
                 <ImageView
                     android:id="@+id/like"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     app:srcCompat="@drawable/like"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
                     app:layout_constraintBottom_toBottomOf="@id/btn_like"
@@ -150,8 +156,8 @@
 
                 <ImageView
                     android:id="@+id/liked"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     app:srcCompat="@drawable/like_full"
                     android:visibility="@{viewModel.statusAbout == true ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
@@ -162,48 +168,106 @@
 
 
 
-                <Button
+                <ImageButton
                     android:id="@+id/btn_like"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="2dp"
                     android:onClick="@{() -> viewModel.setAboutStatus()}"
                     app:layout_constraintTop_toBottomOf="@id/bar"
                     app:layout_constraintStart_toStartOf="@id/bar"
-                    app:layout_constraintBottom_toTopOf="@id/recycler_detail_images"
+                    app:layout_constraintBottom_toTopOf="@id/line2"
                     android:background="@color/transparent"
                     />
 
-               <TextView
-                   android:id="@+id/about"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="About"
-                   android:layout_marginTop="16dp"
-                   app:layout_constraintTop_toBottomOf="@id/recycler_detail_images"
-                   app:layout_constraintStart_toStartOf="@id/title"
-                   style="@style/DetailContent"/>
+                <ImageButton
+                    android:id="@+id/btn_rate"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="16dp"
+                    android:onClick="@{() -> viewModel.setAboutStatus()}"
+                    app:layout_constraintTop_toTopOf="@id/liked"
+                    app:layout_constraintStart_toEndOf="@id/btn_like"
+                    app:layout_constraintBottom_toBottomOf="@id/liked"
+                    android:background="@drawable/pencil"
+                    />
 
+                <ImageButton
+                    android:id="@+id/btn_share"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="16dp"
+                    android:onClick="@{() -> viewModel.setAboutStatus()}"
+                    app:layout_constraintTop_toTopOf="@id/liked"
+                    app:layout_constraintStart_toEndOf="@id/btn_rate"
+                    app:layout_constraintBottom_toBottomOf="@id/liked"
+                    android:background="@drawable/share_2"
+                    />
+
+
+
+                <ImageView
+                    android:id="@+id/add_icon"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    app:srcCompat="@drawable/gps"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="@id/btn_like"
+                    app:layout_constraintTop_toBottomOf="@id/line1"
+                    app:layout_constraintEnd_toStartOf="@id/address"
+                    />
+
+                <ImageView
+                    android:id="@+id/base_icon"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    app:srcCompat="@drawable/wine"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="@id/btn_like"
+                    app:layout_constraintTop_toBottomOf="@id/add_icon"
+                    />
+
+                <ImageView
+                    android:id="@+id/content_icon"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    app:srcCompat="@drawable/content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="@id/btn_like"
+                    app:layout_constraintTop_toBottomOf="@id/base_icon"
+                    />
+
+                <ImageView
+                    android:id="@+id/pairing_icon"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    app:srcCompat="@drawable/food"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="@id/btn_like"
+                    app:layout_constraintTop_toBottomOf="@id/content_icon"
+                    />
 
                 <TextView
                     android:id="@+id/address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/about"
-                    app:layout_constraintStart_toStartOf="@id/title"
-                    tools:text="Address : 台北市信義區永吉路30巷5號"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="@id/add_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/add_icon"
+                    app:layout_constraintStart_toEndOf="@id/add_icon"
+                    tools:text="台北市信義區永吉路30巷5號"
                     android:text="@{viewModel.drink.address}"/>
 
                 <TextView
                     android:id="@+id/avg_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintStart_toEndOf="@id/title"
                     app:layout_constraintTop_toTopOf="@id/title"
                     android:textColor="@color/black_3f3a3a"
-                    android:textSize="20sp"
+                    android:textSize="27sp"
+                    android:gravity="bottom"
                     android:text='@{viewModel.drink.overall_rating >= 0 ? viewModel.overallRating2String : "NA"}'
                     tools:text="5.0"/>
 
@@ -220,15 +284,16 @@
                     app:nrb_starEmptyResource="@drawable/star_blank"
                     app:nrb_starFullResource="@drawable/star_full"
                     app:nrb_starHalfResource="@drawable/star_half"
-                    app:nrb_starImageHeight="15dp"
+                    app:nrb_starImageHeight="17dp"
                     app:nrb_starImagePadding="6dp"
-                    app:nrb_starImageWidth="15dp" />
+                    app:nrb_starImageWidth="17dp" />
 
                 <TextView
                     android:id="@+id/amt_ratings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="2dp"
                     app:layout_constraintStart_toEndOf="@id/avg_rating"
                     app:layout_constraintBottom_toBottomOf="@id/avg_rating"
                     android:text='@{viewModel.drink.amtRating >= 0 ? String.valueOf(viewModel.drink.amtRating) : "0"}'
@@ -240,45 +305,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     app:layout_constraintStart_toEndOf="@id/amt_ratings"
-                    app:layout_constraintBottom_toBottomOf="@id/avg_rating"
+                    app:layout_constraintBottom_toBottomOf="@id/amt_ratings"
                     android:text="ratings"/>
 
                 <TextView
                     android:id="@+id/base"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{viewModel.baseText}"
+                    android:text="@{viewModel.base2String}"
                     style="@style/DetailDescription"
-                    app:layout_constraintStart_toStartOf="@id/title"
-                    app:layout_constraintTop_toBottomOf="@id/address"
-                    tools:text="base : GIN"/>
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@id/base_icon"
+                    app:layout_constraintTop_toTopOf="@id/base_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/base_icon"
+                    tools:text="GIN"/>
 
                 <TextView
                     android:id="@+id/content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
-                    android:text="@{viewModel.contentsText}"
+                    android:layout_marginStart="16dp"
+                    android:text="@{viewModel.contents2String}"
                     style="@style/DetailDescription"
-                    app:layout_constraintStart_toStartOf="@id/title"
+                    app:layout_constraintStart_toEndOf="@id/content_icon"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/base"
-                    tools:text="contents : Lemon、Cider、Apple、Ginger、Grape、Raspberry" />
+                    app:layout_constraintTop_toTopOf="@id/content_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/content_icon"
+                    tools:text="Lemon、Cider、Apple、Ginger、Grape、Raspberry" />
 
                 <TextView
                     android:id="@+id/pairings"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
                     style="@style/DetailDescription"
-                    android:text="@{viewModel.pairingsText}"
+                    android:text="@{viewModel.pairings2String}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/title"
-                    app:layout_constraintTop_toBottomOf="@id/content"
-                    tools:text="pairings : donuts" />
+                    app:layout_constraintStart_toEndOf="@id/pairing_icon"
+                    app:layout_constraintTop_toTopOf="@id/pairing_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/pairing_icon"
+                    tools:text="Donuts" />
 
 
 

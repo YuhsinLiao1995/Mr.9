@@ -2,17 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
         <variable
             name="rating"
             type="com.tina.mr9.data.Ratings" />
-
         <variable
             name="viewModel"
             type="com.tina.mr9.friends.FriendsViewModel" />
-
         <import type="android.view.View" />
     </data>
 
@@ -151,12 +147,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/niceRatingBar">
 
-            <TextView
-                android:id="@+id/bar_text"
+            <ImageView
+                android:id="@+id/bar_icon"
                 style="@style/FriendsRatingTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bar : "
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/bar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -166,26 +162,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{rating.bar}"
-                app:layout_constraintStart_toEndOf="@id/bar_text"
-                app:layout_constraintTop_toTopOf="@id/bar_text"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/bar_icon"
+                app:layout_constraintTop_toTopOf="@id/bar_icon"
                 tools:text="Draft Land"/>
 
-            <TextView
-                android:id="@+id/comment_text"
+            <ImageView
+                android:id="@+id/comment_icon"
                 style="@style/FriendsRatingTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/bar_text"
-                app:layout_constraintTop_toBottomOf="@id/bar_text"
-                android:text="Comment : "/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/note"
+                app:layout_constraintStart_toStartOf="@id/bar_icon"
+                app:layout_constraintTop_toBottomOf="@id/bar_icon"/>
             <TextView
                 android:id="@+id/comment"
                 style="@style/FriendsRatingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{rating.comment}"
-                app:layout_constraintStart_toEndOf="@id/comment_text"
-                app:layout_constraintTop_toBottomOf="@id/bar_text"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/comment_icon"
+                app:layout_constraintTop_toTopOf="@id/comment_icon"
+                app:layout_constraintBottom_toBottomOf="@id/comment_icon"
                 tools:text="goooooooood"/>
 
 

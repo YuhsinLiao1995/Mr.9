@@ -51,6 +51,12 @@ class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
         fun bind( ratings: Ratings,onClickListener: OnClickListener) {
             binding.ratings = ratings
             binding.root.setOnClickListener { onClickListener.onClick(ratings) }
+
+            if (ratings.overall_rating!! > 0f) {
+                binding.niceRatingBar.setRating(ratings.overall_rating!!)
+            } else {
+                binding.niceRatingBar.setRating(0f)
+            }
             binding.executePendingBindings()
         }
 

@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipe_refresh_home"
             android:layout_width="match_parent"
@@ -25,6 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,257 +35,290 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/DetailTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@{viewModel.bar.name}"
-                    android:textSize="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Draft Land" />
-
-                <TextView
-                    android:id="@+id/rating"
-                    style="@style/DetailTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="18dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title"
-                    android:text="*****" />
-
-                <TextView
-                    android:id="@+id/address"
-                    style="@style/DetailTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{viewModel.bar.address}"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rating"
-                    tools:text="台北市信義區........." />
-
-                <ImageView
-                    android:id="@+id/map"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintStart_toEndOf="@id/address"
-                    app:layout_constraintTop_toTopOf="@id/address"
-                    app:srcCompat="@drawable/map" />
-
-                <TextView
-                    android:id="@+id/line1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/black_3f3a3a"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/address" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_detail_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:images="@{viewModel.bar.images}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line1">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <TextView
-                    android:id="@+id/line2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black_3f3a3a"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_detail_images" />
-
-
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/line2">
+                    android:layout_height="match_parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="0dp">
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/open_about"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginEnd="16dp"
-                            android:visibility="@{viewModel.statusAbout == false ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@id/btn_about"
-                            app:layout_constraintEnd_toEndOf="@id/btn_about"
-                            app:layout_constraintTop_toTopOf="@id/btn_about"
-                            app:srcCompat="@drawable/icons_24px_add" />
-
-                        <ImageView
-                            android:id="@+id/close_about"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginEnd="16dp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn_about"
-                            app:layout_constraintEnd_toEndOf="@id/btn_about"
-                            app:layout_constraintTop_toTopOf="@id/btn_about"
-                            app:srcCompat="@drawable/icons_24px_subtract" />
-
-                        <Button
-                            android:id="@+id/btn_about"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/title"
+                            style="@style/DetailTitle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/background_drink"
-                            android:onClick="@{() -> viewModel.setAboutStatus()}"
-                            android:gravity="left"
-                            android:padding="16dp"
-                            android:text="ABOUT"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/about_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="@{viewModel.statusAbout == false ? View.GONE : View.VISIBLE}"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/btn_about">
-
-                            <TextView
-                                android:id="@+id/bar_description"
-                                style="@style/DetailDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:text="亞洲精選50大酒吧"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/bar_openTime"
-                                style="@style/DetailDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:text="營業時間 : 11 PM - 3 AM"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/bar_description" />
-
-                            <TextView
-                                android:id="@+id/bar_reservation"
-                                style="@style/DetailDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:text="是否需定位"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/bar_openTime" />
-
-                            <TextView
-                                android:id="@+id/bar_tele"
-                                style="@style/DetailDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:text="tele : 02 - 278834556"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/bar_reservation" />
-
-                            <TextView
-                                android:id="@+id/bar_notes"
-                                style="@style/DetailDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="16dp"
-                                android:layout_marginBottom="16dp"
-                                android:text="備註:"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/bar_tele" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <ImageView
-                            android:id="@+id/open_menu"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginEnd="16dp"
-                            android:visibility="@{viewModel.statusMenu == false ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintBottom_toBottomOf="@id/btn_menu"
-                            app:layout_constraintEnd_toEndOf="@id/btn_menu"
-                            app:layout_constraintTop_toTopOf="@id/btn_menu"
-                            app:srcCompat="@drawable/icons_24px_add" />
-
-                        <ImageView
-                            android:id="@+id/close_menu"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginEnd="16dp"
-                            app:layout_constraintBottom_toBottomOf="@id/btn_menu"
-                            app:layout_constraintEnd_toEndOf="@id/btn_menu"
-                            app:layout_constraintTop_toTopOf="@id/btn_menu"
-                            app:srcCompat="@drawable/icons_24px_subtract" />
-
-                        <Button
-                            android:id="@+id/btn_menu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/background_drink"
-                            android:onClick="@{() -> viewModel.setMenuStatus()}"
-                            android:gravity="left"
-                            android:padding="16dp"
-                            android:text="MENU"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/about_detail" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_drinks"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:visibility="@{viewModel.statusMenu == false ? View.GONE : View.VISIBLE}"
-                            app:bardrinkList="@{viewModel.drinks}"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginTop="24dp"
+                            android:text="@{viewModel.bar.name}"
+                            android:textSize="24dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/btn_menu"
-                            tools:listitem="@layout/item_drink">
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Draft Land" />
+
+
+                        <com.kaelli.niceratingbar.NiceRatingBar
+                            android:id="@+id/niceRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/title"
+                            app:nrb_rating="5"
+                            app:nrb_ratingStatus="Disable"
+                            app:nrb_starEmptyResource="@drawable/star_blank"
+                            app:nrb_starFullResource="@drawable/star_full"
+                            app:nrb_starHalfResource="@drawable/star_half"
+                            app:nrb_starImageHeight="17dp"
+                            app:nrb_starImagePadding="6dp"
+                            app:nrb_starImageWidth="17dp" />
+
+
+                        <TextView
+                            android:id="@+id/line1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/gray_999999"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/niceRatingBar" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_detail_images"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal"
+                            app:images="@{viewModel.bar.images}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/line1"
+                            tools:listitem="@layout/item_bardetails_images">
 
                         </androidx.recyclerview.widget.RecyclerView>
 
+                        <TextView
+                            android:id="@+id/line2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/gray_999999"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/recycler_detail_images" />
+
+
+
+
+                                <ImageView
+                                    android:id="@+id/open_about"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:visibility="@{viewModel.statusAbout == false ? View.VISIBLE : View.GONE}"
+                                    app:layout_constraintBottom_toBottomOf="@id/btn_about"
+                                    app:layout_constraintEnd_toEndOf="@id/btn_about"
+                                    app:layout_constraintTop_toTopOf="@id/btn_about"
+                                    app:srcCompat="@drawable/icons_24px_add" />
+
+                                <ImageView
+                                    android:id="@+id/close_about"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginEnd="16dp"
+                                    app:layout_constraintBottom_toBottomOf="@id/btn_about"
+                                    app:layout_constraintEnd_toEndOf="@id/btn_about"
+                                    app:layout_constraintTop_toTopOf="@id/btn_about"
+                                    app:srcCompat="@drawable/icons_24px_subtract" />
+
+                                <Button
+                                    android:id="@+id/btn_about"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:background="@drawable/background_bar_btn"
+                                    android:gravity="left"
+                                    android:onClick="@{() -> viewModel.setAboutStatus()}"
+                                    android:padding="16dp"
+                                    android:text="ABOUT"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="@id/line2" />
+
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/about_detail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="@{viewModel.statusAbout == false ? View.GONE : View.VISIBLE}"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/btn_about">
+
+                                    <TextView
+                                        android:id="@+id/bar_description"
+                                        style="@style/DetailDescription"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_marginTop="16dp"
+                                        android:text="亞洲精選50大酒吧"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <ImageView
+                                        android:id="@+id/add_icon"
+                                        android:layout_width="27dp"
+                                        android:layout_height="27dp"
+                                        android:layout_marginTop="16dp"
+                                        app:layout_constraintStart_toStartOf="@id/bar_description"
+                                        app:layout_constraintTop_toBottomOf="@id/bar_description"
+                                        app:srcCompat="@drawable/gps" />
+
+
+                                    <TextView
+                                        android:id="@+id/address"
+                                        style="@style/DetailTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:text="@{viewModel.bar.address}"
+                                        android:textSize="14sp"
+                                        app:layout_constraintBottom_toBottomOf="@id/add_icon"
+                                        app:layout_constraintStart_toEndOf="@id/add_icon"
+                                        app:layout_constraintTop_toTopOf="@id/add_icon"
+                                        tools:text="台北市信義區........." />
+
+                                    <ImageView
+                                        android:id="@+id/open_icon"
+                                        android:layout_width="27dp"
+                                        android:layout_height="27dp"
+                                        android:layout_marginTop="16dp"
+                                        app:layout_constraintStart_toStartOf="@id/bar_description"
+                                        app:layout_constraintTop_toBottomOf="@id/add_icon"
+                                        app:srcCompat="@drawable/clock" />
+
+                                    <TextView
+                                        android:id="@+id/bar_openTime"
+                                        style="@style/DetailDescription"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:text="11 PM - 3 AM"
+                                        app:layout_constraintBottom_toBottomOf="@id/open_icon"
+                                        app:layout_constraintStart_toEndOf="@id/open_icon"
+                                        app:layout_constraintTop_toTopOf="@id/open_icon" />
+
+                                    <ImageView
+                                        android:id="@+id/tele_icon"
+                                        android:layout_width="27dp"
+                                        android:layout_height="27dp"
+                                        android:layout_marginTop="16dp"
+                                        app:layout_constraintStart_toStartOf="@id/bar_description"
+                                        app:layout_constraintTop_toBottomOf="@id/open_icon"
+                                        app:srcCompat="@drawable/phone" />
+
+                                    <TextView
+                                        android:id="@+id/bar_tele"
+                                        style="@style/DetailDescription"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:text="02 - 278834556"
+                                        app:layout_constraintBottom_toBottomOf="@id/tele_icon"
+                                        app:layout_constraintStart_toEndOf="@id/tele_icon"
+                                        app:layout_constraintTop_toTopOf="@id/tele_icon" />
+
+                                    <ImageView
+                                        android:id="@+id/note_icon"
+                                        android:layout_width="27dp"
+                                        android:layout_height="27dp"
+                                        android:layout_marginTop="16dp"
+                                        app:layout_constraintStart_toStartOf="@id/bar_description"
+                                        app:layout_constraintTop_toBottomOf="@id/tele_icon"
+                                        app:srcCompat="@drawable/note" />
+
+                                    <TextView
+                                        android:id="@+id/bar_notes"
+                                        style="@style/DetailDescription"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:text="這裡是備註"
+                                        app:layout_constraintBottom_toBottomOf="@id/note_icon"
+                                        app:layout_constraintStart_toEndOf="@id/note_icon"
+                                        app:layout_constraintTop_toTopOf="@id/note_icon" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <ImageView
+                                    android:id="@+id/open_menu"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:visibility="@{viewModel.statusMenu == false ? View.VISIBLE : View.GONE}"
+                                    app:layout_constraintBottom_toBottomOf="@id/btn_menu"
+                                    app:layout_constraintEnd_toEndOf="@id/btn_menu"
+                                    app:layout_constraintTop_toTopOf="@id/btn_menu"
+                                    app:srcCompat="@drawable/icons_24px_add" />
+
+                                <ImageView
+                                    android:id="@+id/close_menu"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_marginEnd="16dp"
+                                    app:layout_constraintBottom_toBottomOf="@id/btn_menu"
+                                    app:layout_constraintEnd_toEndOf="@id/btn_menu"
+                                    app:layout_constraintTop_toTopOf="@id/btn_menu"
+                                    app:srcCompat="@drawable/icons_24px_subtract" />
+
+                                <Button
+                                    android:id="@+id/btn_menu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:background="@drawable/background_bar_btn"
+                                    android:gravity="left"
+                                    android:onClick="@{() -> viewModel.setMenuStatus()}"
+                                    android:padding="16dp"
+                                    android:text="MENU"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/about_detail" />
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/recycler_drinks"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/gray_999999"
+                                    android:padding="8dp"
+                                    android:visibility="@{viewModel.statusMenu == false ? View.GONE : View.VISIBLE}"
+                                    app:bardrinkList="@{viewModel.drinks}"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/btn_menu"
+                                    tools:listitem="@layout/item_drink">
+
+                                </androidx.recyclerview.widget.RecyclerView>
+
+
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 </ScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -301,5 +336,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

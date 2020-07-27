@@ -13,15 +13,13 @@
         android:id="@+id/accessory_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         tools:context=".catalog.AccessoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/liked_grid"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
+            android:padding="8dp"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

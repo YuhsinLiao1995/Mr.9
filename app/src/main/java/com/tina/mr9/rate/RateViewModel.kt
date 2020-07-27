@@ -40,6 +40,14 @@ class RateViewModel(
         value = mutableListOf()
     }
 
+    val taglist = MutableLiveData<MutableList<String>>().apply {
+        value = mutableListOf()
+    }
+
+    val newtag = MutableLiveData<String>().apply {
+        value = String()
+    }
+
     val rating: LiveData<Ratings>
         get() = _rating
 

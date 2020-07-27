@@ -116,6 +116,45 @@ class MyRatingViewModel (private val repository: StylishRepository, private val 
         }
     }
 
+//    private fun getMyRatedDrink() {
+//
+//        coroutineScope.launch {
+//
+//            _status.value = LoadApiStatus.LOADING
+//
+//            val result = rating.value
+//                .let { repository.getMyRatedDrink(it!!)
+//
+//            }
+//            Logger.d("repository.getMyRatingDrinks(it!!)")
+//
+//
+//            _drink.value = when (result) {
+//                is Result.Success -> {
+//                    _error.value = null
+//                    _status.value = LoadApiStatus.DONE
+//                    result.data
+//                }
+//                is Result.Fail -> {
+//                    _error.value = result.error
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                is Result.Error -> {
+//                    _error.value = result.exception.toString()
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                else -> {
+//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//            }
+//            _refreshStatus.value = false
+//        }
+//    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
