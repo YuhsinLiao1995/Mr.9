@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.tina.mr9.NavigationDirections
+import com.tina.mr9.data.Ratings
 import com.tina.mr9.databinding.FragmentListBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.Logger
@@ -40,9 +41,12 @@ class ListFragment : Fragment() {
             Logger.d("viewModel.navigateToDetail = ${viewModel.navigateToDetail}")
         })
 
+
+
+
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                    findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                    findNavController().navigate(NavigationDirections.navigateToDetailFragment(it,ratingKey = null))
                     viewModel.onDetailNavigated()
             }
         })

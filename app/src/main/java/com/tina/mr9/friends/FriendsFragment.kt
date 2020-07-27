@@ -38,20 +38,14 @@ class FriendsFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.listView.adapter = FriendsAdapter(FriendsAdapter.OnClickListener {
-            viewModel?.navigateToDetail
+            viewModel.navigateToDetail
         })
 
         binding.recyclerPosts.adapter = FriendsRatingAdapter(FriendsRatingAdapter.OnClickListener{
-            viewModel?.navigateToDetail
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(null,it))
+            viewModel.navigateToDetail
             Logger.d("binding.recyclerPosts.adapter")
         }, viewModel.statusAbout.value!!)
-
-
-
-
-
-
-
 
         binding.searchText.addTextChangedListener(object  : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -90,12 +84,15 @@ class FriendsFragment : Fragment() {
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToOthersProfileFragment(it))
+                findNavController().navigate(NavigationDirections.navigateToOthersProfileFragment(it,null))
                 viewModel.onDetailNavigated()
             }
         })
 
 
+        viewModel.rating.observe(viewLifecycleOwner, Observer {
+            Logger.i("viewModel.rating.observe, it=$it")
+        })
 
 
 

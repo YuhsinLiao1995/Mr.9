@@ -63,7 +63,7 @@ class RateFragment : Fragment() {
 
 
         val chipGroup = binding.groupProfileTag
-        val addChip = binding.imageView2
+        val addChip = binding.btnAddChip
         val newChip = binding.conetentInput
 
         fun chipFun(taglist: MutableList<String>) {
@@ -176,7 +176,7 @@ class RateFragment : Fragment() {
                         if (viewModel.upDatedDrink.value?.id != null && viewModel.upDatedDrink.value?.id != ""){
                             findNavController().navigate(NavigationDirections.navigateToDetailFragment(
                                 viewModel.upDatedDrink.value!!
-                            ))
+                            ,null))
                             viewModel.navigateToAddedSuccess(viewModel.rating.value!!)
                         }
                     }

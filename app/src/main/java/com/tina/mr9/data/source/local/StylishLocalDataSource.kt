@@ -26,6 +26,14 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSearchedBarsResult(searchText: String): Result<List<Bar>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>> {
         TODO("Not yet implemented")
     }
@@ -74,6 +82,10 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getAuthorResult(ratings: Ratings): Result<User> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getMyProfileResult(searchId: String): Result<User> {
         TODO("Not yet implemented")
     }
@@ -86,7 +98,7 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getMyRatedDrink(ratings: Ratings): Result<Drinks> {
+    override suspend fun getTheRatedDrink(ratings: Ratings): Result<Drinks> {
         TODO("Not yet implemented")
     }
 

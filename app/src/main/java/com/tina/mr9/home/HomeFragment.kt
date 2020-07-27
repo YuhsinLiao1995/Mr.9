@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(it,null))
                 viewModel.onDetailNavigated()
             }
         })

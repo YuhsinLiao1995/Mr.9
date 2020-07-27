@@ -176,6 +176,7 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    Logger.d("result.data = ${result.data}")
                     result.data
                 }
                 is Result.Fail -> {

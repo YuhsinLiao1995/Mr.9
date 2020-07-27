@@ -25,6 +25,14 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getSearchList(type = type)
     }
 
+    override suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>> {
+        return remoteDataSource.getSearchedDrinksResult(searchText = searchText)
+    }
+
+    override suspend fun getSearchedBarsResult(searchText: String): Result<List<Bar>> {
+        return remoteDataSource.getSearchedBarsResult(searchText = searchText)
+    }
+
     override suspend fun getList(searchId: String, column: String): Result<List<Drinks>> {
         return remoteDataSource.getList(searchId = searchId, column = column)
     }
@@ -79,6 +87,10 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getUserResult(searchId = searchId)
     }
 
+    override suspend fun getAuthorResult(ratings: Ratings): Result<User> {
+        return remoteDataSource.getAuthorResult(ratings = ratings)
+    }
+
     override suspend fun getMyProfileResult(searchId: String): Result<User> {
         return remoteDataSource.getMyProfileResult(searchId = searchId)
     }
@@ -91,8 +103,8 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getRatedDrinks(drinks = drinks)
     }
 
-    override suspend fun getMyRatedDrink(ratings: Ratings): Result<Drinks> {
-        return remoteDataSource.getMyRatedDrink(ratings = ratings)
+    override suspend fun getTheRatedDrink(ratings: Ratings): Result<Drinks> {
+        return remoteDataSource.getTheRatedDrink(ratings = ratings)
     }
 
 

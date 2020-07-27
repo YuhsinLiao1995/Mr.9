@@ -16,6 +16,10 @@ interface StylishDataSource{
 
     suspend fun getList(searchId: String, column: String): Result<List<Drinks>>
 
+    suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>>
+
+    suspend fun getSearchedBarsResult(searchText: String): Result<List<Bar>>
+
     suspend fun getPairingList(searchId: String, column: String): Result<List<Drinks>>
 
     suspend fun getBarList(searchId: String, column: String): Result<List<Bar>>
@@ -40,11 +44,13 @@ interface StylishDataSource{
 
     suspend fun getUserResult(searchId: String): Result<List<User>>
 
+    suspend fun getAuthorResult(ratings: Ratings): Result<User>
+
     suspend fun getMyProfileResult(searchId: String): Result<User>
 
     suspend fun updateUser(user: User): Result<Boolean>
 
     suspend fun getRatedDrinks(drinks: Drinks): Result<Drinks>
 
-    suspend fun getMyRatedDrink(ratings: Ratings): Result<Drinks>
+    suspend fun getTheRatedDrink(ratings: Ratings): Result<Drinks>
 }

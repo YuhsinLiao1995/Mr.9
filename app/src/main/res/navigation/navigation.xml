@@ -92,7 +92,10 @@
         tools:layout="@layout/fragment_detail">
         <argument android:name="drinkKey"
             app:argType="com.tina.mr9.data.Drinks"
-            app:nullable="false"/>
+            app:nullable="true"/>
+        <argument android:name="ratingKey"
+            app:argType="com.tina.mr9.data.Ratings"
+            app:nullable="true"/>
     </fragment>
 
     <action
@@ -200,8 +203,12 @@
         tools:layout="@layout/fragment_others_profile">
         <argument android:name="searchUser"
             app:argType="com.tina.mr9.data.User"
-            app:nullable="false"/>
+            app:nullable="true"/>
+        <argument android:name="rating"
+            app:argType="com.tina.mr9.data.Ratings"
+            app:nullable="true"/>
     </fragment>
+
     <action
         android:id="@+id/action_global_othersProfileFragment"
         app:destination="@id/othersProfileFragment"

@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.tina.mr9.R
+import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentOthersProfileBinding
+import com.tina.mr9.detailpage.DetailFragmentArgs
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
@@ -22,7 +24,12 @@ class OthersProfileFragment : Fragment() {
     /**
      * Lazily initialize our [OthersProfileFragment].
      */
-    private val viewModel by viewModels<OthersProfileViewModel> { getVmFactory(OthersProfileFragmentArgs.fromBundle(requireArguments()).searchUser) }
+    private val viewModel by viewModels<OthersProfileViewModel> { getVmFactory(
+        OthersProfileFragmentArgs.fromBundle(requireArguments()).searchUser,
+        OthersProfileFragmentArgs.fromBundle(requireArguments()).rating
+    ) }
+
+
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: OthersPagesAdapter
 
@@ -31,17 +38,24 @@ class OthersProfileFragment : Fragment() {
         val binding = FragmentOthersProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        viewPager =  binding.viewpagerProfileOthers
 
-        if (viewModel.searchUser.value!!.followedBy.contains(UserManager.user.uid)){
-            viewModel.statusAbout.value = true
-//            Logger.d("已追蹤")
-        }
+
 
         viewModel.searchUser.observe(viewLifecycleOwner, Observer {
+            Logger.d("it = $it")
             it?.let {
+
+                createPager(it)
+
                 viewModel.calculate()
                 Logger.d("amt_followedBy = ${viewModel.amtFollowedBy.value}")
                 Logger.d("amt_following = ${viewModel.amtFollowing.value}")
+
+                if (viewModel.searchUser.value!!.followedBy.contains(UserManager.user.uid)){
+                    viewModel.statusAbout.value = true
+//            Logger.d("已追蹤")
+                }
             }
         })
 
@@ -49,15 +63,25 @@ class OthersProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        pagerAdapter = OthersPagesAdapter(childFragmentManager, viewModel.searchUser?.value!!)
-        viewPager = view.findViewById(R.id.viewpager_profile_others)
-        viewPager.adapter = pagerAdapter
-        Logger.d("viewModel.searchUser?.value!! = ${viewModel.searchUser.value}")
+//        viewModel.searchUser.observe(viewLifecycleOwner, Observer {it?.let {
+//            createPager(it)
+//        }
+//        })
+
+
     }
+
 
     companion object {
         fun newInstance() = OthersProfileFragment()
     }
 
+
+    fun createPager(searchUser: User){
+
+        pagerAdapter = OthersPagesAdapter(childFragmentManager, searchUser)
+//        viewPager = view.findViewById(R.id.viewpager_profile_others)
+        viewPager.adapter = pagerAdapter
+    }
 
 }

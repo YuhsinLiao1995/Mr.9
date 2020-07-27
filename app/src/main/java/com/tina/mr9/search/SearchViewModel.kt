@@ -1,7 +1,6 @@
-package com.tina.mr9.detailpage
+package com.tina.mr9.search
 
 import android.os.Build
-import android.os.UserManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
@@ -9,12 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.Result
-import com.tina.mr9.data.User
+import com.tina.mr9.data.*
 import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.login.UserManager.user
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -26,29 +21,30 @@ import java.math.BigDecimal
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  *
- * The [ViewModel] that is attached to the [DetailFragment].
+ * The [ViewModel] that is attached to the [SearchFragment].
  */
 @RequiresApi(Build.VERSION_CODES.O)
-class DetailViewModel(
-    private val repository: StylishRepository,
-    private val arguments: Drinks?, private val argumentRating: Ratings?
+class SearchViewModel(
+    private val repository: StylishRepository
 ) : ViewModel() {
 
-    // Detail has product data from arguments
-    private val _drink = MutableLiveData<Drinks>().apply {arguments.let {
-        value = arguments
-    }
+    private val _searchText = MutableLiveData<String>()
 
-    }
+    val searchText : LiveData<String>
+        get() = _searchText
 
-    val drink: LiveData<Drinks>
-        get() = _drink
+    private val _searchedDrinks = MutableLiveData<List<Drinks>>()
 
-    private val _theRating = MutableLiveData<Ratings>().apply {argumentRating.let {
-        value = argumentRating
-    }
+    val searchedDrinks: LiveData<List<Drinks>>
+        get() = _searchedDrinks
 
-    }
+    private val _searchedBars = MutableLiveData<List<Bar>>()
+
+    val searchedBars: LiveData<List<Bar>>
+        get() = _searchedBars
+
+    private val _theRating = MutableLiveData<Ratings>()
+
 
     val theRating: LiveData<Ratings>
         get() = _theRating
@@ -65,21 +61,21 @@ class DetailViewModel(
     val user: LiveData<User>
         get() = _user
 
-    var statusAbout = MutableLiveData<Boolean>().apply {
-        value = false
+    var statusType = MutableLiveData<Boolean>().apply {
+        value = true
     }
 
-    fun setAboutStatus(){
-        statusAbout.value = !statusAbout.value!!
-
-        if (statusAbout.value == true){
-            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
-            Logger.d("liked")
-            updateLikedBy(true, user.value!!,drink.value!! )
-        } else{
-            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
-            Logger.d("unliked")
-            updateLikedBy(false, user.value!!,drink.value!! )
+    fun setSearchStatus() {
+        statusType.value = !statusType.value!!
+        Logger.d("setAboutStatus")
+        if (statusType.value == true) {
+            Toast.makeText(Mr9Application.instance, "Search Bar", Toast.LENGTH_SHORT).show()
+            Logger.d("statusType.value = ${statusType.value}")
+//            updateLikedBy(true, user.value!!, drink.value!!)
+        } else {
+            Toast.makeText(Mr9Application.instance, "Search Drink", Toast.LENGTH_SHORT).show()
+            Logger.d("statusType.value = ${statusType.value}")
+//            updateLikedBy(false, user.value!!, drink.value!!)
         }
     }
 
@@ -88,7 +84,7 @@ class DetailViewModel(
     val leave: LiveData<Boolean>
         get() = _leave
 
-   var base2String = MutableLiveData<String>()
+    var base2String = MutableLiveData<String>()
 
     var contents2String = MutableLiveData<String>()
 
@@ -105,7 +101,6 @@ class DetailViewModel(
 //
 //        Logger.d("f1 = $f1")
 //    }
-
 
 
     // b.setScale(2, BigDecimal.ROUND_HALF_UP)
@@ -130,10 +125,16 @@ class DetailViewModel(
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Ratings>()
+    private val _navigateToDetail = MutableLiveData<Drinks>()
 
-    val navigateToDetail: LiveData<Ratings>
+    val navigateToDetail: LiveData<Drinks>
         get() = _navigateToDetail
+
+    // Handle navigation to detail
+    private val _navigateToBarDetail = MutableLiveData<Bar>()
+
+    val navigateToBarDetail: LiveData<Bar>
+        get() = _navigateToBarDetail
 
     private var viewModelJob = Job()
 
@@ -143,12 +144,6 @@ class DetailViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-
-        if (arguments == null){
-            getTheRatedDrink()
-        }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -159,27 +154,17 @@ class DetailViewModel(
         return res
     }
 
-    fun array2String(){
 
-        base2String.value = drink.value?.base?.let { main(it) }
 
-        contents2String.value = drink.value?.contents?.let { main(it) }
-
-        pairings2String.value = drink.value?.pairings?.let { main(it) }
-
-        overallRating2String.value = drink.value?.overall_rating?.toDouble()?.toBigDecimal()?.setScale(2, BigDecimal.ROUND_HALF_UP).toString()
-
-    }
-
-    fun getRatingsResult() {
+    fun getSearchedDrinksResult(searchedText: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = drink.value?.id?.let { repository.getRatings(it) }
+            val result = searchedText.let { repository.getSearchedDrinksResult(it) }
 
-            _ratings.value = when (result) {
+            _searchedDrinks.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -205,15 +190,15 @@ class DetailViewModel(
         }
     }
 
-    fun getTheRatedDrink() {
+    fun getSearchedBarsResult(searchedText: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = theRating.value?.let { repository.getTheRatedDrink(it) }
+            val result = searchedText.let { repository.getSearchedBarsResult(it) }
 
-            _drink.value = when (result) {
+            _searchedBars.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -238,13 +223,19 @@ class DetailViewModel(
             _refreshStatus.value = false
         }
     }
+
+
 
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(ratings: Ratings) {
-        _navigateToDetail.value = ratings
+    fun navigateToDetail(drinks: Drinks) {
+        _navigateToDetail.value = drinks
+    }
+
+    fun navigateToBarDetail(bar: Bar) {
+        _navigateToBarDetail.value = bar
     }
 
 //    fun onClick(){
@@ -257,13 +248,13 @@ class DetailViewModel(
 //        }
 //    }
 
-    fun updateLikedBy(likedStatus: Boolean, user: User, drinks:Drinks) {
+    fun updateLikedBy(likedStatus: Boolean, user: User, drinks: Drinks) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.updateLikedBy(likedStatus,user,drinks)) {
+            when (val result = repository.updateLikedBy(likedStatus, user, drinks)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -284,6 +275,7 @@ class DetailViewModel(
             }
         }
     }
+
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }

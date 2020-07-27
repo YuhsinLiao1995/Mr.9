@@ -28,7 +28,8 @@ class OthersRatingFragment : Fragment() {
     /**
      * Lazily initialize our [ProfileViewModel].
      */
-    private val viewModel by viewModels<OthersRatingViewModel> { getVmFactory(OthersRatingFragmentArgs.fromBundle(requireArguments()).searchUser) }
+    private val viewModel by viewModels<OthersRatingViewModel> { getVmFactory(
+        OthersRatingFragmentArgs.fromBundle(requireArguments()).searchUser)}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.login.UserManager
@@ -22,7 +24,13 @@ class DetailFragment : Fragment() {
     /**
      * Lazily initialize our [DetailViewModel].
      */
-    val viewModel by viewModels<DetailViewModel> { getVmFactory(DetailFragmentArgs.fromBundle(requireArguments()).drinkKey)  }
+    val viewModel by viewModels<DetailViewModel> {
+        getVmFactory(
+            DetailFragmentArgs.fromBundle(
+                requireArguments()
+            ).drinkKey, DetailFragmentArgs.fromBundle(requireArguments()).ratingKey
+        )
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,26 +38,48 @@ class DetailFragment : Fragment() {
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
-        Logger.d("viewModel.drink.value?.overall_rating!! = ${viewModel.drink.value?.overall_rating!!}")
-//
-        if (viewModel.drink.value?.overall_rating!! > 0f) {
-            binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
-        } else {
-            binding.niceRatingBar.setRating(0f)
-        }
-        viewModel.drink.observe(viewLifecycleOwner, Observer {
-            Logger.d("viewModel.argument ${viewModel.drink}")
-        })
 
         binding.recyclerRatings.adapter =
             DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
+
+                findNavController().navigate(NavigationDirections.navigateToOthersProfileFragment(null,it))
                 viewModel.navigateToDetail(it)
             })
 
-        if (viewModel.drink.value!!.likedBy.contains(UserManager.user.uid)) {
-            viewModel.statusAbout.value = true
-        }
+        viewModel.drink.observe(viewLifecycleOwner, Observer {
+            it?.let {
+
+                Logger.d("viewModel.drink.value = ${viewModel.drink.value?.overall_rating}")
+                viewModel.getRatingsResult()
+
+                viewModel.array2String()
+
+                if (viewModel.drink.value?.overall_rating!! > 0f) {
+                    binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)
+                } else {
+                    binding.niceRatingBar.setRating(0f)
+                }
+
+
+
+
+                if (viewModel.drink.value!!.likedBy.contains(UserManager.user.uid)) {
+                    viewModel.statusAbout.value = true
+                }
+            }
+
+        })
+
+//        viewModel.drink.observe(viewLifecycleOwner, Observer {
+//            Logger.d("viewModel.argument ${viewModel.drink}")
+//            it.let {
+//                viewModel.getRatingsResult()
+//                Logger.d(" viewModel.getRatingsResult()")
+//            }
+//        })
+
 
         return binding.root
 

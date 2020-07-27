@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Ratings
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.detailpage.DetailViewModel
 
@@ -16,7 +17,8 @@ import com.tina.mr9.detailpage.DetailViewModel
 @Suppress("UNCHECKED_CAST")
 class DrinksViewModelFactory(
     private val stylishRepository: StylishRepository,
-    private val drinks: Drinks
+    private val drinks: Drinks?,
+    private val ratings: Ratings?
 ) : ViewModelProvider.Factory {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -25,7 +27,7 @@ class DrinksViewModelFactory(
             when {
 
                 isAssignableFrom(DetailViewModel::class.java) ->
-                    DetailViewModel(stylishRepository, drinks)
+                    DetailViewModel(stylishRepository, drinks, ratings)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
@@ -109,6 +110,70 @@ object StylishRemoteDataSource : StylishDataSource {
                             list.add(search)
                         }
                         continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+        }
+
+    override suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance()
+                .collection("drinks")
+                .orderBy("name")
+                .startAt(searchText.toUpperCase())
+                .endAt(searchText + "\uf8ff")
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Drinks>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val search = document.toObject(Drinks::class.java)
+                            list.add(search)
+                        }
+                        continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+        }
+
+    override suspend fun getSearchedBarsResult(searchText: String): Result<List<Bar>> =
+        suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance()
+                .collection("bar")
+                .orderBy("name")
+                .startAt(searchText.toUpperCase())
+                .endAt(searchText + "\uf8ff")
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Bar>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val search = document.toObject(Bar::class.java)
+                            list.add(search)
+                        }
+                        continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
                     } else {
                         task.exception?.let {
 
@@ -487,23 +552,23 @@ object StylishRemoteDataSource : StylishDataSource {
         }
 
 
-    override suspend fun getMyRatedDrink(ratings: Ratings): Result<Drinks> =
+    override suspend fun getTheRatedDrink(ratings: Ratings): Result<Drinks> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection("drinks")
-//                .whereEqualTo("author", user.uid)
+                .whereEqualTo("name", ratings.name)
+                .whereEqualTo("bar",ratings.bar)
                 .get()
 
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val list = mutableListOf<Drinks>()
+                        var drink : Drinks = Drinks()
                         for (document in task.result!!) {
                             Logger.d(document.id + " => " + document.data)
 
-                            val rating = document.toObject(Drinks::class.java)
-                            list.add(rating)
+                            drink = document.toObject(Drinks::class.java)
                         }
-//                        continuation.resume(Result.Success(list))
+                        continuation.resume(Result.Success(drink))
                         Logger.d("task.result.size = ${task.result!!.size()}")
                     } else {
                         task.exception?.let {
@@ -526,6 +591,7 @@ object StylishRemoteDataSource : StylishDataSource {
         suspendCoroutine { continuation ->
 
 //            var amtFollowing: Int = 0
+            var count = followingList.size
             val listAll = mutableListOf<Ratings>()
 
             for ((index, document) in followingList.withIndex()) {
@@ -587,9 +653,17 @@ object StylishRemoteDataSource : StylishDataSource {
                         listAll.forEach {
                             Logger.v("$it")
                         }
+
+                        count -= 1
+                        Logger.d("count = $count")
+
+                        if (count == 0) {
+                            continuation.resume(Result.Success(listAll))
+                        }
                     }
+
+
             }
-            continuation.resume(Result.Success(listAll))
         }
 
 
@@ -843,6 +917,39 @@ object StylishRemoteDataSource : StylishDataSource {
                             list.add(searchUser)
                         }
                         continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
+
+    override suspend fun getAuthorResult(ratings: Ratings): Result<User> =
+        suspendCoroutine { continuation ->
+
+            Logger.d("remotedatasource")
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .whereEqualTo("uid",ratings.author)
+                .get()
+
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        var user = User()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            user = document.toObject(User::class.java)
+                        }
+                        continuation.resume(Result.Success(user))
                         Logger.d("task.result.size = ${task.result!!.size()}")
                     } else {
                         task.exception?.let {

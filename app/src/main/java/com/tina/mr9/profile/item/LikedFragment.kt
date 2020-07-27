@@ -35,7 +35,7 @@ class LikedFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
-            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it,ratingKey = null))
             viewModel.navigateToDetail
         })
 
@@ -56,8 +56,6 @@ class LikedFragment : Fragment() {
 
 
     }
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProviders.of(this).get(WomwnProductViewModel::class.java)

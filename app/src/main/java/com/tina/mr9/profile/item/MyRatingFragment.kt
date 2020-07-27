@@ -45,7 +45,7 @@ class MyRatingFragment : Fragment() {
 
         binding.recyclerRatings.adapter = MyRatingAdapter(MyRatingAdapter.OnClickListener{
 //            viewModel.getMyRatedDrink()
-//            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it))
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(null,it))
             viewModel.navigateToDetail
         })
 

@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
  *
  * The [ViewModel] that is attached to the [OthersProfileFragment].
  */
-class OthersProfileViewModel(private val repository: StylishRepository, private val arguments: User) : ViewModel() {
+class OthersProfileViewModel(private val repository: StylishRepository, private val argUser: User?, private val ratings: Ratings?) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
@@ -35,10 +35,22 @@ class OthersProfileViewModel(private val repository: StylishRepository, private 
     val user: LiveData<User>
         get() = _user
 
-    private val _searchUser = MutableLiveData<User>().apply {
-        value = arguments
-        Logger.d("search profile arguments = $arguments")
+    private val _searchUser = MutableLiveData<User>().apply { argUser?.let {
+        value = argUser
     }
+        Logger.d("search profile arguments = $argUser")
+    }
+
+
+    val rating: LiveData<Ratings>
+        get() = _rating
+
+    private val _rating = MutableLiveData<Ratings>().apply { ratings?.let {
+        value = ratings
+    }
+        Logger.d("search profile arguments = $argUser")
+    }
+
 
     val searchUser: LiveData<User>
         get() = _searchUser
@@ -108,7 +120,10 @@ class OthersProfileViewModel(private val repository: StylishRepository, private 
 
     init {
 
-        Logger.d("ProfileViewModel, arguments=${arguments}")
+        Logger.d("ProfileViewModel, argUser=${argUser}")
+        if (argUser == null) {
+            getAuthorResult()
+        }
 //        Logger.d("ProfileViewModel, UserManager.user=${UserManager.user}")
     }
 
@@ -148,6 +163,42 @@ class OthersProfileViewModel(private val repository: StylishRepository, private 
             _status.value = LoadApiStatus.LOADING
 
             val result = repository.getMyProfileResult(searchId)
+
+            Logger.d("profile result = $result")
+
+            _searchUser.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Util.getString(R.string.app_name)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            _refreshStatus.value = false
+        }
+    }
+
+    fun getAuthorResult() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = rating.value?.let { repository.getAuthorResult(it) }
 
             Logger.d("profile result = $result")
 

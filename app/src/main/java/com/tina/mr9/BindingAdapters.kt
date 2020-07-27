@@ -27,6 +27,8 @@ import com.tina.mr9.others_profile.item.OthersLikedAdapter
 import com.tina.mr9.others_profile.item.OthersRatingAdapter
 import com.tina.mr9.profile.item.LikedAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
+import com.tina.mr9.search.SearchedBarAdapter
+import com.tina.mr9.search.SearchedDrinksAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 
 /**
@@ -67,7 +69,7 @@ fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) 
             when (this) {
                 is ListAdapter -> submitList(it)
 
-//                is BarDetailDrinksAdapter -> submitList(it)
+                is SearchedDrinksAdapter -> submitList(it)
             }
         }
     }
@@ -107,6 +109,8 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
         recyclerView.adapter?.apply {
             when (this) {
                 is com.tina.mr9.bar_list.BarListAdapter -> submitList(it)
+
+                is SearchedBarAdapter -> submitList(it)
             }
         }
     }
