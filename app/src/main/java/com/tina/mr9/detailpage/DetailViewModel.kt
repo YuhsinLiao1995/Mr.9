@@ -44,13 +44,11 @@ class DetailViewModel(
     val drink: LiveData<Drinks>
         get() = _drink
 
-    private val _theRating = MutableLiveData<Ratings>().apply {argumentRating.let {
+    private val _theRating = MutableLiveData<Ratings>().apply { argumentRating.let {
         value = argumentRating
-    }
+    } }
 
-    }
-
-    val theRating: LiveData<Ratings>
+    private val theRating: LiveData<Ratings>
         get() = _theRating
 
     private val _ratings = MutableLiveData<List<Ratings>>()
@@ -284,6 +282,7 @@ class DetailViewModel(
             }
         }
     }
+
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }

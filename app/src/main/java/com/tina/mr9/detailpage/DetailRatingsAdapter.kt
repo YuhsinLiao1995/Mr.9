@@ -1,18 +1,26 @@
 package com.tina.mr9.detailpage
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.tina.mr9.data.Ratings
 import com.tina.mr9.databinding.ItemDetailRatingBinding
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  */
-class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
+class DetailRatingsAdapter(
+    private val onClickListener: OnClickListener,
+    private val paddingDp: Int
+) :
     androidx.recyclerview.widget.ListAdapter<Ratings, RecyclerView.ViewHolder>(
-        DiffCallback ) {
+        DiffCallback
+    ) {
 
     class OnClickListener(val clickListener: (ratings: Ratings) -> Unit) {
         fun onClick(ratings: Ratings) = clickListener(ratings)
@@ -22,7 +30,7 @@ class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
         when (holder) {
             is LayoutViewHolder -> {
                 val ratings = getItem(position) as Ratings
-                (holder).bind(ratings,onClickListener)
+                (holder).bind(ratings, onClickListener, paddingDp)
 
             }
         }
@@ -48,7 +56,7 @@ class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
 
     class LayoutViewHolder(private var binding: ItemDetailRatingBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind( ratings: Ratings,onClickListener: OnClickListener) {
+        fun bind(ratings: Ratings, onClickListener: OnClickListener, paddingDp: Int) {
             binding.ratings = ratings
             binding.root.setOnClickListener { onClickListener.onClick(ratings) }
 
@@ -57,6 +65,39 @@ class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
             } else {
                 binding.niceRatingBar.setRating(0f)
             }
+
+
+            val taglist = ratings.pairings
+            val chipGroup = binding.pairingTag
+
+            if (taglist.isNotEmpty()) {
+                binding.pairingIcon.visibility = View.VISIBLE
+                binding.blank.visibility = View.VISIBLE
+            }
+
+            for (index in taglist.indices) {
+                val tagName = taglist[index]
+                val chip = Chip(chipGroup.context)
+
+                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+                chip.text = tagName
+                chip.textSize = 14f
+                chip.setTextColor(Color.WHITE)
+                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+                val chipColors = intArrayOf(Color.parseColor("#999999"))
+                val chipColorsStateList = ColorStateList(states, chipColors)
+                chip.chipBackgroundColor = chipColorsStateList
+                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+
+                chipGroup.addView(chip)
+            }
+
+            if (ratings.comment != ""){
+                binding.blank2.visibility = View.VISIBLE
+            }
+
+
+
             binding.executePendingBindings()
         }
 
@@ -71,10 +112,27 @@ class DetailRatingsAdapter(private val onClickListener: OnClickListener) :
         }
 
 
-
     }
-
-
+//
+//    fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup,paddingDp: Int) {
+//
+//        for (index in taglist.indices) {
+//            val tagName = taglist[index]
+//            val chip = Chip(chipGroup.context)
+//
+//            chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+//            chip.text = tagName
+//            chip.textSize = 14f
+//            chip.setTextColor(Color.WHITE)
+//            val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+//            val chipColors = intArrayOf(Color.parseColor("#3f3a3a"))
+//            val chipColorsStateList = ColorStateList(states, chipColors)
+//            chip.chipBackgroundColor = chipColorsStateList
+//            chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+//
+//            chipGroup.addView(chip)
+//        }
+//    }
 
 
 }

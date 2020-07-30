@@ -70,6 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0dp"
                             android:padding="20dp"
+                            android:nestedScrollingEnabled="false"
                             app:drinks="@{viewModel.drinks}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"

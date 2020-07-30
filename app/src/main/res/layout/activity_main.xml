@@ -69,7 +69,6 @@
                     android:layout_height="@dimen/height_bottom_nav_view_main"
                     android:background="@color/white"
                     android:elevation="@dimen/elevation_all"
-                    app:itemIconTint="@drawable/bottom_nav_item_selector"
                     app:labelVisibilityMode="unlabeled"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"

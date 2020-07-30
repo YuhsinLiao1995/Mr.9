@@ -29,9 +29,14 @@ import com.tina.mr9.others_profile.item.OthersLikedAdapter
 import com.tina.mr9.others_profile.item.OthersRatingAdapter
 import com.tina.mr9.profile.item.LikedAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
+import com.tina.mr9.rate.RateSearchedBarAdapter
+import com.tina.mr9.rate.RateSearchedDrinksAdapter
 import com.tina.mr9.search.SearchedBarAdapter
 import com.tina.mr9.search.SearchedDrinksAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
+import okhttp3.internal.trimSubstring
+import kotlin.time.ExperimentalTime
+import kotlin.time.toDuration
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -72,6 +77,8 @@ fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) 
                 is ListAdapter -> submitList(it)
 
                 is SearchedDrinksAdapter -> submitList(it)
+
+                is RateSearchedDrinksAdapter -> submitList(it)
             }
         }
     }
@@ -113,14 +120,18 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
                 is com.tina.mr9.bar_list.BarListAdapter -> submitList(it)
 
                 is SearchedBarAdapter -> submitList(it)
+
+                is RateSearchedBarAdapter -> submitList(it)
             }
         }
     }
 }
 
+@ExperimentalTime
 @BindingAdapter("timeToDisplayFormat")
 fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat()
+    textView.text = time?.toDisplayFormat()?.trimSubstring(0,10)
+
 }
 
 
@@ -177,8 +188,8 @@ fun bindImage(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder))
+                    .placeholder(R.drawable.background_placeholder)
+                    .error(R.drawable.background_placeholder))
             .into(imgView)
     }
 }
@@ -192,8 +203,8 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .apply(
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(20)))
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder))
+                    .placeholder(R.drawable.background_placeholder)
+                    .error(R.drawable.background_placeholder))
             .into(imgView)
     }
 }
@@ -207,8 +218,8 @@ fun bindImage3(imgView: ImageView, imgUrl: String) {
             .apply(
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(25)))
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder))
+                    .placeholder(R.drawable.background_placeholder)
+                    .error(R.drawable.background_placeholder))
             .into(imgView)
     }
 }
@@ -222,8 +233,8 @@ fun bindImage4(imgView: ImageView, imgUrl: String) {
             .apply(
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(35)))
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder))
+                    .placeholder(R.drawable.background_placeholder)
+                    .error(R.drawable.background_placeholder))
             .into(imgView)
     }
 }

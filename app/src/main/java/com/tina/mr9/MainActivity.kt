@@ -26,6 +26,8 @@ import com.tina.mr9.databinding.ActivityMainBinding
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.launch
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 class MainActivity : BaseActivity() {
 
@@ -96,11 +98,14 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Fabric.with(this, Crashlytics());
 //        startActivity(Intent(this, LoginActivity::class.java))
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.myNavHostFragment)
 //        NavigationUI.setupWithNavController(binding.navigation, navController)
+
+        binding.bottomNavView.itemIconTintList = null
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

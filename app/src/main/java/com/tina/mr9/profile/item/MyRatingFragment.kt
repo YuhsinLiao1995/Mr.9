@@ -16,7 +16,6 @@ import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentLikedBinding
 import com.tina.mr9.databinding.FragmentMyRatingBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.ProfileFragmentArgs
 import com.tina.mr9.profile.ProfileViewModel
 import com.tina.mr9.util.Logger
 

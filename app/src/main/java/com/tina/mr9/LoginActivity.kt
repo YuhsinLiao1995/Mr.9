@@ -36,7 +36,7 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
 //    val viewModel by viewModels<LoginViewModel> { getVmFactory() }
 
@@ -72,6 +72,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         moveMainPage(auth?.currentUser)
+
     }
     fun printHashKey() {
         try {

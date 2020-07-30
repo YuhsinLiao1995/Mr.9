@@ -36,6 +36,8 @@
                     android:id="@+id/addPic"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
+                    android:elevation="4dp"
+                    android:background="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -131,6 +133,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/line1" />
 
+
+
                         <EditText
                             android:id="@+id/bar_input"
                             android:layout_width="0dp"
@@ -159,20 +163,35 @@
                             app:layout_constraintStart_toStartOf="@id/name_input"
                             app:layout_constraintTop_toBottomOf="@id/bar_input" />
 
-                        <ImageView
-                            android:id="@+id/btn_add_chip"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginHorizontal="16dp"
-                            app:layout_constraintBottom_toBottomOf="@id/conetent_input"
-                            app:layout_constraintStart_toEndOf="@id/conetent_input"
-                            app:layout_constraintTop_toTopOf="@id/conetent_input"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:srcCompat="@drawable/add" />
+
+
+                    
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:visibility="@{viewModel.statusAbout == true ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintStart_toStartOf="@id/address_input"
+                            app:layout_constraintTop_toBottomOf="@id/newDrink_text"
+                            app:layout_constraintBottom_toTopOf="@id/group_profile_tag">
+
+                            <ImageView
+                                android:id="@+id/btn_add_chip"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginHorizontal="16dp"
+                                app:layout_constraintBottom_toBottomOf="@id/conetent_input"
+                                app:layout_constraintStart_toEndOf="@id/conetent_input"
+                                app:layout_constraintTop_toTopOf="@id/conetent_input"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:srcCompat="@drawable/add" />
 
                         <EditText
                             android:id="@+id/conetent_input"
                             android:layout_width="0dp"
+                            android:layout_marginStart="16dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             style="@style/DetailContent"
@@ -180,12 +199,57 @@
                             android:hint="Add Content Ex: Vodka"
                             android:padding="10dp"
                             android:text="@={viewModel.newtag}"
-                            app:layout_constraintStart_toStartOf="@id/address_input"
-                            app:layout_constraintTop_toBottomOf="@id/address_input"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/btn_add_chip"/>
+
+                
+                     
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                         <com.google.android.material.chip.ChipGroup
                             android:id="@+id/group_profile_tag"
+                            style="@style/Widget.MaterialComponents.ChipGroup"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center_horizontal"
+                            android:theme="@style/Theme.MaterialComponents.Light"
+                            app:layout_constraintEnd_toEndOf="@id/address_input"
+                            app:layout_constraintStart_toStartOf="@id/address_input"
+                            app:layout_constraintTop_toBottomOf="@id/content"
+                            app:layout_constraintBottom_toTopOf="@id/btn_add_chip_pairing" />
+
+                        <ImageView
+                            android:id="@+id/btn_add_chip_pairing"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginHorizontal="16dp"
+                            app:layout_constraintBottom_toBottomOf="@id/pairing_input"
+                            app:layout_constraintStart_toEndOf="@id/pairing_input"
+                            app:layout_constraintTop_toTopOf="@id/pairing_input"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:srcCompat="@drawable/add" />
+
+                        <EditText
+                            android:id="@+id/pairing_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            style="@style/DetailContent"
+                            android:background="@drawable/background_input"
+                            android:hint="Add Pairing Ex: Dumpling"
+                            android:padding="10dp"
+                            android:text="@={viewModel.newPairingTag}"
+                            app:layout_constraintStart_toStartOf="@id/address_input"
+                            app:layout_constraintTop_toBottomOf="@id/group_profile_tag"
+                            app:layout_constraintEnd_toStartOf="@id/btn_add_chip_pairing"/>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/pairing_tag"
                             style="@style/Widget.MaterialComponents.ChipGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -193,9 +257,8 @@
                             android:gravity="center_horizontal"
                             android:theme="@style/Theme.MaterialComponents.Light"
                             app:layout_constraintEnd_toEndOf="@id/address_input"
-                            app:layout_constraintStart_toStartOf="@id/conetent_input"
-                            app:layout_constraintTop_toBottomOf="@id/btn_add_chip">
-
+                            app:layout_constraintStart_toStartOf="@id/pairing_input"
+                            app:layout_constraintTop_toBottomOf="@id/btn_add_chip_pairing">
 
                         </com.google.android.material.chip.ChipGroup>
 
@@ -227,7 +290,7 @@
                             android:layout_marginTop="16dp"
                             android:text="Overall Rating"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/group_profile_tag" />
+                            app:layout_constraintTop_toBottomOf="@id/pairing_tag" />
 
                         <TextView
                             android:id="@+id/line2"
@@ -337,7 +400,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="24dp"
                             android:text="Share more about it "
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sour" />
@@ -361,13 +424,67 @@
                             app:nrb_starImagePadding="30dp"
                             app:nrb_starImageWidth="35dp" />
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/list_view_drink"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone"
+                            android:background="@color/translucent_40"
+                            app:drinkList="@{viewModel.searchedDrinks}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@id/name_input"
+                            tools:listitem="@layout/item_searched_drink" />
 
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/list_view_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone"
+                            android:background="@color/translucent_40"
+                            app:barList="@{viewModel.searchedBars}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintTop_toBottomOf="@id/bar_input"
+                            tools:listitem="@layout/item_searched_bar" />
+
+                        <ImageView
+                            android:id="@+id/unclick"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@{viewModel.statusAbout == false ?  @drawable/background_followed : @drawable/background_send}"
+                            app:layout_constraintStart_toStartOf="@id/address_input"
+                            app:layout_constraintTop_toBottomOf="@id/address_input"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginStart="8dp"/>
+
+                        <TextView
+                            android:id="@+id/newDrink_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:text="New Drink?"
+                            app:layout_constraintStart_toEndOf="@id/unclick"
+                            app:layout_constraintTop_toBottomOf="@id/address_input"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginStart="8dp"/>
+
+                        <Button
+                            android:id="@+id/btn_newDrink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:onClick="@{() -> viewModel.setAboutStatus()}"
+                            app:layout_constraintStart_toStartOf="@id/unclick"
+                            app:layout_constraintTop_toTopOf="@id/unclick"
+                            app:layout_constraintEnd_toEndOf="@id/newDrink_text"
+                            app:layout_constraintBottom_toBottomOf="@id/newDrink_text"
+                            android:background="@color/transparent"/>
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </ScrollView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

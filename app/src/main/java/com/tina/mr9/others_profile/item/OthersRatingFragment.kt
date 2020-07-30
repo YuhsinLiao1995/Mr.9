@@ -2,20 +2,15 @@ package com.tina.mr9.others_profile.item
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.tina.mr9.databinding.FragmentLikedBinding
-import com.tina.mr9.databinding.FragmentMyRatingBinding
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentOthersRatingBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.ProfileFragmentArgs
 import com.tina.mr9.profile.ProfileViewModel
 import com.tina.mr9.util.Logger
 
@@ -44,6 +39,7 @@ class OthersRatingFragment : Fragment() {
 //        })
 
         binding.recyclerRatings.adapter = OthersRatingAdapter(OthersRatingAdapter.OnClickListener{
+            findNavController().navigate(NavigationDirections.navigateToDetailFragment(null,it))
             viewModel.navigateToDetail
         })
 

@@ -24,6 +24,7 @@ data class User(
     var name: String = "",
     var email: String = "",
     var createdTime: Long = -1,
+    var amtPosts: Int = 0,
     var myPost: List<String> = emptyList(),
     var followedBy: List<String> = emptyList(),
     var following: List<String> = emptyList(),

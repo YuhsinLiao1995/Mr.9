@@ -33,7 +33,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,11 +64,25 @@
                     app:layout_constraintTop_toBottomOf="@id/line3"
                     app:layout_constraintStart_toStartOf="@id/title"/>
 
+                <TextView
+                    android:id="@+id/no_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="No review yet, rate it now !"
+                    style="@style/DetailContentSmall"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/review"
+                    app:layout_constraintStart_toStartOf="@id/title"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_ratings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
+                    android:nestedScrollingEnabled="false"
                     app:ratings="@{viewModel.ratings}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review"

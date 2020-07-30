@@ -8,15 +8,20 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -26,16 +31,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
 import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.NavigationDirections
+import com.tina.mr9.data.Drinks
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.search.SearchedBarAdapter
 import com.tina.mr9.util.Logger
-import com.xw.repo.BubbleSeekBar
-import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
 import java.io.File
 import java.util.*
 
@@ -63,19 +69,18 @@ class RateFragment : Fragment() {
 
 
         val chipGroup = binding.groupProfileTag
-        val addChip = binding.btnAddChip
         val newChip = binding.conetentInput
-
-        fun chipFun(taglist: MutableList<String>) {
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            10f,
+            resources.displayMetrics
+        ).toInt()
+        fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup,newChip: EditText ,newTag:  MutableLiveData<String>) {
 
             for (index in taglist.indices) {
                 val tagName = taglist[index]
                 val chip = Chip(chipGroup.context)
-                val paddingDp = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    10f,
-                    resources.displayMetrics
-                ).toInt()
+
                 chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
                 chip.text = tagName
                 chip.textSize = 14f
@@ -85,6 +90,43 @@ class RateFragment : Fragment() {
                 val chipColorsStateList = ColorStateList(states, chipColors)
                 chip.chipBackgroundColor = chipColorsStateList
                 chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+
+                chip.setOnClickListener {
+                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+                    //Added click listener on close icon to remove tag from ChipGroup
+                    chip.setOnCloseIconClickListener {
+//                        taglist.remove(tagName)
+                        chipGroup.removeView(chip)
+                        Logger.d("$taglist.toString()")
+                        viewModel.taglist.value?.remove(tagName)
+                    }
+                }
+                chip.text = newChip.text
+                chipGroup.addView(chip)
+            }
+            newTag.value = null
+        }
+
+        viewModel.taglist.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.taglist = ${viewModel.taglist.value}")
+        })
+
+
+        fun updateChip(taglist: MutableList<String>) {
+            for (index in taglist.indices) {
+                val tagName = taglist[index]
+                val chip = Chip(chipGroup.context)
+
+                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+                chip.text = tagName
+                chip.textSize = 14f
+                chip.setTextColor(Color.WHITE)
+                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+                val chipColors = intArrayOf(Color.parseColor("#999999"))
+                val chipColorsStateList = ColorStateList(states, chipColors)
+                chip.chipBackgroundColor = chipColorsStateList
+                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+
                 chip.setOnClickListener {
                     chip.isCloseIconEnabled = !chip.isCloseIconEnabled
                     //Added click listener on close icon to remove tag from ChipGroup
@@ -92,27 +134,57 @@ class RateFragment : Fragment() {
                         taglist.remove(tagName)
                         chipGroup.removeView(chip)
                         Logger.d("$taglist.toString()")
+                        viewModel.taglist.value?.remove(tagName)
                     }
                 }
-                chip.text = newChip.text
+
+                viewModel.taglist.value?.plus(taglist)
+                Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
+
                 chipGroup.addView(chip)
             }
-            viewModel.newtag.value = null
         }
 
 
 
 
 
-        addChip.setOnClickListener {
+        binding.btnAddChip.setOnClickListener {
+
             if (viewModel.newtag.value != "") {
+
                 viewModel.taglist.value?.add(newChip.text.toString())
-                chipFun(mutableListOf(newChip.text.toString()))
+
+                viewModel.rating.value?.pairings = (viewModel.taglist.value?: listOf())
+
+                chipFun(mutableListOf(newChip.text.toString()),chipGroup,newChip,viewModel.newtag)
                 Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
             } else{
                 Toast.makeText(Mr9Application.appContext,"Please write a content",Toast.LENGTH_LONG).show()
             }
         }
+
+
+        val chipGroupPairing = binding.pairingTag
+        val newChipPairing = binding.pairingInput
+
+        binding.btnAddChipPairing.setOnClickListener {
+            if (viewModel.newPairingTag.value != "") {
+
+                viewModel.pairingTagList.value?.add(newChipPairing.text.toString())
+
+                viewModel.rating.value?.pairings = (viewModel.pairingTagList.value?: listOf())
+
+                chipFun(mutableListOf(newChipPairing.text.toString()),chipGroupPairing,newChipPairing,viewModel.newPairingTag)
+
+                Logger.d("viewModel.taglist.value = ${viewModel.pairingTagList.value}")
+
+            } else{
+                Toast.makeText(Mr9Application.appContext,"Please write a pairing",Toast.LENGTH_LONG).show()
+            }
+        }
+
+
 
 
 
@@ -164,50 +236,142 @@ class RateFragment : Fragment() {
         })
 
         binding.buttonPublish.setOnClickListener(){
-            if (viewModel.images.value?.size!! > 0){
-                viewModel.bindingDrink()
-                viewModel.publish(viewModel.rating.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
-                viewModel.getRatedDrinks()
+            if (viewModel.rating.value?.name == "" ){
+                Toast.makeText(Mr9Application.appContext,"Please enter the drink ",Toast.LENGTH_LONG).show()
 
 
-                viewModel.upDatedDrink.observe(viewLifecycleOwner, Observer {
-                    it.let {
-                        Logger.d("viewModel.updatedDrink.value = ${viewModel.upDatedDrink.value}")
-                        if (viewModel.upDatedDrink.value?.id != null && viewModel.upDatedDrink.value?.id != ""){
-                            findNavController().navigate(NavigationDirections.navigateToDetailFragment(
-                                viewModel.upDatedDrink.value!!
-                            ,null))
-                            viewModel.navigateToAddedSuccess(viewModel.rating.value!!)
-                        }
-                    }
-                })
-            } else {
+            }else if (viewModel.rating.value?.bar == ""){
+
+                Toast.makeText(Mr9Application.appContext,"Please enter the bar ",Toast.LENGTH_LONG).show()
+
+            }else if (viewModel.images.value?.size == 0){
+
                 Toast.makeText(Mr9Application.appContext,"Please add a photo! ",Toast.LENGTH_LONG).show()
+            }
+            else {
+                Logger.d("viewModel._drink.value ${viewModel._drink.value}")
+                viewModel.publish(viewModel.rating?.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
             }
 
         }
 
         viewModel.navigateToAddedSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
+
+                findNavController().navigate(NavigationDirections.navigateToDetailFragment(
+                    null,viewModel.rating.value))
+
                 findNavController().navigate(NavigationDirections.navigateToSuccessDialog(viewModel.rating.value!!))
                 viewModel.onAddedSuccessNavigated()
-                Logger.d("findNavController().navigate(NavigationDirections.navigateToSuccessDialog(viewModel.rating.value!!))")
             }
         })
-
-
-
-
-
-
-
-
 
 
         ContextCompat.checkSelfPermission(
             Mr9Application.appContext,
             android.Manifest.permission.CAMERA
         )
+
+
+        binding.nameInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                val searchText = binding.nameInput.text.toString().trim()
+                Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
+
+
+                    viewModel.getSearchedDrinksResult(searchText)
+
+
+                Logger.d("viewModel.searchedUser = ${viewModel.searchedDrinks}")
+
+                viewModel.searchedDrinks.observe(viewLifecycleOwner, Observer { it ->
+                    it?.let {
+                        binding.listViewDrink.adapter =
+                            RateSearchedDrinksAdapter(RateSearchedDrinksAdapter.OnClickListener {
+                                viewModel.rating.value?.name = it.name
+                                Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
+                                Logger.d("it.name = ${it.name}")
+                                binding.nameInput.setText(it.name)
+                                binding.barInput.setText(it.bar)
+                                viewModel.taglist.value?.plus(it.contents)
+                                updateChip(it.contents.toMutableList())
+                                binding.listViewDrink.visibility = View.GONE
+                            })
+                       Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
+
+
+                        Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
+
+
+                    }
+                })
+
+
+
+                if (searchText != "") {
+                    binding.listViewDrink.visibility = View.VISIBLE
+
+                } else{
+                    binding.listViewDrink.visibility = View.GONE
+                    binding.listViewDrink.visibility = View.GONE
+                }
+
+            }
+        })
+
+        binding.barInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                val searchText = binding.barInput.text.toString().trim()
+                Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.bar}")
+
+
+                viewModel.getSearchedBarsResult(searchText)
+
+
+                Logger.d("viewModel.searchedBar = ${viewModel.searchedBars}")
+
+
+
+                viewModel.searchedBars.observe(viewLifecycleOwner, Observer { it ->
+                    it?.let {
+                        binding.listViewBar.adapter =
+                            RateSearchedBarAdapter(RateSearchedBarAdapter.OnClickListener {
+                                binding.addressInput.setText(it.address)
+                                binding.barInput.setText(it.name)
+                                binding.listViewBar.visibility = View.GONE
+
+                            })
+                    }
+                })
+
+                if (searchText != "") {
+                    binding.listViewBar.visibility = View.VISIBLE
+
+                } else{
+                    binding.listViewBar.visibility = View.GONE
+                    binding.listViewBar.visibility = View.GONE
+                }
+
+            }
+        })
 
 //        binding.bubbleSeekBarSweet.setProgress(5f)
 //

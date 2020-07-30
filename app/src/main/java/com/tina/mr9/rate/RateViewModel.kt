@@ -1,15 +1,19 @@
 package com.tina.mr9.rate
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
-import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
-import com.tina.mr9.data.*
+import com.tina.mr9.data.Bar
+import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Ratings
+import com.tina.mr9.data.Result
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.login.UserManager
+import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,11 +45,9 @@ class RateViewModel(
                 contents = arguments.contents,
                 base = arguments.base,
                 category = arguments.category,
-                pairings = arguments.pairings,
                 author = UserManager.user.uid,
                 authorName = UserManager.user.name,
                 authorImage = UserManager.user.image
-
             )
 
 
@@ -53,7 +55,15 @@ class RateViewModel(
 
     }
 
+    private val _searchedDrinks = MutableLiveData<List<Drinks>>()
 
+    val searchedDrinks: LiveData<List<Drinks>>
+        get() = _searchedDrinks
+
+    private val _searchedBars = MutableLiveData<List<Bar>>()
+
+    val searchedBars: LiveData<List<Bar>>
+        get() = _searchedBars
 
     val images = MutableLiveData<MutableList<String>>().apply {
         value = mutableListOf()
@@ -67,19 +77,45 @@ class RateViewModel(
         value = String()
     }
 
+
+    val pairingTagList = MutableLiveData<MutableList<String>>().apply {
+        value = mutableListOf()
+    }
+
+    val newPairingTag = MutableLiveData<String>().apply {
+        value = String()
+    }
+
+
     val rating: LiveData<Ratings>
         get() = _rating
 
-    val _drink = MutableLiveData<Drinks>().apply {arguments?.let {
-        value = it
-    }
+    val _drink = MutableLiveData<Drinks>().apply {
+        if (arguments != null) {
+            value = arguments
+        } else {
+            value = Drinks(
 
+                name = rating.value?.name!!,
+                bar = rating.value?.bar!!,
+                contents = rating.value!!.contents,
+                base = rating.value!!.base,
+                category = rating.value!!.category,
+                pairings = rating.value!!.pairings,
+                strong = rating.value!!.strong,
+                sweet = rating.value!!.sweet,
+                sour = rating.value!!.sour,
+                take_again = rating.value!!.take_again,
+                main_image = rating.value!!.main_photo,
+                images = rating.value!!.images!!
+            )
+        }
     }
 
     val drink: LiveData<Drinks>
         get() = _drink
 
-    val _updatedDrink = MutableLiveData<Drinks>().apply {
+    private val _updatedDrink = MutableLiveData<Drinks>().apply {
         value = Drinks()
     }
 
@@ -87,7 +123,11 @@ class RateViewModel(
         get() = _updatedDrink
 
     val _bar = MutableLiveData<Bar>().apply {
-        value = Bar()
+        value = Bar(
+            name = rating.value!!.bar,
+            main_image = rating.value!!.main_photo,
+            images = rating.value!!.images!!
+        )
     }
 
     val bar: LiveData<Bar>
@@ -117,9 +157,9 @@ class RateViewModel(
         get() = _refresh
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Drinks>()
+    private val _navigateToDetail = MutableLiveData<Ratings>()
 
-    val navigateToDetail: LiveData<Drinks>
+    val navigateToDetail: LiveData<Ratings>
         get() = _navigateToDetail
 
     // Handle navigation to Added Success
@@ -159,6 +199,7 @@ class RateViewModel(
     fun publish(ratings: Ratings, drinks: Drinks, bar: Bar) {
 
         coroutineScope.launch {
+            Logger.d("fun publish")
 
             _status.value = LoadApiStatus.LOADING
 
@@ -166,7 +207,8 @@ class RateViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    leave(true)
+//                    getRatedDrinks()
+                    navigateToAddedSuccess(ratings)
                 }
                 is Result.DrinkNotExist -> {
                     publish2(ratings, drinks, bar)
@@ -189,7 +231,7 @@ class RateViewModel(
 
     fun publish2(ratings: Ratings, drinks: Drinks, bar: Bar) {
         Log.d("Tina", "ifcalled")
-
+        Logger.d("fun add drink")
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -221,8 +263,7 @@ class RateViewModel(
     }
 
     fun addBar(ratings: Ratings, drinks: Drinks, bar: Bar) {
-        Log.d("Tina", "ifcalledbar")
-
+        Logger.d("fun add bar")
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
@@ -250,42 +291,79 @@ class RateViewModel(
         }
     }
 
-    fun bindingDrink() {
-        _drink.value?.name = rating.value!!.name
-        _drink.value?.bar = rating.value!!.bar
-        _drink.value?.contents = rating.value!!.contents
-        _drink.value?.base = rating.value!!.base
-        _drink.value?.contents = rating.value!!.contents
-        _drink.value?.category = rating.value!!.category
-        _drink.value?.pairings = rating.value!!.pairings
-        _drink.value?.strong = rating.value!!.strong
-        _drink.value?.sweet = rating.value!!.sweet
-        _drink.value?.sour = rating.value!!.sour
-        _drink.value?.take_again = rating.value!!.take_again
-        _drink.value?.main_image = rating.value!!.main_photo
-        _drink.value?.images = rating.value!!.images!!
+//    fun bindingDrink() {
+//
+//        _drink.value?.name = rating.value!!.name
+//        _drink.value?.bar = rating.value!!.bar
+//        _drink.value?.contents = rating.value!!.contents
+//        _drink.value?.base = rating.value!!.base
+//        _drink.value?.contents = rating.value!!.contents
+//        _drink.value?.category = rating.value!!.category
+//        _drink.value?.pairings = rating.value!!.pairings
+//        _drink.value?.strong = rating.value!!.strong
+//        _drink.value?.sweet = rating.value!!.sweet
+//        _drink.value?.sour = rating.value!!.sour
+//        _drink.value?.take_again = rating.value!!.take_again
+//        _drink.value?.main_image = rating.value!!.main_photo
+//        _drink.value?.images = rating.value!!.images!!
+//
+//        _bar.value?.name = rating.value!!.bar
+//        _bar.value?.main_image = rating.value!!.main_photo
+//        _bar.value?.images = rating.value!!.images!!
+//        Logger.d("drink.value = ${_drink.value?.name}")
+//        Logger.d("rating.value = ${rating.value?.name}")
+//    }
 
-        _bar.value?.name = drink.value!!.bar
-        _bar.value?.main_image = drink.value!!.main_image
-        _bar.value?.images = drink.value!!.images
+//    fun getRatedDrinks() {
+//
+//        coroutineScope.launch {
+//
+//            _status.value = LoadApiStatus.LOADING
+//
+//            val result = drink.value.let {
+//                repository.getRatedDrinks(it!!)
+//            }
+//            Logger.d("repository.getLikedDrinks(it!!)")
+//            Logger.d("drink.name = ${drink.value?.name} ")
+//            Logger.d("result = $result ")
+//
+//
+//            _updatedDrink.value = when (result) {
+//                is Result.Success -> {
+//                    _error.value = null
+//                    _status.value = LoadApiStatus.DONE
+//                    result.data
+//                }
+//                is Result.Fail -> {
+//                    _error.value = result.error
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                is Result.Error -> {
+//                    _error.value = result.exception.toString()
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//                else -> {
+//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+//                    _status.value = LoadApiStatus.ERROR
+//                    null
+//                }
+//            }
+//
+//
+//        }
+//    }
 
-    }
-
-    fun getRatedDrinks() {
+    fun getSearchedDrinksResult(searchedText: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = drink.value.let {
-                repository.getRatedDrinks(it!!)
-            }
-            Logger.d("repository.getLikedDrinks(it!!)")
-            Logger.d("drink.name = ${drink.value?.name} ")
-            Logger.d("result = $result ")
+            val result = searchedText.let { repository.getSearchedDrinksResult(it) }
 
-
-            _updatedDrink.value = when (result) {
+            _searchedDrinks.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -307,16 +385,43 @@ class RateViewModel(
                     null
                 }
             }
-
-//            if (upDatedDrink.value?.id  != null){
-//                navigateToDetail(upDatedDrink.value!!)
-//
-//                Logger.d("fun getRatedDrinks() drink.value = ${upDatedDrink.value}")
-//            }
-
+//            _refreshStatus.value = false
         }
     }
 
+    fun getSearchedBarsResult(searchedText: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = searchedText.let { repository.getSearchedBarsResult(it) }
+
+            _searchedBars.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+//            _refreshStatus.value = false
+        }
+    }
 
     fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
@@ -363,7 +468,18 @@ class RateViewModel(
         navigateToAddedSuccess(rating.value!!)
     }
 
-    fun navigateToDetail(drinks: Drinks) {
-        _navigateToDetail.value = drinks
+    fun navigateToDetail(ratings: Ratings) {
+        _navigateToDetail.value = ratings
     }
+
+
+    var statusAbout = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    fun setAboutStatus(){
+        statusAbout.value = !statusAbout.value!!
+
+    }
+
 }

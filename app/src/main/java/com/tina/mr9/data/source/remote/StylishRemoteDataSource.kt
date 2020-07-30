@@ -76,6 +76,7 @@ object StylishRemoteDataSource : StylishDataSource {
                             val ratings = document.toObject(Ratings::class.java)
                             list.add(ratings)
                         }
+                        list.sortByDescending { it.createdTime }
                         continuation.resume(Result.Success(list))
                     } else {
                         task.exception?.let {
@@ -355,7 +356,7 @@ object StylishRemoteDataSource : StylishDataSource {
                                     if (task.isSuccessful) {
                                         Logger.i("Publish: $ratings")
 
-                                        continuation.resume(Result.Success(true))
+//                                        continuation.resume(Result.Success(true))
                                     } else {
                                         task.exception?.let {
 
@@ -418,7 +419,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
                         }
 
-
+                        continuation.resume(Result.Success(true))
 //                    continuation.resume(Result.Success(list))
                     } else {
                         task.exception?.let {

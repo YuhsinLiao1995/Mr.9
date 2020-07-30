@@ -1,7 +1,9 @@
 package com.tina.mr9.detailpage
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.tina.mr9.Mr9Application
 import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentDetailBinding
 import com.tina.mr9.ext.getVmFactory
@@ -32,6 +35,8 @@ class DetailFragment : Fragment() {
         )
     }
 
+
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -41,12 +46,33 @@ class DetailFragment : Fragment() {
 
         binding.recyclerDetailImages.adapter = DetailImagesAdapter()
 
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            10f,
+            resources.displayMetrics
+        ).toInt()
+
+        viewModel.drink.observe(viewLifecycleOwner, Observer {it?.let {
+
+
+            if (viewModel.drink.value?.amtRating!! < 1) {
+                binding.noReview.visibility = View.VISIBLE
+                Logger.d("no review")
+            }
+            if (viewModel.drink.value?.amtRating!! < 2) {
+                binding.amtRatingsText.text = "rating"
+            }
+        }
+        })
+
+
+
         binding.recyclerRatings.adapter =
             DetailRatingsAdapter(DetailRatingsAdapter.OnClickListener {
 
                 findNavController().navigate(NavigationDirections.navigateToOthersProfileFragment(null,it))
                 viewModel.navigateToDetail(it)
-            })
+            },paddingDp)
 
         binding.btnRate.setOnClickListener {
             Logger.d("clicked")
@@ -77,6 +103,8 @@ class DetailFragment : Fragment() {
 
         })
 
+
+
 //        viewModel.drink.observe(viewLifecycleOwner, Observer {
 //            Logger.d("viewModel.argument ${viewModel.drink}")
 //            it.let {
@@ -84,6 +112,8 @@ class DetailFragment : Fragment() {
 //                Logger.d(" viewModel.getRatingsResult()")
 //            }
 //        })
+
+
 
 
         return binding.root
