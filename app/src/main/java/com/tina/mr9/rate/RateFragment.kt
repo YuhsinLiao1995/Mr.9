@@ -37,10 +37,8 @@ import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.NavigationDirections
-import com.tina.mr9.data.Drinks
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.search.SearchedBarAdapter
 import com.tina.mr9.util.Logger
 import java.io.File
 import java.util.*
@@ -155,13 +153,57 @@ class RateFragment : Fragment() {
 
                 viewModel.taglist.value?.add(newChip.text.toString())
 
-                viewModel.rating.value?.pairings = (viewModel.taglist.value?: listOf())
+                viewModel.rating.value?.pairings = (viewModel.taglist.value ?: listOf())
 
-                chipFun(mutableListOf(newChip.text.toString()),chipGroup,newChip,viewModel.newtag)
+                chipFun(
+                    mutableListOf(newChip.text.toString()),
+                    chipGroup,
+                    newChip,
+                    viewModel.newtag
+                )
                 Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
-            } else{
-                Toast.makeText(Mr9Application.appContext,"Please write a content",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    Mr9Application.appContext,
+                    "Please write a content",
+                    Toast.LENGTH_LONG
+                ).show()
+
+
             }
+        }
+
+        val scrollView = binding.scrollView
+        val rating = binding.rating
+
+//        viewModel.statusReview.observe(viewLifecycleOwner, Observer {
+//            if (it == true){
+//                scrollView.post{
+//                    scrollView.scrollTo(0,   rating.top);
+//                    Logger.d("scroll to rate")
+//                }
+//            }
+//        })
+
+
+        binding.btnNext.setOnClickListener {
+            viewModel.setReviewStatus()
+            viewModel.statusReview.observe(viewLifecycleOwner, Observer {
+                Logger.d("viewModel.statusReview.observe, it=$it")
+                it?.let {
+                    if (it) {
+                        binding.rating.visibility = View.VISIBLE
+                        binding.btnNext.visibility = View.GONE
+
+                        scrollView.post {
+//                            scrollView.scrollTo(0, rating.top);
+                            Logger.d("scroll to rate")
+                            scrollView.smoothScrollTo(0, rating.top)
+                        }
+                    }
+
+                }
+            })
         }
 
 
@@ -213,9 +255,8 @@ class RateFragment : Fragment() {
                 (binding.recyclerImages.adapter as RateAdapter).notifyDataSetChanged()
 
                 if(it.size != 0) {
-                    binding.recyclerImages.visibility = View.VISIBLE
-                    binding.line1.visibility = View.VISIBLE
-                    binding.line2.visibility = View.VISIBLE
+                    binding.recyclerImageitems.visibility = View.VISIBLE
+                    binding.recyclerImages.background = null
                 }
             }
         })

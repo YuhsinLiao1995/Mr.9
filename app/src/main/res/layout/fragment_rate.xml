@@ -18,77 +18,304 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/layout_swipe_refresh_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:id="@+id/btn_add_photo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+                <Button
+                    android:id="@+id/btn_take_pic"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/photograph"
+                    app:layout_constraintStart_toEndOf="@id/btn_add_photo"
+                    app:layout_constraintTop_toTopOf="@id/btn_add_photo" />
+
+                <ImageView
+                    android:id="@+id/unclick"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@{viewModel.statusAbout == false ?  @drawable/unclick : @drawable/clicked}"
+                    app:layout_constraintStart_toStartOf="@id/address_input"
+                    app:layout_constraintTop_toBottomOf="@id/address_input" />
+
+                <TextView
+                    android:id="@+id/newDrink_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="New Drink?"
+                    app:layout_constraintStart_toEndOf="@id/unclick"
+                    app:layout_constraintTop_toBottomOf="@id/address_input" />
+
+                <Button
+                    android:id="@+id/btn_newDrink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@color/transparent"
+                    android:onClick="@{() -> viewModel.setAboutStatus()}"
+                    app:layout_constraintBottom_toBottomOf="@id/newDrink_text"
+                    app:layout_constraintEnd_toEndOf="@id/newDrink_text"
+                    app:layout_constraintStart_toStartOf="@id/unclick"
+                    app:layout_constraintTop_toTopOf="@id/unclick" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/addPic"
+                    android:id="@+id/recycler_imageitems"
                     android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:elevation="4dp"
-                    android:background="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/btn_add_photo">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/background_placeholder"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/line2">
+
+                    </androidx.recyclerview.widget.RecyclerView>
 
 
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        app:layout_constraintBottom_toBottomOf="@id/btn_take_pic"
-                        app:layout_constraintEnd_toEndOf="@id/btn_take_pic"
-                        app:layout_constraintStart_toStartOf="@id/btn_take_pic"
-                        app:layout_constraintTop_toTopOf="@id/btn_take_pic"
-                        app:srcCompat="@drawable/photograph" />
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        app:layout_constraintBottom_toBottomOf="@id/btn_add_photo"
-                        app:layout_constraintEnd_toEndOf="@id/btn_add_photo"
-                        app:layout_constraintStart_toStartOf="@id/btn_add_photo"
-                        app:layout_constraintTop_toTopOf="@id/btn_add_photo"
-                        app:srcCompat="@drawable/picture" />
-
-                    <Button
-                        android:id="@+id/btn_add_photo"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/background_add_photo"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <TextView
+                        android:id="@+id/line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/gray_999999"
+                        app:layout_constraintBottom_toTopOf="@id/recycler_images"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/btn_take_pic"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                    <TextView
+                        android:id="@+id/line1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/gray_999999"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_images" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/DetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="About this drink"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/name_input"
+                    style="@style/DetailContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/background_input"
+                    android:hint="Name of the drink"
+                    android:padding="10dp"
+                    android:text="@={viewModel.rating.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recycler_imageitems" />
+
+
+                <EditText
+                    android:id="@+id/bar_input"
+                    style="@style/DetailContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_input"
+                    android:hint="Which bar?"
+                    android:padding="10dp"
+                    android:text="@={viewModel.rating.bar}"
+                    app:layout_constraintEnd_toEndOf="@id/name_input"
+                    app:layout_constraintStart_toStartOf="@id/name_input"
+                    app:layout_constraintTop_toBottomOf="@id/name_input" />
+
+                <EditText
+                    android:id="@+id/address_input"
+                    style="@style/DetailContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_input"
+                    android:hint="Where is the bar ?"
+                    android:padding="10dp"
+                    android:text="@={viewModel.bar.address}"
+                    app:layout_constraintEnd_toEndOf="@id/name_input"
+                    app:layout_constraintStart_toStartOf="@id/name_input"
+                    app:layout_constraintTop_toBottomOf="@id/bar_input" />
+
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/group_profile_tag"
+                    style="@style/Widget.MaterialComponents.ChipGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_horizontal"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintEnd_toEndOf="@id/address_input"
+                    app:layout_constraintStart_toStartOf="@id/address_input"
+                    app:layout_constraintTop_toBottomOf="@id/content" />
+
+                <TextView
+                    android:id="@+id/btn_next"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_follow"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="@id/address_input"
+                    app:layout_constraintStart_toStartOf="@id/address_input"
+                    app:layout_constraintTop_toBottomOf="@id/group_profile_tag" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:visibility="@{viewModel.statusAbout == true ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toTopOf="@id/group_profile_tag"
+                    app:layout_constraintStart_toStartOf="@id/address_input"
+                    app:layout_constraintTop_toBottomOf="@id/newDrink_text">
+
+                    <ImageView
+                        android:id="@+id/btn_add_chip"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/conetent_input"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/conetent_input"
+                        app:layout_constraintTop_toTopOf="@id/conetent_input"
+                        app:srcCompat="@drawable/add" />
+
+                    <EditText
+                        android:id="@+id/conetent_input"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/background_add_photo"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/background_input"
+                        android:hint="Add Content Ex: Vodka"
+                        android:padding="10dp"
+                        android:text="@={viewModel.newtag}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btn_add_photo"
+                        app:layout_constraintEnd_toStartOf="@id/btn_add_chip"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/btn_next">
+
+                    <ImageView
+                        android:id="@+id/btn_add_chip_pairing"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/pairing_input"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/pairing_input"
+                        app:layout_constraintTop_toTopOf="@id/pairing_input"
+                        app:srcCompat="@drawable/add" />
+
+                    <EditText
+                        android:id="@+id/pairing_input"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/background_input"
+                        android:hint="Add Pairing Ex: Dumpling"
+                        android:padding="10dp"
+                        android:text="@={viewModel.newPairingTag}"
+                        app:layout_constraintEnd_toStartOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/sweet"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sour" />
+
+
+                    <EditText
+                        android:id="@+id/comment_input"
+                        style="@style/DetailContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="top"
+                        android:hint="Leave your comment..."
+                        android:minLines="3"
+                        android:padding="10dp"
+                        android:text="@={viewModel.rating.comment}"
+                        app:layout_constraintEnd_toEndOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/comment"
+                        app:layout_constraintTop_toBottomOf="@id/comment"
+                        app:layout_goneMarginBottom="16dp" />
 
                     <Button
                         android:id="@+id/button_publish"
                         style="@style/Base.Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:layout_marginHorizontal="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginHorizontal="0dp"
+                        android:layout_marginVertical="16dp"
                         android:background="@drawable/background_send"
                         android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
                         android:fontFamily="@font/comfortaa"
@@ -98,398 +325,163 @@
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/comment_input"
+                        app:layout_constraintStart_toStartOf="@id/comment_input"
+                        app:layout_constraintTop_toBottomOf="@id/comment_input" />
+
+                    <TextView
+                        android:id="@+id/overallRating"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Overall Rating"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/overallRating"
+                        app:nrb_rating="5"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="35dp"
+                        app:nrb_starImagePadding="30dp"
+                        app:nrb_starImageWidth="35dp" />
+
+
+                    <TextView
+                        android:id="@+id/sweet"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Sweet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar" />
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar_sweet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sweet"
+                        app:nrb_rating="5"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="35dp"
+                        app:nrb_starImagePadding="30dp"
+                        app:nrb_starImageWidth="35dp" />
+
+
+                    <TextView
+                        android:id="@+id/sour"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Sour"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sweet" />
+
+
+                    <TextView
+                        android:id="@+id/comment"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Share more about it "
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pairing_tag" />
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar_sour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sour"
+                        app:nrb_rating="5"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="35dp"
+                        app:nrb_starImagePadding="30dp"
+                        app:nrb_starImageWidth="35dp" />
+
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/pairing_tag"
+                        style="@style/Widget.MaterialComponents.ChipGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        app:layout_constraintEnd_toEndOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/pairing_input"
+                        app:layout_constraintTop_toBottomOf="@id/btn_add_chip_pairing">
+
+                    </com.google.android.material.chip.ChipGroup>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ScrollView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view_drink"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/translucent_40"
+                    android:visibility="visible"
+                    app:drinkList="@{viewModel.searchedDrinks}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addPic">
+                    app:layout_constraintTop_toBottomOf="@id/name_input"
+                    tools:listitem="@layout/item_searched_drink" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/translucent_40"
+                    android:visibility="gone"
+                    app:barList="@{viewModel.searchedBars}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bar_input"
+                    tools:listitem="@layout/item_searched_bar" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
-
-                        <EditText
-                            android:id="@+id/name_input"
-                            style="@style/DetailContent"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:background="@drawable/background_input"
-                            android:hint="Name of the drink"
-                            android:padding="10dp"
-                            android:text="@={viewModel.rating.name}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/line1" />
-
-
-
-                        <EditText
-                            android:id="@+id/bar_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            style="@style/DetailContent"
-                            android:background="@drawable/background_input"
-                            android:hint="Which bar?"
-                            android:padding="10dp"
-                            android:text="@={viewModel.rating.bar}"
-                            app:layout_constraintEnd_toEndOf="@id/name_input"
-                            app:layout_constraintStart_toStartOf="@id/name_input"
-                            app:layout_constraintTop_toBottomOf="@id/name_input" />
-
-                        <EditText
-                            android:id="@+id/address_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            style="@style/DetailContent"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/background_input"
-                            android:hint="Where is the bar ?"
-                            android:padding="10dp"
-                            android:text="@={viewModel.bar.address}"
-                            app:layout_constraintEnd_toEndOf="@id/name_input"
-                            app:layout_constraintStart_toStartOf="@id/name_input"
-                            app:layout_constraintTop_toBottomOf="@id/bar_input" />
-
-
-
-                    
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:visibility="@{viewModel.statusAbout == true ? View.VISIBLE : View.GONE}"
-                            app:layout_constraintStart_toStartOf="@id/address_input"
-                            app:layout_constraintTop_toBottomOf="@id/newDrink_text"
-                            app:layout_constraintBottom_toTopOf="@id/group_profile_tag">
-
-                            <ImageView
-                                android:id="@+id/btn_add_chip"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_marginHorizontal="16dp"
-                                app:layout_constraintBottom_toBottomOf="@id/conetent_input"
-                                app:layout_constraintStart_toEndOf="@id/conetent_input"
-                                app:layout_constraintTop_toTopOf="@id/conetent_input"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:srcCompat="@drawable/add" />
-
-                        <EditText
-                            android:id="@+id/conetent_input"
-                            android:layout_width="0dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            style="@style/DetailContent"
-                            android:background="@drawable/background_input"
-                            android:hint="Add Content Ex: Vodka"
-                            android:padding="10dp"
-                            android:text="@={viewModel.newtag}"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/btn_add_chip"/>
-
-                
-                     
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/group_profile_tag"
-                            style="@style/Widget.MaterialComponents.ChipGroup"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginBottom="16dp"
-                            android:gravity="center_horizontal"
-                            android:theme="@style/Theme.MaterialComponents.Light"
-                            app:layout_constraintEnd_toEndOf="@id/address_input"
-                            app:layout_constraintStart_toStartOf="@id/address_input"
-                            app:layout_constraintTop_toBottomOf="@id/content"
-                            app:layout_constraintBottom_toTopOf="@id/btn_add_chip_pairing" />
-
-                        <ImageView
-                            android:id="@+id/btn_add_chip_pairing"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginHorizontal="16dp"
-                            app:layout_constraintBottom_toBottomOf="@id/pairing_input"
-                            app:layout_constraintStart_toEndOf="@id/pairing_input"
-                            app:layout_constraintTop_toTopOf="@id/pairing_input"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:srcCompat="@drawable/add" />
-
-                        <EditText
-                            android:id="@+id/pairing_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            style="@style/DetailContent"
-                            android:background="@drawable/background_input"
-                            android:hint="Add Pairing Ex: Dumpling"
-                            android:padding="10dp"
-                            android:text="@={viewModel.newPairingTag}"
-                            app:layout_constraintStart_toStartOf="@id/address_input"
-                            app:layout_constraintTop_toBottomOf="@id/group_profile_tag"
-                            app:layout_constraintEnd_toStartOf="@id/btn_add_chip_pairing"/>
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/pairing_tag"
-                            style="@style/Widget.MaterialComponents.ChipGroup"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:gravity="center_horizontal"
-                            android:theme="@style/Theme.MaterialComponents.Light"
-                            app:layout_constraintEnd_toEndOf="@id/address_input"
-                            app:layout_constraintStart_toStartOf="@id/pairing_input"
-                            app:layout_constraintTop_toBottomOf="@id/btn_add_chip_pairing">
-
-                        </com.google.android.material.chip.ChipGroup>
-
-                        <EditText
-                            android:id="@+id/comment_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:background="@drawable/background_input"
-                            android:hint="Leave your comment..."
-                            android:gravity="top"
-                            android:padding="10dp"
-                            android:minLines="3"
-                            style="@style/DetailContent"
-                            android:text="@={viewModel.rating.comment}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/name_input"
-                            app:layout_constraintStart_toStartOf="@id/name_input"
-                            app:layout_constraintTop_toBottomOf="@id/comment"
-                            app:layout_goneMarginBottom="16dp" />
-
-                        <TextView
-                            android:id="@+id/overallRating"
-                            style="@style/DetailContent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Overall Rating"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/pairing_tag" />
-
-                        <TextView
-                            android:id="@+id/line2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="0dp"
-                            android:background="@color/gray_999999"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toTopOf="@id/recycler_images"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/line1"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="10dp"
-                            android:background="@color/gray_999999"
-                            android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_images"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:visibility="gone"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/line2"
-                            tools:listitem="@layout/item_image">
-
-                        </androidx.recyclerview.widget.RecyclerView>
-
-
-                        <com.kaelli.niceratingbar.NiceRatingBar
-                            android:id="@+id/niceRatingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/overallRating"
-                            app:nrb_rating="5"
-                            app:nrb_ratingStatus="Enable"
-                            app:nrb_starEmptyResource="@drawable/star_blank"
-                            app:nrb_starFullResource="@drawable/star_full"
-                            app:nrb_starHalfResource="@drawable/star_half"
-                            app:nrb_starImageHeight="35dp"
-                            app:nrb_starImagePadding="30dp"
-                            app:nrb_starImageWidth="35dp" />
-
-
-                        <TextView
-                            android:id="@+id/sweet"
-                            style="@style/DetailContent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:text="Sweet"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/niceRatingBar" />
-
-                        <com.kaelli.niceratingbar.NiceRatingBar
-                            android:id="@+id/niceRatingBar_sweet"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sweet"
-                            app:nrb_rating="5"
-                            app:nrb_ratingStatus="Enable"
-                            app:nrb_starEmptyResource="@drawable/star_blank"
-                            app:nrb_starFullResource="@drawable/star_full"
-                            app:nrb_starHalfResource="@drawable/star_half"
-                            app:nrb_starImageHeight="35dp"
-                            app:nrb_starImagePadding="30dp"
-                            app:nrb_starImageWidth="35dp" />
-
-
-
-
-                        <TextView
-                            android:id="@+id/sour"
-                            style="@style/DetailContent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:text="Sour"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sweet" />
-
-
-                        <TextView
-                            android:id="@+id/comment"
-                            style="@style/DetailContent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:text="Share more about it "
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sour" />
-
-                        <com.kaelli.niceratingbar.NiceRatingBar
-                            android:id="@+id/niceRatingBar_sour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sour"
-                            app:nrb_rating="5"
-                            app:nrb_ratingStatus="Enable"
-                            app:nrb_starEmptyResource="@drawable/star_blank"
-                            app:nrb_starFullResource="@drawable/star_full"
-                            app:nrb_starHalfResource="@drawable/star_half"
-                            app:nrb_starImageHeight="35dp"
-                            app:nrb_starImagePadding="30dp"
-                            app:nrb_starImageWidth="35dp" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/list_view_drink"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:visibility="gone"
-                            android:background="@color/translucent_40"
-                            app:drinkList="@{viewModel.searchedDrinks}"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintTop_toBottomOf="@id/name_input"
-                            tools:listitem="@layout/item_searched_drink" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/list_view_bar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:visibility="gone"
-                            android:background="@color/translucent_40"
-                            app:barList="@{viewModel.searchedBars}"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintTop_toBottomOf="@id/bar_input"
-                            tools:listitem="@layout/item_searched_bar" />
-
-                        <ImageView
-                            android:id="@+id/unclick"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:background="@{viewModel.statusAbout == false ?  @drawable/background_followed : @drawable/background_send}"
-                            app:layout_constraintStart_toStartOf="@id/address_input"
-                            app:layout_constraintTop_toBottomOf="@id/address_input"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginStart="8dp"/>
-
-                        <TextView
-                            android:id="@+id/newDrink_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:text="New Drink?"
-                            app:layout_constraintStart_toEndOf="@id/unclick"
-                            app:layout_constraintTop_toBottomOf="@id/address_input"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginStart="8dp"/>
-
-                        <Button
-                            android:id="@+id/btn_newDrink"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:onClick="@{() -> viewModel.setAboutStatus()}"
-                            app:layout_constraintStart_toStartOf="@id/unclick"
-                            app:layout_constraintTop_toTopOf="@id/unclick"
-                            app:layout_constraintEnd_toEndOf="@id/newDrink_text"
-                            app:layout_constraintBottom_toBottomOf="@id/newDrink_text"
-                            android:background="@color/transparent"/>
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </ScrollView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+        </ScrollView>
 
 
         <TextView

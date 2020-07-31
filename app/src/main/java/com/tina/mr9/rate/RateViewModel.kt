@@ -2,6 +2,7 @@ package com.tina.mr9.rate
 
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -479,6 +480,25 @@ class RateViewModel(
 
     fun setAboutStatus(){
         statusAbout.value = !statusAbout.value!!
+
+    }
+
+    var statusReview = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+    fun setReviewStatus(){
+
+        if (rating.value?.name == ""){
+            Toast.makeText(Mr9Application.appContext,"Enter the drink to Continue",LENGTH_SHORT).show()
+        } else if (rating.value?.bar == "") {
+            Toast.makeText(Mr9Application.appContext,"Enter the bar to Continue",LENGTH_SHORT).show()
+        } else if (bar.value?.address == "") {
+            Toast.makeText(Mr9Application.appContext,"Enter the address to Continue",LENGTH_SHORT).show()
+        } else{
+            statusReview.value = true
+
+        }
 
     }
 
