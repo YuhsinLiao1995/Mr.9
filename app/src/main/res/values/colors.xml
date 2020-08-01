@@ -48,7 +48,7 @@
     <!-- Original -->
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#3f3a3a</color>
 
     <color name="color_gray">#B4B4B4</color>
     <color name="color_green">#00b4aa</color>
