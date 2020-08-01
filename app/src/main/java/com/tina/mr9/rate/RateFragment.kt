@@ -342,7 +342,7 @@ class RateFragment : Fragment() {
                                 Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
                                 Logger.d("it.name = ${it.name}")
                                 binding.nameInput.setText(it.name)
-                                binding.barInput.setText(it.bar)
+                                binding.priceInput.setText(it.price.toString())
                                 viewModel.taglist.value?.plus(it.contents)
                                 updateChip(it.contents.toMutableList())
                                 binding.listViewDrink.visibility = View.GONE

@@ -13,6 +13,7 @@ data class Drinks(
     var address: String = "",
     var name: String = "",
     var bar: String = "",
+    var price: Int = 0,
     var base: List<String> = emptyList(),
     var contents: List<String> = emptyList(),
     var pairings: List<String> = emptyList(),
