@@ -124,13 +124,50 @@ object StylishRemoteDataSource : StylishDataSource {
 
         }
 
-    override suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>> =
+    override suspend fun getSearchedRatingDrinksResult(searchedText: String,searchedBarText: String, searchedBarAddressText: String): Result<List<Drinks>> =
+        suspendCoroutine { continuation ->
+
+            Logger.d("searchedBarAddressText = $searchedBarAddressText")
+            FirebaseFirestore.getInstance()
+                .collection("drinks")
+                .whereEqualTo("bar",searchedBarText)
+                .whereEqualTo("address",searchedBarAddressText)
+                .orderBy("name")
+                .startAt(searchedText.toUpperCase())
+                .endAt(searchedText + "\uf8ff")
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Drinks>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val search = document.toObject(Drinks::class.java)
+                            list.add(search)
+                        }
+                        continuation.resume(Result.Success(list))
+                        Logger.d("task.result.size = ${task.result!!.size()}")
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+        }
+
+
+    override suspend fun getSearchedDrinksResult(searchedText: String): Result<List<Drinks>> =
         suspendCoroutine { continuation ->
             FirebaseFirestore.getInstance()
                 .collection("drinks")
                 .orderBy("name")
-                .startAt(searchText.toUpperCase())
-                .endAt(searchText + "\uf8ff")
+                .startAt(searchedText.toUpperCase())
+                .endAt(searchedText + "\uf8ff")
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

@@ -191,26 +191,26 @@ class SuccessViewModel(
         }
     }
 
-    fun bindingDrink() {
-        _drinks.value?.name = rating.value!!.name
-        _drinks.value?.bar = rating.value!!.bar
-        _drinks.value?.contents = rating.value!!.contents
-        _drinks.value?.base = rating.value!!.base
-        _drinks.value?.contents = rating.value!!.contents
-        _drinks.value?.category = rating.value!!.category
-        _drinks.value?.pairings = rating.value!!.pairings
-        _drinks.value?.strong = rating.value!!.strong
-        _drinks.value?.sweet = rating.value!!.sweet
-        _drinks.value?.sour = rating.value!!.sour
-        _drinks.value?.take_again = rating.value!!.take_again
-        _drinks.value?.main_image = rating.value!!.main_photo
-        _drinks.value?.images = rating.value!!.images!!
-
-        _bar.value?.name = drinks.value!!.bar
-        _bar.value?.main_image = drinks.value!!.main_image
-        _bar.value?.images = drinks.value!!.images
-
-    }
+//    fun bindingDrink() {
+//        _drinks.value?.name = rating.value!!.name
+//        _drinks.value?.bar = rating.value!!.bar
+//        _drinks.value?.contents = rating.value!!.contents
+//        _drinks.value?.base = rating.value!!.base
+//        _drinks.value?.contents = rating.value!!.contents
+//        _drinks.value?.category = rating.value!!.category
+//        _drinks.value?.pairings = rating.value!!.pairings
+//        _drinks.value?.body = rating.value!!.body
+//        _drinks.value?.sweet = rating.value!!.sweet
+//        _drinks.value?.sour = rating.value!!.sour
+//        _drinks.value?.take_again = rating.value!!.take_again
+//        _drinks.value?.main_image = rating.value!!.main_photo
+//        _drinks.value?.images = rating.value!!.images!!
+//
+//        _bar.value?.name = drinks.value!!.bar
+//        _bar.value?.main_image = drinks.value!!.main_image
+//        _bar.value?.images = drinks.value!!.images
+//
+//    }
 
 
     fun leave(needRefresh: Boolean = false) {

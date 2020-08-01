@@ -16,7 +16,9 @@ interface StylishRepository {
 
     suspend fun getSearchList(type: String): Result<List<Search>>
 
-    suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>>
+    suspend fun getSearchedRatingDrinksResult(searchedText: String,searchedBarText: String, searchedBarAddressText: String): Result<List<Drinks>>
+
+    suspend fun getSearchedDrinksResult(searchedText: String): Result<List<Drinks>>
 
     suspend fun getSearchedBarsResult(searchText: String): Result<List<Bar>>
 

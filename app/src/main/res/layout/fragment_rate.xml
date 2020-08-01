@@ -194,6 +194,7 @@
                             android:id="@+id/price_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:numeric="@{viewModel.rating.price}"
                             android:hint="Price $$"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="number"
@@ -240,7 +241,7 @@
                             android:hint="Where is the bar ?"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="text"
-                            android:text="@={viewModel.bar.address}"
+                            android:text="@={viewModel.rating.address}"
                             android:textSize="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -331,18 +332,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list_view_drink"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/translucent_40"
-                        android:visibility="gone"
-                        app:drinkList="@{viewModel.searchedDrinks}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
-                        tools:listitem="@layout/item_searched_drink" />
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list_view_bar"
@@ -357,6 +347,19 @@
                         app:layout_constraintTop_toBottomOf="@id/bar_input_layout"
                         tools:listitem="@layout/item_searched_bar" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_view_drink"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/translucent_40"
+                        android:visibility="gone"
+                        app:drinkList="@{viewModel.searchedDrinks}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+                        tools:listitem="@layout/item_searched_drink" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -364,7 +367,7 @@
                     android:id="@+id/rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/basic_info">
 
                     <TextView

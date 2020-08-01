@@ -37,6 +37,9 @@ import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.NavigationDirections
+import com.tina.mr9.data.Bar
+import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Ratings
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.Logger
@@ -185,25 +188,67 @@ class RateFragment : Fragment() {
 //            }
 //        })
 
-
+        // Click next btn to move forward to review part
         binding.btnNext.setOnClickListener {
-            viewModel.setReviewStatus()
-            viewModel.statusReview.observe(viewLifecycleOwner, Observer {
-                Logger.d("viewModel.statusReview.observe, it=$it")
-                it?.let {
-                    if (it) {
-                        binding.rating.visibility = View.VISIBLE
-                        binding.btnNext.visibility = View.GONE
+            Logger.d("name = ${viewModel.rating.value?.name} bar = ${viewModel.rating.value?.bar}")
 
-                        scrollView.post {
-//                            scrollView.scrollTo(0, rating.top);
-                            Logger.d("scroll to rate")
-                            scrollView.smoothScrollTo(0, rating.top)
-                        }
-                    }
+            when {
+                viewModel.rating.value?.name == "" -> {
+
+                    Toast.makeText(
+                        Mr9Application.appContext,
+                        "Please enter the drink ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                viewModel.rating.value?.bar == "" -> {
+
+                    Toast.makeText(
+                        Mr9Application.appContext,
+                        "Please enter the bar ",
+                        Toast.LENGTH_LONG
+                    ).show()
 
                 }
-            })
+                viewModel.images.value?.size == 0 -> {
+
+                    Toast.makeText(
+                        Mr9Application.appContext,
+                        "Please add a photo! ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else -> {
+                    viewModel.setReviewStatus()
+                }
+            }
+        }
+
+        // Observe statusReview to scroll to the Review Part
+        viewModel.statusReview.observe(viewLifecycleOwner, Observer {
+            Logger.d("viewModel.statusReview.observe, it=$it")
+            it?.let {
+                if (it) {
+                    binding.rating.visibility = View.VISIBLE
+                    binding.btnNext.visibility = View.GONE
+
+                    scrollView.post {
+//                            scrollView.scrollTo(0, rating.top);
+                        Logger.d("scroll to rate")
+                        scrollView.smoothScrollTo(0, rating.top)
+                    }
+                }
+            }
+        })
+
+        binding.buttonPublish.setOnClickListener() {
+
+            Logger.d("viewModel._drink.value ${viewModel._drink.value}")
+            viewModel.publish(
+                viewModel.rating.value ?: Ratings(),
+                viewModel.drink.value ?: Drinks(),
+                viewModel.bar.value ?: Bar()
+            )
         }
 
 
@@ -263,38 +308,25 @@ class RateFragment : Fragment() {
 
         binding.niceRatingBar.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onRatingChanged(it)
-            Log.d("Tina","it = $it")
+            Log.d("Tina", "it = $it")
+        })
+
+        binding.niceRatingBarBody.setOnRatingChangedListener(OnRatingChangedListener {
+            viewModel.onBodyChanged(it)
+            Log.d("Tina", "it = $it")
         })
 
         binding.niceRatingBarSweet.setOnRatingChangedListener(OnRatingChangedListener {
-            viewModel.onSeekSweetChanged(it)
-            Log.d("Tina","it = $it")
+            viewModel.onSweetnessChanged(it)
+            Log.d("Tina", "it = $it")
         })
 
         binding.niceRatingBarSour.setOnRatingChangedListener(OnRatingChangedListener {
-            viewModel.onSeekSourChanged(it)
-            Log.d("Tina","it = $it")
+            viewModel.onSourChanged(it)
+            Log.d("Tina", "it = $it")
         })
 
-        binding.buttonPublish.setOnClickListener(){
-            if (viewModel.rating.value?.name == "" ){
-                Toast.makeText(Mr9Application.appContext,"Please enter the drink ",Toast.LENGTH_LONG).show()
 
-
-            }else if (viewModel.rating.value?.bar == ""){
-
-                Toast.makeText(Mr9Application.appContext,"Please enter the bar ",Toast.LENGTH_LONG).show()
-
-            }else if (viewModel.images.value?.size == 0){
-
-                Toast.makeText(Mr9Application.appContext,"Please add a photo! ",Toast.LENGTH_LONG).show()
-            }
-            else {
-                Logger.d("viewModel._drink.value ${viewModel._drink.value}")
-                viewModel.publish(viewModel.rating?.value!!, viewModel.drink.value!!,viewModel.bar.value!!)
-            }
-
-        }
 
         viewModel.navigateToAddedSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -328,11 +360,19 @@ class RateFragment : Fragment() {
                 val searchText = binding.nameInput.text.toString().trim()
                 Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
 
+                val searchBarText = binding.barInput.text.toString().trim()
 
-                    viewModel.getSearchedDrinksResult(searchText)
+                val searchBarAddressText = binding.addressInput.text.toString().trim()
 
+                Logger.d("searchText=$searchText  searchBarText=$searchBarText searchBarAddressText=$searchBarAddressText")
 
-                Logger.d("viewModel.searchedUser = ${viewModel.searchedDrinks}")
+                viewModel.getSearchedRatingDrinksResult(
+                    searchText,
+                    searchBarText,
+                    searchBarAddressText
+                )
+
+                Logger.d("viewModel.searchedDrinks = ${viewModel.searchedDrinks}")
 
                 viewModel.searchedDrinks.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
@@ -347,10 +387,6 @@ class RateFragment : Fragment() {
                                 updateChip(it.contents.toMutableList())
                                 binding.listViewDrink.visibility = View.GONE
                             })
-                       Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
-
-
-                        Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.name}")
 
 
                     }
@@ -359,9 +395,11 @@ class RateFragment : Fragment() {
 
 
                 if (searchText != "") {
+
                     binding.listViewDrink.visibility = View.VISIBLE
 
                 } else{
+
                     binding.listViewDrink.visibility = View.GONE
                     binding.listViewDrink.visibility = View.GONE
                 }
@@ -383,13 +421,9 @@ class RateFragment : Fragment() {
                 val searchText = binding.barInput.text.toString().trim()
                 Logger.d("viewModel.rating.value?.name = ${viewModel.rating.value?.bar}")
 
-
                 viewModel.getSearchedBarsResult(searchText)
 
-
                 Logger.d("viewModel.searchedBar = ${viewModel.searchedBars}")
-
-
 
                 viewModel.searchedBars.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
@@ -398,7 +432,6 @@ class RateFragment : Fragment() {
                                 binding.addressInput.setText(it.address)
                                 binding.barInput.setText(it.name)
                                 binding.listViewBar.visibility = View.GONE
-
                             })
                     }
                 })
@@ -414,97 +447,21 @@ class RateFragment : Fragment() {
             }
         })
 
-//        binding.bubbleSeekBarSweet.setProgress(5f)
-//
-//        binding.bubbleSeekBarSour.setProgress(5f)
-//
-//        binding.bubbleSeekBarSweet.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
-//            override fun onProgressChanged(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float,
-//                fromUser: Boolean
-//            ) {
-//                Logger.d("onProgressChanged")
-//
-//                val test: Float = progressFloat
-//
-//                Logger.d("progressFloat = $progressFloat")
-////                binding.demo4ProgressText11.text = s
-//            }
-//
-//            override fun getProgressOnActionUp(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float
-//            ) {
-//
-//                viewModel.onSeekSweetChanged(progressFloat)
-//            }
-//
-//            override fun getProgressOnFinally(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float,
-//                fromUser: Boolean
-//            ) {
-//                viewModel._rating.value?.sweet = progressFloat
-//            }
-//        }
-//
-//        binding.bubbleSeekBarSour.onProgressChangedListener = object : OnProgressChangedListenerAdapter() {
-//            override fun onProgressChanged(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float,
-//                fromUser: Boolean
-//            ) {
-//                Logger.d("onProgressChanged")
-//            }
-//
-//            override fun getProgressOnActionUp(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float
-//            ) {
-//
-//                viewModel.onSeekSourChanged(progressFloat)
-//            }
-//
-//            override fun getProgressOnFinally(
-//                bubbleSeekBar: BubbleSeekBar,
-//                progress: Int,
-//                progressFloat: Float,
-//                fromUser: Boolean
-//            ) {
-////                binding.demo4ProgressText3.setText(s)
-//                Logger.d("progressFloat = $progressFloat")
-//
-////                viewModel._rating.value?.sour = progressFloat
-////                Logger.d("viewModel._rating.value?.sour = ${viewModel._rating.value?.sour}")
-//            }
-//        }
+        binding.listViewDrink.setOnClickListener {
+            Logger.d("binding.listViewDrink.setOnClickListener")
+            binding.listViewDrink.visibility = View.GONE
+        }
 
-//        var pg = viewModel._rating.value?.alcohol_ABV
+        binding.listViewBar.setOnClickListener {
+            Logger.d("binding.listViewBar.setOnClickListener")
+            binding.listViewBar.visibility = View.GONE
+        }
 
-
-
-//        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-////                discount.setText(progress.toString() + "%")
-////                after.setText("${editText.text.toString().toFloat() * progress/100}")
-//                pg= progress
-//                Logger.d("pg = ${progress.toString()}")
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-//            }
-//
-//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//
-//                Logger.d("pg = ${pg}")
-//            }
-//        })
+        binding.root.setOnClickListener{
+            Logger.d("binding.root.setOnClickListener")
+            binding.listViewDrink.visibility = View.GONE
+            binding.listViewBar.visibility = View.GONE
+        }
 
         return binding.root
 

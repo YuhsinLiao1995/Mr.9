@@ -239,17 +239,17 @@ fun bindImage4(imgView: ImageView, imgUrl: String) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@BindingAdapter("arrayToString")
-fun main(args: List<String>?) {
-//    val delim = ", "
-    args?.let {
-        val res = (args.let { java.lang.String.join(",", it) } ?: "")
-    }
-
-//    println(res)
-//    return res
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@BindingAdapter("arrayToString")
+//fun main(args: List<String>?) {
+////    val delim = ", "
+//    args?.let {
+//        val res = (args.let { java.lang.String.join(",", it) } ?: "")
+//    }
+//
+////    println(res)
+////    return res
+//}
 
 @BindingAdapter("imageUrl_crop")
 fun bindImage1(imgView: ImageView, imgUrl: String?) {

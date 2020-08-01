@@ -26,7 +26,11 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getSearchedDrinksResult(searchText: String): Result<List<Drinks>> {
+    override suspend fun getSearchedRatingDrinksResult(searchedText: String,searchedBarText: String, searchedBarAddressText: String): Result<List<Drinks>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSearchedDrinksResult(searchedText: String): Result<List<Drinks>> {
         TODO("Not yet implemented")
     }
 

@@ -97,18 +97,19 @@ class RateViewModel(
         } else {
             value = Drinks(
 
-                name = rating.value?.name!!,
-                bar = rating.value?.bar!!,
-                contents = rating.value!!.contents,
-                base = rating.value!!.base,
-                category = rating.value!!.category,
-                pairings = rating.value!!.pairings,
-                strong = rating.value!!.strong,
-                sweet = rating.value!!.sweet,
-                sour = rating.value!!.sour,
-                take_again = rating.value!!.take_again,
-                main_image = rating.value!!.main_photo,
-                images = rating.value!!.images!!
+                name = rating.value?.name ?: "",
+                bar = rating.value?.bar ?: "",
+                address = rating.value?.address ?: "",
+                contents = rating.value?.contents ?: listOf(),
+                base = rating.value?.base ?: listOf(),
+                category = rating.value?.category ?: "General",
+                pairings = rating.value?.pairings?: listOf(),
+                body = rating.value?.body ?: -1f,
+                sweet = rating.value?.sweet ?: -1f,
+                sour = rating.value?.sour ?: -1f,
+                main_image = rating.value?.main_photo ?: "",
+                images = rating.value?.images ?: listOf(),
+                price = rating.value?.price ?: -1
             )
         }
     }
@@ -125,9 +126,9 @@ class RateViewModel(
 
     val _bar = MutableLiveData<Bar>().apply {
         value = Bar(
-            name = rating.value!!.bar,
-            main_image = rating.value!!.main_photo,
-            images = rating.value!!.images!!
+            name = rating.value?.bar ?: "",
+            main_image = rating.value?.main_photo ?: "",
+            images = rating.value?.images ?: listOf()
         )
     }
 
@@ -356,13 +357,30 @@ class RateViewModel(
 //        }
 //    }
 
-    fun getSearchedDrinksResult(searchedText: String) {
+    fun getSearchedRatingDrinksResult(
+        searchedText: String,
+        searchedBarText: String,
+        searchedBarAddressText: String
+    ) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = searchedText.let { repository.getSearchedDrinksResult(it) }
+            val result = searchedText.let { searchedText ->
+                searchedBarText.let { searchedBarText ->
+                    searchedBarAddressText.let { searchedBarAddressText ->
+
+                        repository.getSearchedRatingDrinksResult(
+                            searchedText,
+                            searchedBarText,
+                            searchedBarAddressText
+                        )
+                    }
+
+                }
+            }
+            Logger.d("searchText=$searchedText  searchBarText=$searchedBarText searchBarAddressText=$searchedBarAddressText")
 
             _searchedDrinks.value = when (result) {
                 is Result.Success -> {
@@ -443,12 +461,17 @@ class RateViewModel(
         Logger.d("_rating.value?.overall_rating = ${_rating.value?.overall_rating}")
     }
 
-    fun onSeekSourChanged(rating: Float) {
+    fun onBodyChanged(rating: Float) {
+        _rating.value?.body = rating
+        Logger.d("_rating.value?.body = ${_rating.value?.body}")
+    }
+
+    fun onSourChanged(rating: Float) {
         _rating.value?.sour = rating
         Logger.d("_rating.value?.sour = ${_rating.value?.sour}")
     }
 
-    fun onSeekSweetChanged(rating: Float) {
+    fun onSweetnessChanged(rating: Float) {
         _rating.value?.sweet = rating
         Logger.d("_rating.value?.acidic = ${_rating.value?.sweet}")
     }
@@ -489,16 +512,7 @@ class RateViewModel(
 
     fun setReviewStatus(){
 
-        if (rating.value?.name == ""){
-            Toast.makeText(Mr9Application.appContext,"Enter the drink to Continue",LENGTH_SHORT).show()
-        } else if (rating.value?.bar == "") {
-            Toast.makeText(Mr9Application.appContext,"Enter the bar to Continue",LENGTH_SHORT).show()
-        } else if (bar.value?.address == "") {
-            Toast.makeText(Mr9Application.appContext,"Enter the address to Continue",LENGTH_SHORT).show()
-        } else{
             statusReview.value = true
-
-        }
 
     }
 
