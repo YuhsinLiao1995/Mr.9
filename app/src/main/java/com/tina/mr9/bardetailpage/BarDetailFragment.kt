@@ -52,6 +52,12 @@ class BarDetailFragment() : Fragment() {
             Logger.d("viewModel.navigateToDetail = ${viewModel.navigateToDetail}")
         })
 
+        if (viewModel.bar.value?.overallRating!! > 0f) {
+            binding.niceRatingBar.setRating(viewModel.bar.value?.overallRating!!)
+        } else {
+            binding.niceRatingBar.setRating(0f)
+        }
+        Logger.d("viewModel.bar.value?.overallRating!! = ${viewModel.bar.value?.overallRating!!}")
 
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {

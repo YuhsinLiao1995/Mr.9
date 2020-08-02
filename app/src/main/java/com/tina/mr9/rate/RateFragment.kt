@@ -447,17 +447,17 @@ class RateFragment : Fragment() {
             }
         })
 
-        binding.listViewDrink.setOnClickListener {
+        binding.listViewDrink.setOnClickListener() {
             Logger.d("binding.listViewDrink.setOnClickListener")
             binding.listViewDrink.visibility = View.GONE
         }
 
-        binding.listViewBar.setOnClickListener {
+        binding.listViewBar.setOnClickListener() {
             Logger.d("binding.listViewBar.setOnClickListener")
             binding.listViewBar.visibility = View.GONE
         }
 
-        binding.root.setOnClickListener{
+        binding.root.setOnClickListener(){
             Logger.d("binding.root.setOnClickListener")
             binding.listViewDrink.visibility = View.GONE
             binding.listViewBar.visibility = View.GONE
@@ -483,8 +483,8 @@ class RateFragment : Fragment() {
     var saveUri: Uri? = null
 
     companion object {
-        val PHOTO_FROM_GALLERY = 0
-        val PHOTO_FROM_CAMERA = 1
+        const val PHOTO_FROM_GALLERY = 0
+        const val PHOTO_FROM_CAMERA = 1
     }
 
     fun toAlbum() {

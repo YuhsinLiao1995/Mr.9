@@ -364,6 +364,7 @@ object StylishRemoteDataSource : StylishDataSource {
                 .collection("drinks")
                 .whereEqualTo("name", ratings.name)
                 .whereEqualTo("bar", ratings.bar)
+                .whereEqualTo("address",ratings.address)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -412,11 +413,12 @@ object StylishRemoteDataSource : StylishDataSource {
                                 }
 
 
-                            // calculate avg rating
-//                            var amtRating = 0
+                            // calculate drink avg rating
                             var totalOverallRating = 0f
                             var totalSweet = 0f
                             var totalSour = 0f
+                            var totalBody = 0f
+                            var amtRating = 0
 
                             FirebaseFirestore.getInstance()
                                 .collection("drinks").document(path).collection("rating")
@@ -430,30 +432,132 @@ object StylishRemoteDataSource : StylishDataSource {
                                         totalOverallRating += rating.overall_rating
                                         totalSweet += rating.sweet
                                         totalSour += rating.sour
+                                        totalBody += rating.body
                                     }
 
                                     val avgOverallRating =
                                         totalOverallRating / task.result!!.size().toFloat()
                                     val avgSweet = totalSweet / task.result!!.size().toFloat()
                                     val avgSour = totalSour / task.result!!.size().toFloat()
-                                    Logger.d("rating avg=$avgOverallRating")
+                                    val avgBody = totalBody / task.result!!.size().toFloat()
+                                    amtRating = task.result!!.size()
+                                    Logger.d("totalOverallRating=$totalOverallRating")
 
+
+                                    // update drink images
+                                    var newImages = emptyList<String>()
 
                                     FirebaseFirestore.getInstance()
-                                        .collection("drinks").document(path)
-                                        .update(
-                                            "overall_rating",
-                                            avgOverallRating,
-                                            "sweet",
-                                            avgSweet,
-                                            "sour",
-                                            avgSour,
-                                            "amtRating",
-                                            task.result!!.size()
-                                        )
-                                    Logger.d("path = $path")
+                                        .collection("drinks")
+                                        .whereEqualTo("id",path)
+                                        .get()
+                                        .addOnCompleteListener() { task ->
+                                            for (document in task.result!!) {
+                                                Logger.d(document.id + " => " + document.data)
+
+                                                val drink = document.toObject(Drinks::class.java)
+                                                Logger.d("drink=$drink")
+
+                                                newImages =
+                                                    drink.images.plus(ratings.images ?: emptyList())
+                                            }
+
+
+
+                                            FirebaseFirestore.getInstance()
+                                                .collection("drinks").document(path)
+                                                .update(
+                                                    "overall_rating",
+                                                    avgOverallRating,
+                                                    "sweet",
+                                                    avgSweet,
+                                                    "sour",
+                                                    avgSour,
+                                                    "body",
+                                                    avgBody,
+                                                    "amtRating",
+                                                    task.result!!.size(),
+                                                    "images",
+                                                    newImages,
+                                                    "amtRating",
+                                                    amtRating
+                                                )
+                                            Logger.d("newImages = $newImages")
+                                            Logger.d("amtRating = $amtRating avgOverallRating = $avgOverallRating")
+
+                                        }
                                 }
 
+
+
+                            // update bar avg rating
+                            var newBarImages = emptyList<String>()
+                            var barAmtRating = 0
+                            var totalBarOverallRating = 0f
+                            FirebaseFirestore.getInstance()
+                                .collectionGroup("rating")
+                                .whereEqualTo("bar",ratings.bar)
+                                .whereEqualTo("address",ratings.address)
+                                .get()
+                                .addOnCompleteListener() { task ->
+                                    for (document in task.result!!) {
+                                        Logger.d(document.id + " => " + document.data)
+
+                                        val rating = document.toObject(Ratings::class.java)
+                                        Logger.d("rating=$rating")
+                                        totalBarOverallRating += rating.overall_rating
+
+                                    }
+                                    val avgBarOverallRating =
+                                        totalBarOverallRating / task.result!!.size().toFloat()
+                                    barAmtRating = task.result!!.size()
+
+
+
+                                    // update bar images
+
+                                    var barPath = ""
+
+                                    FirebaseFirestore.getInstance()
+                                        .collection("bar")
+                                        .whereEqualTo("name",ratings.bar)
+                                        .whereEqualTo("address",ratings.address)
+                                        .get()
+                                        .addOnCompleteListener() { task ->
+                                            for (document in task.result!!) {
+                                                Logger.d(document.id + " => " + document.data)
+
+                                                 barPath = document.id
+
+                                                val bar = document.toObject(Bar::class.java)
+                                                Logger.d("bar=$bar")
+
+                                                newBarImages = bar.images.plus(ratings.images ?: emptyList())
+                                            }
+
+
+                                            FirebaseFirestore.getInstance()
+                                                .collection("bar").document(barPath)
+                                                .update(
+                                                    "overallRating",
+                                                    avgBarOverallRating,
+                                                    "amtRating",
+                                                    barAmtRating,
+                                                    "images",
+                                                    newBarImages
+                                                )
+                                            Logger.d("barpath = $barPath")
+                                            Logger.d("barAmtRating = $barAmtRating avgBarOverallRating =$avgBarOverallRating")
+
+
+
+                                        }
+
+
+
+
+
+                                }
                         }
 
                         continuation.resume(Result.Success(true))

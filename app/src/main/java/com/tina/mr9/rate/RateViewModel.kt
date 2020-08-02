@@ -36,7 +36,13 @@ class RateViewModel(
             value = Ratings(
                 author = UserManager.user.uid,
                 authorName = UserManager.user.name,
-                authorImage = UserManager.user.image
+                authorImage = UserManager.user.image,
+                sour = 0f,
+                sweet = 0f,
+                body = 0f,
+                overall_rating = 0f
+
+
             )
 
         arguments?.let {
@@ -48,7 +54,11 @@ class RateViewModel(
                 category = arguments.category,
                 author = UserManager.user.uid,
                 authorName = UserManager.user.name,
-                authorImage = UserManager.user.image
+                authorImage = UserManager.user.image,
+                sour = 0f,
+                sweet = 0f,
+                body = 0f,
+                overall_rating = 0f
             )
 
 
@@ -209,7 +219,6 @@ class RateViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-//                    getRatedDrinks()
                     navigateToAddedSuccess(ratings)
                 }
                 is Result.DrinkNotExist -> {
