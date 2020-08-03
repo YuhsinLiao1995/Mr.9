@@ -10,7 +10,7 @@ import com.tina.mr9.databinding.ItemLikedBinding
 import com.tina.mr9.databinding.ItemOthersLikedBinding
 
 //
-class OthersLikedAdapter(private val onClickListener: OnClickListener) :
+class OthersBarLikedAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Drinks, RecyclerView.ViewHolder>(
         DiffCallback ) {
 

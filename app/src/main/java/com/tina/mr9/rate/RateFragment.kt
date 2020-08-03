@@ -457,8 +457,8 @@ class RateFragment : Fragment() {
             binding.listViewBar.visibility = View.GONE
         }
 
-        binding.root.setOnClickListener(){
-            Logger.d("binding.root.setOnClickListener")
+        binding.layoutRatingBackground.setOnClickListener(){
+            Logger.d("binding.layoutRatingBackground.onClick")
             binding.listViewDrink.visibility = View.GONE
             binding.listViewBar.visibility = View.GONE
         }

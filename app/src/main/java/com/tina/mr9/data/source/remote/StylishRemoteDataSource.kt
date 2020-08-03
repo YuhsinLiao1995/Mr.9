@@ -854,6 +854,50 @@ object StylishRemoteDataSource : StylishDataSource {
                 }
         }
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun updateLikedBarBy(
+        likedStatus: Boolean,bar: Bar
+    ): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            var newList: List<String> = if (likedStatus) {
+                bar.likedBy.plus(UserManager.user.uid.trim())
+            } else {
+                bar.likedBy.minus(UserManager.user.uid.trim())
+            }
+
+            Logger.d("newlist = $newList bar.id = ${bar.id}")
+            FirebaseFirestore.getInstance().collection("bar")
+                .document(bar.id.trim())
+                .update("likedBy", newList)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+//                        for (document in task.result) {
+//                            Logger.d(document.id + " => " + document.data)
+//
+//                            val rating = document.toObject(Drinks::class.java)
+//                        }
+                        Logger.d("success bar.id = ${bar.id}")
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(
+                            Result.Fail(
+                                Mr9Application.instance.getString(
+                                    R.string.you_know_nothing
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+
     @RequiresApi(Build.VERSION_CODES.N)
     override suspend fun updateFollowedBy(
         likedStatus: Boolean,
@@ -1022,6 +1066,36 @@ object StylishRemoteDataSource : StylishDataSource {
 
                         val drink = document.toObject(Drinks::class.java)
                         list.add(drink)
+                        Logger.d("task.result.size() = ${task.result!!.size()}")
+                    }
+                    continuation.resume(Result.Success(list))
+                } else {
+                    task.exception?.let {
+
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                }
+            }
+    }
+
+    override suspend fun getLikedBar(user: User): Result<List<Bar>> = suspendCoroutine { continuation ->
+        FirebaseFirestore.getInstance()
+
+            .collection("bar")
+            .whereArrayContains("likedBy",user.uid)
+            .get()
+
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val list = mutableListOf<Bar>()
+                    for (document in task.result!!) {
+                        Logger.d(document.id + " => " + document.data)
+
+                        val bar = document.toObject(Bar::class.java)
+                        list.add(bar)
                         Logger.d("task.result.size() = ${task.result!!.size()}")
                     }
                     continuation.resume(Result.Success(list))

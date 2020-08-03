@@ -37,16 +37,8 @@ class SearchItemFragment(private val searchType: SearchTypeFilter) : Fragment() 
             viewModel.navigateToBarlist(it)
         })
 
-        binding.layoutSwipeRefreshCatalogItem.setOnRefreshListener {
-            viewModel.refresh()
-        }
 
-        viewModel.status.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (it != LoadApiStatus.LOADING)
-                    binding.layoutSwipeRefreshCatalogItem.isRefreshing = false
-            }
-        })
+
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {

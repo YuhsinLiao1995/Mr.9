@@ -38,7 +38,7 @@ class OthersProfileFragment : Fragment() {
         val binding = FragmentOthersProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        viewPager =  binding.viewpagerProfileOthers
+        viewPager =  binding.viewpagerProfile
 
 
 

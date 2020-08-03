@@ -119,7 +119,8 @@ class RateViewModel(
                 sour = rating.value?.sour ?: -1f,
                 main_image = rating.value?.main_photo ?: "",
                 images = rating.value?.images ?: listOf(),
-                price = rating.value?.price ?: -1
+                price = rating.value?.price ?: -1,
+                overall_rating = rating.value?.overall_rating ?: -1f
             )
         }
     }
@@ -138,7 +139,8 @@ class RateViewModel(
         value = Bar(
             name = rating.value?.bar ?: "",
             main_image = rating.value?.main_photo ?: "",
-            images = rating.value?.images ?: listOf()
+            images = rating.value?.images ?: listOf(),
+            overallRating = rating.value?.overall_rating ?: -1f
         )
     }
 

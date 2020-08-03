@@ -40,9 +40,13 @@ interface StylishDataSource{
 
     suspend fun updateLikedBy(likedStatus: Boolean, user: User, drinks: Drinks): Result<Boolean>
 
+    suspend fun updateLikedBarBy(likedStatus: Boolean, bar: Bar): Result<Boolean>
+
     suspend fun updateFollowedBy(likedStatus: Boolean, user: User, searchUser: User): Result<Boolean>
 
     suspend fun getLikedDrinks(user: User): Result<List<Drinks>>
+
+    suspend fun getLikedBar(user: User): Result<List<Bar>>
 
     suspend fun getUserResult(searchId: String): Result<List<User>>
 

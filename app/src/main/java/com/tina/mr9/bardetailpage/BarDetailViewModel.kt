@@ -1,6 +1,7 @@
 package com.tina.mr9.bardetailpage
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,6 +35,28 @@ class BarDetailViewModel(
     fun setAboutStatus(){
         statusAbout.value = !statusAbout.value!!
     }
+
+    var statusLike = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
+
+
+    fun setLikeStatus(){
+        statusLike.value = !statusLike.value!!
+
+        if (statusLike.value == true){
+            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
+            Logger.d("liked")
+            updateLikedBarBy(true,bar.value!!)
+        } else{
+            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
+            Logger.d("unliked")
+            updateLikedBarBy(false,bar.value!!)
+        }
+    }
+
+
 
     var statusMenu = MutableLiveData<Boolean>().apply {
         value = false
@@ -137,6 +160,34 @@ class BarDetailViewModel(
                 }
             }
             _refreshStatus.value = false
+        }
+    }
+
+    fun updateLikedBarBy(likedStatus: Boolean, bar: Bar) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = repository.updateLikedBarBy(likedStatus, bar)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+//                    leave(true)
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
         }
     }
 

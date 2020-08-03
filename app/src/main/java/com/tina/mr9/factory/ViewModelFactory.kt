@@ -9,6 +9,7 @@ import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
 import com.tina.mr9.friends.FriendsViewModel
+import com.tina.mr9.profile.item.BarLikedViewModel
 import com.tina.mr9.search.SearchViewModel
 
 /**
@@ -39,6 +40,9 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(SearchViewModel::class.java) ->
                     SearchViewModel(stylishRepository)
+
+                isAssignableFrom(BarLikedViewModel::class.java) ->
+                    BarLikedViewModel(stylishRepository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

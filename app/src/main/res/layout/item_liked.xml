@@ -51,10 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
             android:text="@{drink.name}"
             tools:text="Drink Name"
-            style="@style/DetailContentBig"
-            android:layout_marginStart="14dp"
+            style="@style/DetailContent"
+            android:layout_marginStart="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/product_image"
             app:layout_constraintTop_toBottomOf="@+id/product_image"/>
 
@@ -67,6 +69,7 @@
             app:layout_constraintTop_toBottomOf="@+id/product_title"
             android:text="@{drink.bar}"
             style="@style/DetailContent"
+            android:textSize="12sp"
             tools:text="Bar"/>
 
         <TextView

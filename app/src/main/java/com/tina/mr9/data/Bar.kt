@@ -15,6 +15,7 @@ data class Bar(
     var amt_rating: Long = -1,
     var amtRating: Long = -1,
     var overallRating: Float = -1f,
+    var description: String = "",
     var drinks: List<String> = emptyList(),
     var images: List<String> = emptyList(),
     var pairings: List<String> = emptyList(),
@@ -22,6 +23,7 @@ data class Bar(
     var main_image: String = "",
     var min_charge: Long = -1,
     var type_bar: List<String> = emptyList(),
+    var likedBy: List<String> = emptyList(),
     var createdTime: Long = -1
 
 ) : Parcelable {

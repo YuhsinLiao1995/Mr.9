@@ -27,6 +27,7 @@ import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list.ListAdapter
 import com.tina.mr9.others_profile.item.OthersLikedAdapter
 import com.tina.mr9.others_profile.item.OthersRatingAdapter
+import com.tina.mr9.profile.item.BarLikedAdapter
 import com.tina.mr9.profile.item.LikedAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
 import com.tina.mr9.rate.RateSearchedBarAdapter
@@ -122,6 +123,8 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
                 is SearchedBarAdapter -> submitList(it)
 
                 is RateSearchedBarAdapter -> submitList(it)
+
+                is BarLikedAdapter -> submitList(it)
             }
         }
     }

@@ -15,15 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/layout_swipe_refresh_home"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -158,7 +149,7 @@
 
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewpager_profile_others"
+                    android:id="@+id/viewpager_profile"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
@@ -167,10 +158,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btn_follow">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray_999999"/>
+
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs_catalog"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_catalog_tab"
+                        android:elevation="4dp"
+                        android:background="@drawable/background_tab"
                         app:tabIndicatorColor="@color/black_3f3a3a"
                         app:tabSelectedTextColor="@color/black_3f3a3a"
                         app:tabTextColor="@color/gray_888888">
@@ -182,14 +180,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 

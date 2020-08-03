@@ -17,6 +17,7 @@ import com.tina.mr9.detailpage.DetailFragmentArgs
 import com.tina.mr9.detailpage.DetailImagesAdapter
 import com.tina.mr9.detailpage.DetailViewModel
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 
 /**
@@ -56,6 +57,10 @@ class BarDetailFragment() : Fragment() {
             binding.niceRatingBar.setRating(viewModel.bar.value?.overallRating!!)
         } else {
             binding.niceRatingBar.setRating(0f)
+        }
+
+        if (viewModel.bar.value!!.likedBy.contains(UserManager.user.uid)) {
+            viewModel.statusAbout.value = true
         }
         Logger.d("viewModel.bar.value?.overallRating!! = ${viewModel.bar.value?.overallRating!!}")
 

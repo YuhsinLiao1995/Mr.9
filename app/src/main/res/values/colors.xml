@@ -46,8 +46,8 @@
     <color name="blue_voyage">#33a4cc</color>
 
     <!-- Original -->
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorPrimary">#00000000</color>
+    <color name="colorPrimaryDark">#00000000</color>
     <color name="colorAccent">#3f3a3a</color>
 
     <color name="color_gray">#B4B4B4</color>

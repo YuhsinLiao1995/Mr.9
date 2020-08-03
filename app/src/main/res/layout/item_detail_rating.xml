@@ -104,13 +104,15 @@
 
         <TextView
             android:id="@+id/comment"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
             android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:text="@{ratings.comment}"
             app:layout_constraintTop_toBottomOf="@id/blank"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/author_image"
             app:layout_constraintBottom_toTopOf="@id/blank2"
             tools:text="goooooooooooooooood"/>

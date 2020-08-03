@@ -32,15 +32,15 @@ class HomeFragment : Fragment() {
             viewModel.navigateToDetail(it)
         })
 
-        binding.layoutSwipeRefreshHome.setOnRefreshListener {
-            viewModel.refresh()
-        }
+//        binding.layoutSwipeRefreshHome.setOnRefreshListener {
+//            viewModel.refresh()
+//        }
 
-        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.layoutSwipeRefreshHome.isRefreshing = it
-            }
-        })
+//        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                binding.layoutSwipeRefreshHome.isRefreshing = it
+//            }
+//        })
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
