@@ -4,8 +4,6 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
@@ -527,12 +525,13 @@ object StylishRemoteDataSource : StylishDataSource {
                                             for (document in task.result!!) {
                                                 Logger.d(document.id + " => " + document.data)
 
-                                                 barPath = document.id
+                                                barPath = document.id
 
                                                 val bar = document.toObject(Bar::class.java)
                                                 Logger.d("bar=$bar")
 
-                                                newBarImages = bar.images.plus(ratings.images ?: emptyList())
+                                                newBarImages =
+                                                    bar.images.plus(ratings.images ?: emptyList())
                                             }
 
 
@@ -549,13 +548,29 @@ object StylishRemoteDataSource : StylishDataSource {
                                             Logger.d("barpath = $barPath")
                                             Logger.d("barAmtRating = $barAmtRating avgBarOverallRating =$avgBarOverallRating")
 
+                                            // update amtPost
+                                            var amtPostUpdated = 0
+                                            FirebaseFirestore.getInstance()
+                                                .collectionGroup("rating")
+                                                .whereEqualTo("author", ratings.author)
+                                                .get()
+                                                .addOnCompleteListener() { task ->
+                                                    for (document in task.result!!) {
+                                                        Logger.d(document.id + " => " + document.data)
 
+                                                        amtPostUpdated = task.result!!.size()
 
+                                                    }
+
+                                                    FirebaseFirestore.getInstance()
+                                                        .collection("users")
+                                                        .document(ratings.author)
+                                                        .update("amtPosts", amtPostUpdated)
+                                                        .addOnCompleteListener() {
+                                                            Logger.d("amtPostUpdated = $amtPostUpdated")
+                                                        }
+                                                }
                                         }
-
-
-
-
 
                                 }
                         }
@@ -1148,13 +1163,91 @@ object StylishRemoteDataSource : StylishDataSource {
 
         }
 
+    override suspend fun getFollowUser(followingList: List<String>): Result<List<User>> =
+        suspendCoroutine { continuation ->
+
+
+            var count = followingList.size
+            val listAll = mutableListOf<User>()
+
+            for ((index, document) in followingList.withIndex()) {
+
+                Logger.i("index=$index")
+
+                FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .whereEqualTo("uid", followingList[index])
+                    .get()
+
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            Logger.i("followingList[$index] Success")
+
+
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
+
+                                val user = document.toObject(User::class.java)
+
+                                Logger.i("user=$user")
+
+                                listAll.add(user)
+                            }
+
+//                            listAll.addAll(list)
+//                            Logger.d("list.size = ${list.size}")
+//                            Logger.d("listAll.size = ${listAll.size}")
+//                            Logger.d("getRatingResult task.result.size = ${task.result!!.size()}")
+
+
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(Result.Fail(Mr9Application.instance.getString(R.string.you_know_nothing)))
+                        }
+
+//                        Logger.d("listAll end = $listAll")
+//                        Logger.d("listAll.size end = ${listAll.size}")
+
+
+//                        Logger.w("listAll before sort")
+//                        listAll.forEach {
+//                            Logger.w("$it")
+//                        }
+
+                        listAll.sortByDescending {
+                            it.createdTime
+                        }
+
+                        Logger.w("listAll after sort")
+                        listAll.forEach {
+                            Logger.v("$it")
+                        }
+
+                        count -= 1
+                        Logger.d("count = $count")
+
+                        if (count == 0) {
+                            continuation.resume(Result.Success(listAll))
+                        }
+                    }
+
+
+            }
+        }
+
     override suspend fun getAuthorResult(ratings: Ratings): Result<User> =
         suspendCoroutine { continuation ->
 
             Logger.d("remotedatasource")
             FirebaseFirestore.getInstance()
                 .collection("users")
-                .whereEqualTo("uid",ratings.author)
+                .whereEqualTo("uid", ratings.author)
                 .get()
 
                 .addOnCompleteListener { task ->

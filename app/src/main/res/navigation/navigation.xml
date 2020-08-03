@@ -277,14 +277,35 @@
         android:name="com.tina.mr9.others_profile.item.OthersBarLikedFragment"
         android:label="OthersBarLikedFragment"
         tools:layout="@layout/fragment_othersbarliked">
-        <argument android:name="searchUser"
+        <argument
+            android:name="searchUser"
             app:argType="com.tina.mr9.data.User"
-            app:nullable="false"/>
+            app:nullable="false" />
     </fragment>
     <action
         android:id="@+id/action_global_othersBarLikedFragment"
         app:destination="@id/othersBarLikedFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/followingFragment"
+        android:name="com.tina.mr9.profile.follow.FollowingFragment"
+        android:label="FollowingFragment"
+        tools:layout="@layout/fragment_following">
+        <argument
+            android:name="user"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false" />
+        <argument
+            android:name="follow"
+            app:argType="boolean"
+            app:nullable="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_following_fragment"
+        app:destination="@id/followingFragment" />
+
 
 </navigation>

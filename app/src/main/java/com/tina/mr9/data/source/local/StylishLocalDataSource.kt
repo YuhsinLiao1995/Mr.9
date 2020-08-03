@@ -94,6 +94,10 @@ class StylishLocalDataSource(val context: Context) : StylishDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getFollowUser(followList: List<String>): Result<List<User>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAuthorResult(ratings: Ratings): Result<User> {
         TODO("Not yet implemented")
     }

@@ -44,16 +44,28 @@
                     tools:text="My name" />
 
                 <TextView
-                    android:id="@+id/user_posts"
+                    android:id="@+id/amt_user_posts"
                     style="@style/ProfileDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="21 posts"
+                    android:layout_marginTop="0dp"
+                    android:text="@{String.valueOf(viewModel.searchUser.amtPosts)}"
                     app:layout_constraintStart_toEndOf="@id/profile_image"
                     app:layout_constraintTop_toBottomOf="@id/user_name"
-                    tools:text="21 posts" />
+                    tools:text="21" />
+
+                <TextView
+                    android:id="@+id/user_posts"
+                    style="@style/ProfileDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:text=" posts"
+                    app:layout_constraintStart_toEndOf="@id/amt_user_posts"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text=" posts" />
 
                 <TextView
                     android:id="@+id/amt_followers"

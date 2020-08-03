@@ -99,6 +99,10 @@ class DefaultStylishRepository(private val remoteDataSource: StylishDataSource,
         return remoteDataSource.getUserResult(searchId = searchId)
     }
 
+    override suspend fun getFollowUser(followList: List<String>): Result<List<User>> {
+        return remoteDataSource.getFollowUser(followList = followList)
+    }
+
     override suspend fun getAuthorResult(ratings: Ratings): Result<User> {
         return remoteDataSource.getAuthorResult(ratings = ratings)
     }

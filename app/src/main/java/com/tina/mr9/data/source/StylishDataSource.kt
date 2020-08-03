@@ -50,6 +50,8 @@ interface StylishDataSource{
 
     suspend fun getUserResult(searchId: String): Result<List<User>>
 
+    suspend fun getFollowUser(followList : List<String>): Result<List<User>>
+
     suspend fun getAuthorResult(ratings: Ratings): Result<User>
 
     suspend fun getMyProfileResult(searchId: String): Result<User>

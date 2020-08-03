@@ -44,6 +44,8 @@ class ViewModelFactory constructor(
                 isAssignableFrom(BarLikedViewModel::class.java) ->
                     BarLikedViewModel(stylishRepository)
 
+
+
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

@@ -32,6 +32,11 @@ fun Fragment.getVmFactory(search: Search, type: SearchTypeFilter): ListViewModel
     return ListViewModelFactory(repository, search, type)
 }
 
+fun Fragment.getVmFactory(user: User, follow: Boolean): FollowViewModelFactory {
+    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
+    return FollowViewModelFactory(repository, user, follow)
+}
+
 fun Fragment.getVmFactory(bar: Bar): BarViewModelFactory {
     val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
     return BarViewModelFactory(repository, bar)

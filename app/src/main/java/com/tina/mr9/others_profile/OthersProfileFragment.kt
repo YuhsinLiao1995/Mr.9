@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.R
 import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentOthersProfileBinding
@@ -58,6 +60,14 @@ class OthersProfileFragment : Fragment() {
                 }
             }
         })
+
+        binding.amtFollowing.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToFollowingFragment(viewModel.searchUser.value ?: User(),true))
+        }
+
+        binding.amtFollowers.setOnClickListener {
+            findNavController().navigate(NavigationDirections.navigateToFollowingFragment(viewModel.searchUser.value ?: User(),false))
+        }
 
         return binding.root
     }
