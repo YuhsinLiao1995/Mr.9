@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Product
 import com.tina.mr9.data.Ratings
 import com.tina.mr9.data.source.StylishRepository
 import com.tina.mr9.network.LoadApiStatus

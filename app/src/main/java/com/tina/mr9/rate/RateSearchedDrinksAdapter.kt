@@ -6,16 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.HomeItem
-import com.tina.mr9.data.Product
 import com.tina.mr9.databinding.ItemSearchedDrinkBinding
 
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class RateSearchedDrinksAdapter(private val onClickListener: OnClickListener) :
         ListAdapter<Drinks, RateSearchedDrinksAdapter.FullProductViewHolder>(DiffCallback) {

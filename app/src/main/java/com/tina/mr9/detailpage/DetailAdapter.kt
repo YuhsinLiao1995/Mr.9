@@ -6,16 +6,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.HomeItem
 import com.tina.mr9.databinding.ItemHomeFullBinding
 
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  *
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class DetailAdapter() :
     androidx.recyclerview.widget.ListAdapter<Drinks, RecyclerView.ViewHolder>(

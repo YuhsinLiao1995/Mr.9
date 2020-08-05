@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="product" type="com.tina.mr9.data.Product"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

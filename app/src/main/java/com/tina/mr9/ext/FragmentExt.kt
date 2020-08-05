@@ -68,12 +68,4 @@ fun Fragment.getVmFactory(ratings: Ratings): RatingsViewModelFactory {
 }
 
 
-//fun Fragment.getVmFactory(user: User?): ProfileViewModelFactory {
-//    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
-//    return ProfileViewModelFactory(repository, user)
-//}
-//
-//fun Fragment.getVmFactory(product: Product): ProductViewModelFactory {
-//    val repository = (requireContext().applicationContext as Mr9Application).stylishRepository
-//    return ProductViewModelFactory(repository, product)
-//}
+

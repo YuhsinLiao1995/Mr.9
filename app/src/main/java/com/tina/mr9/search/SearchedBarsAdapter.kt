@@ -14,9 +14,6 @@ import com.tina.mr9.databinding.ItemSearchedDrinkBindingImpl
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class SearchedBarAdapter(private val onClickListener: OnClickListener) :
         ListAdapter<Bar, SearchedBarAdapter.FullProductViewHolder>(DiffCallback) {

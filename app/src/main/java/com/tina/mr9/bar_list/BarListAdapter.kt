@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Bar
-import com.tina.mr9.data.HomeItem
 import com.tina.mr9.databinding.ItemBarlistBinding
 import com.tina.mr9.util.Logger
 
@@ -13,9 +12,6 @@ import com.tina.mr9.util.Logger
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  *
- * This class implements a [RecyclerView] [BarListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class BarListAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Bar, RecyclerView.ViewHolder>(

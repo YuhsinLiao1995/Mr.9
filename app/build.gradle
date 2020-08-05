@@ -23,8 +23,8 @@ android {
         applicationId "com.tina.mr9"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.2"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,6 +44,7 @@ android {
     androidExtensions {
         experimental = true
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
