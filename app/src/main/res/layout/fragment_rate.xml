@@ -355,7 +355,7 @@
                         android:layout_marginTop="8dp"
                         android:background="@color/translucent_40"
                         android:visibility="gone"
-                        app:drinkList="@{viewModel.searchedDrinks}"
+                        app:drinkList="@{viewModel.searchedDrink}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/name_input_layout"

@@ -3,10 +3,10 @@ package com.tina.mr9
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Drink
 import com.tina.mr9.data.Result
 import com.tina.mr9.data.User
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.CurrentFragmentType
@@ -18,11 +18,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * The [ViewModel] that is attached to the [MainActivity].
  */
-class MainViewModel(private val repository: StylishRepository) : ViewModel() {
+class MainViewModel(private val repository: Repository) : ViewModel() {
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
@@ -36,11 +36,11 @@ class MainViewModel(private val repository: StylishRepository) : ViewModel() {
         get() = _user
 
 
-    val _drinks = MutableLiveData<Drinks>().apply {
-        value = Drinks()
+    val _drinks = MutableLiveData<Drink>().apply {
+        value = Drink()
     }
 
-    val drinks: LiveData<Drinks>
+    val drink: LiveData<Drink>
         get() = _drinks
 
     // status for the loading icon of swl

@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
+import com.tina.mr9.data.Rating
 import com.tina.mr9.data.Result
 import com.tina.mr9.data.User
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
  *
  * The [ViewModel] that is attached to the [OthersProfileFragment].
  */
-class OthersProfileViewModel(private val repository: StylishRepository, private val argUser: User?, private val ratings: Ratings?) : ViewModel() {
+class OthersProfileViewModel(private val repository: Repository, private val argUser: User?, private val ratings: Rating?) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
@@ -42,10 +41,10 @@ class OthersProfileViewModel(private val repository: StylishRepository, private 
     }
 
 
-    val rating: LiveData<Ratings>
+    val rating: LiveData<Rating>
         get() = _rating
 
-    private val _rating = MutableLiveData<Ratings>().apply { ratings?.let {
+    private val _rating = MutableLiveData<Rating>().apply { ratings?.let {
         value = ratings
     }
         Logger.d("search profile arguments = $argUser")
@@ -78,9 +77,9 @@ class OthersProfileViewModel(private val repository: StylishRepository, private 
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Ratings>()
+    private val _navigateToDetail = MutableLiveData<Rating>()
 
-    val navigateToDetail: LiveData<Ratings>
+    val navigateToDetail: LiveData<Rating>
         get() = _navigateToDetail
 
     private val _leave = MutableLiveData<Boolean>()

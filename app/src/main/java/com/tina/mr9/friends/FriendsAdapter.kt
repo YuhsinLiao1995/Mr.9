@@ -13,15 +13,13 @@ import com.tina.mr9.databinding.ItemFriendsBinding
  *
  */
 class FriendsAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<User, FriendsAdapter.FullProductViewHolder>(DiffCallback) {
+        ListAdapter<User, FriendsAdapter.FriendViewHolder>(DiffCallback) {
 
     class OnClickListener(val clickListener: (searchUser: User) -> Unit) {
         fun onClick(searchUser: User) = clickListener(searchUser)
     }
 
-
-
-    class FullProductViewHolder(private var binding: ItemFriendsBinding):
+    class FriendViewHolder(private var binding: ItemFriendsBinding):
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(searchUser: User, onClickListener: OnClickListener) {
@@ -44,15 +42,12 @@ class FriendsAdapter(private val onClickListener: OnClickListener) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
-        return FullProductViewHolder(ItemFriendsBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
+        return FriendViewHolder(ItemFriendsBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
-    override fun onBindViewHolder(holder: FullProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
 
                 holder.bind((getItem(position) as User), onClickListener)
 

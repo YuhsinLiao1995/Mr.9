@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.tina.mr9.bardetailpage.BarDetailDrinksAdapter
-import com.tina.mr9.bardetailpage.BarDetailImagesAdapter
 import com.tina.mr9.data.*
-import com.tina.mr9.detailpage.DetailImagesAdapter
-import com.tina.mr9.detailpage.DetailRatingsAdapter
+import com.tina.mr9.detail_bar.DetailBarDrinksAdapter
+import com.tina.mr9.detail_bar.DetailBarImagesAdapter
+import com.tina.mr9.detail_drink.DetailDrinkImagesAdapter
+import com.tina.mr9.detail_drink.DetailDrinkRatingsAdapter
 import com.tina.mr9.ext.toDisplayFormat
 import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.friends.FriendsRatingAdapter
 import com.tina.mr9.home.HomeAdapter
-import com.tina.mr9.list.ListAdapter
+import com.tina.mr9.list_drink.ListAdapter
 import com.tina.mr9.others_profile.item.OthersLikedAdapter
 import com.tina.mr9.others_profile.item.OthersRatingAdapter
 import com.tina.mr9.profile.item.BarLikedAdapter
@@ -37,14 +36,13 @@ import com.tina.mr9.search.SearchedDrinksAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 import okhttp3.internal.trimSubstring
 import kotlin.time.ExperimentalTime
-import kotlin.time.toDuration
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
  */
 
 @BindingAdapter("drinks")
-fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drinks>?) {
+fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink>?) {
     drinks?.let {
         recyclerView.adapter?.apply {
             when (this) {
@@ -71,7 +69,7 @@ fun bindRecyclerViewWithUser(recyclerView: RecyclerView, user: List<User>?) {
 }
 
 @BindingAdapter("drinkList")
-fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) {
+fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drink>?) {
     drinks?.let {
         recyclerView.adapter?.apply {
             when (this) {
@@ -86,7 +84,7 @@ fun bindRecyclerViewWithType(recyclerView: RecyclerView, drinks: List<Drinks>?) 
 }
 
 @BindingAdapter("rating")
-fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Ratings>?) {
+fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Rating>?) {
     ratings?.let {
         recyclerView.adapter?.apply {
             when (this) {
@@ -102,12 +100,12 @@ fun bindRecyclerViewWithRating(recyclerView: RecyclerView, ratings: List<Ratings
 }
 
 @BindingAdapter("bardrinkList")
-fun bindRecyclerViewWithDrinks(recyclerView: RecyclerView, drinks: List<Drinks>?) {
+fun bindRecyclerViewWithDrinks(recyclerView: RecyclerView, drinks: List<Drink>?) {
     drinks?.let {
         recyclerView.adapter?.apply {
             when (this) {
 
-                is BarDetailDrinksAdapter -> submitList(it)
+                is DetailBarDrinksAdapter -> submitList(it)
             }
         }
     }
@@ -118,7 +116,7 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
     bar?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is com.tina.mr9.bar_list.BarListAdapter -> submitList(it)
+                is com.tina.mr9.list_bar.ListBarAdapter -> submitList(it)
 
                 is SearchedBarAdapter -> submitList(it)
 
@@ -139,11 +137,11 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 
 
 @BindingAdapter("ratings")
-fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Ratings>?) {
+fun bindRecyclerViewWithRatings(recyclerView: RecyclerView, ratings: List<Rating>?) {
     ratings?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is DetailRatingsAdapter -> submitList(it)
+                is DetailDrinkRatingsAdapter -> submitList(it)
             }
         }
     }
@@ -171,10 +169,10 @@ fun bindRecyclerViewWithImages(recyclerView: RecyclerView, images: List<String>?
     images?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is DetailImagesAdapter -> {
+                is DetailDrinkImagesAdapter -> {
                     submitImages(it)
                 }
-                is BarDetailImagesAdapter -> {
+                is DetailBarImagesAdapter -> {
                     submitImages(it)
                 }
             }
@@ -237,22 +235,18 @@ fun bindImage4(imgView: ImageView, imgUrl: String) {
                 RequestOptions()
                     .transform(MultiTransformation(CenterCrop(), RoundedCorners(35)))
                     .placeholder(R.drawable.background_placeholder)
-                    .error(R.drawable.background_placeholder))
+                    .error(R.drawable.background_placeholder)
+            )
             .into(imgView)
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
-//@BindingAdapter("arrayToString")
-//fun main(args: List<String>?) {
-////    val delim = ", "
-//    args?.let {
-//        val res = (args.let { java.lang.String.join(",", it) } ?: "")
-//    }
-//
-////    println(res)
-////    return res
-//}
+@RequiresApi(Build.VERSION_CODES.O)
+@BindingAdapter("arrayToString")
+fun bindArrayToString(textView: TextView, args: List<String>?) {
+    textView.text = (args.let { java.lang.String.join(", ", args ?: listOf()) })
+}
+
 
 @BindingAdapter("imageUrl_crop")
 fun bindImage1(imgView: ImageView, imgUrl: String?) {

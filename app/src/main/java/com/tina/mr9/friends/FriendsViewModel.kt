@@ -1,13 +1,12 @@
 package com.tina.mr9.friends
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.Rating
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Util.getString
 import com.tina.mr9.data.User
@@ -24,7 +23,7 @@ import com.tina.mr9.login.UserManager
  *
  * The [ViewModel] that is attached to the [FriendsFragment].
  */
-class FriendsViewModel(private val repository: StylishRepository) : ViewModel() {
+class FriendsViewModel(private val repository: Repository) : ViewModel() {
 
     private val _user = MutableLiveData<List<User>>()
 
@@ -42,9 +41,9 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
     val searchText : LiveData<String>
         get() = _searchText
 
-    private val _rating = MutableLiveData<List<Ratings>>()
+    private val _rating = MutableLiveData<List<Rating>>()
 
-    val rating : LiveData<List<Ratings>>
+    val rating : LiveData<List<Rating>>
         get() = _rating
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -79,14 +78,6 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
 
     fun setAboutStatus(){
         statusAbout.value = !statusAbout.value!!
-
-//        if (statusAbout.value == true){
-//            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
-//            Logger.d("liked")
-//        } else{
-//            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
-//            Logger.d("unliked")
-//        }
     }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -95,33 +86,20 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    /**
-     * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
-     * Retrofit service to stop.
-     */
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
     }
 
-    /**
-     * Call getMarketingHotsResult() on init so we can display status immediately.
-     */
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-
-        Logger.d("UserManager.user 1 = ${UserManager.user}")
-        Logger.d("UserManager.user.following 1 = ${UserManager.user.following}")
-
         getRatingResult()
     }
 
-    /**
-     * track [StylishRepository.getMarketingHots]: -> [DefaultStylishRepository] : [StylishRepository] -> [StylishRemoteDataSource] : [StylishDataSource]
-     */
+
     fun getUserResult(searchId : String) {
 
         coroutineScope.launch {
@@ -129,8 +107,6 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
             _status.value = LoadApiStatus.LOADING
 
             val result = repository.getUserResult(searchId)
-
-            Logger.d("result = $result")
 
             _searchedUser.value = when (result) {
                 is Result.Success -> {
@@ -168,14 +144,12 @@ class FriendsViewModel(private val repository: StylishRepository) : ViewModel() 
                 repository.getRatingResult(it)
 
             }
-            Logger.d("UserManager.user.following = ${UserManager.user.following}")
 
 
             _rating.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    Logger.d("result.data = ${result.data}")
                     result.data
                 }
                 is Result.Fail -> {

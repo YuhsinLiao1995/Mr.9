@@ -29,10 +29,6 @@
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
-        <activity android:name=".LogoActivity"
-            android:theme="@style/LogoTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

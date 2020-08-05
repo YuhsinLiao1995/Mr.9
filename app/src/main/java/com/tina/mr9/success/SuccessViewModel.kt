@@ -8,7 +8,7 @@ import com.tina.mr9.Mr9Application
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
 import com.tina.mr9.data.*
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,18 +16,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * The [ViewModel] that is attached to the [SuccessDialog].
  */
 class SuccessViewModel(
-    private val repository: StylishRepository,
-    private val arguments: Ratings?
+    private val repository: Repository,
+    private val arguments: Rating?
 ) : ViewModel() {
 
-    val _rating = MutableLiveData<Ratings>().apply {
+    val _rating = MutableLiveData<Rating>().apply {
         if (arguments != null) {
-            value = Ratings(
+            value = Rating(
             )
         }
     }
@@ -36,14 +36,14 @@ class SuccessViewModel(
         value = mutableListOf()
     }
 
-    val rating: LiveData<Ratings>
+    val rating: LiveData<Rating>
         get() = _rating
 
-    val _drinks = MutableLiveData<Drinks>().apply {
-        value = Drinks()
+    val _drinks = MutableLiveData<Drink>().apply {
+        value = Drink()
     }
 
-    val drinks: LiveData<Drinks>
+    val drink: LiveData<Drink>
         get() = _drinks
 
     val _bar = MutableLiveData<Bar>().apply {
@@ -97,20 +97,20 @@ class SuccessViewModel(
         Logger.i("------------------------------------")
     }
 
-    fun publish(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun publish(rating: Rating, drink: Drink, bar: Bar) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.publish(ratings, drinks, bar)) {
+            when (val result = repository.publish(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     leave(true)
                 }
                 is Result.DrinkNotExist -> {
-                    publish2(ratings, drinks, bar)
+                    publish2(rating, drink, bar)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -128,22 +128,22 @@ class SuccessViewModel(
         }
     }
 
-    fun publish2(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun publish2(rating: Rating, drink: Drink, bar: Bar) {
         Log.d("Tina", "ifcalled")
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.addDrinks(ratings, drinks, bar)) {
+            when (val result = repository.addDrinks(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    publish(ratings, drinks, bar)
+                    publish(rating, drink, bar)
                     leave(true)
                 }
                 is Result.BarNotExist -> {
-                    addBar(ratings, drinks, bar)
+                    addBar(rating, drink, bar)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -161,18 +161,18 @@ class SuccessViewModel(
         }
     }
 
-    fun addBar(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun addBar(rating: Rating, drink: Drink, bar: Bar) {
         Log.d("Tina", "ifcalledbar")
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.addBar(ratings, drinks, bar)) {
+            when (val result = repository.addBar(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    publish(ratings, drinks, bar)
+                    publish(rating, drink, bar)
                     leave(true)
                 }
                 is Result.Fail -> {

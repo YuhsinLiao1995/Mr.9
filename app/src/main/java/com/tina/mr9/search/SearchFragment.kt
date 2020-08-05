@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentSearchBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.PagesAdapter
 import com.tina.mr9.util.Logger
 
 /**
@@ -70,9 +68,9 @@ class SearchFragment : Fragment() {
                     viewModel.getSearchedBarsResult(searchText)
                 }
 
-                Logger.d("viewModel.searchedUser = ${viewModel.searchedDrinks}")
+                Logger.d("viewModel.searchedUser = ${viewModel.searchedDrink}")
 
-                viewModel.searchedDrinks.observe(viewLifecycleOwner, Observer { it ->
+                viewModel.searchedDrink.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
                         binding.listViewDrink.adapter =
                             SearchedDrinksAdapter(SearchedDrinksAdapter.OnClickListener {

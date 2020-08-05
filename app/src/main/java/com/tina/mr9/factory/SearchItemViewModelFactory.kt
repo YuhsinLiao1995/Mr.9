@@ -2,7 +2,7 @@ package com.tina.mr9.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.search.item.SearchItemViewModel
 
@@ -13,7 +13,7 @@ import com.tina.mr9.search.item.SearchItemViewModel
  */
 @Suppress("UNCHECKED_CAST")
 class SearchItemViewModelFactory(
-    private val repository: StylishRepository,
+    private val repository: Repository,
     private val searchType: SearchTypeFilter
 ) : ViewModelProvider.Factory {
 

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.tina.mr9.detailpage.DetailViewModel" />
+            type="com.tina.mr9.detail_drink.DetailDrinkViewModel" />
         <variable
             name="image"
             type="String" />

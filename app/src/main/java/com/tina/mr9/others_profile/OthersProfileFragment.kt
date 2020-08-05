@@ -10,16 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.tina.mr9.NavigationDirections
-import com.tina.mr9.R
 import com.tina.mr9.data.User
 import com.tina.mr9.databinding.FragmentOthersProfileBinding
-import com.tina.mr9.detailpage.DetailFragmentArgs
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 class OthersProfileFragment : Fragment() {
 

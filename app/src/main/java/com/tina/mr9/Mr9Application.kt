@@ -2,12 +2,12 @@ package com.tina.mr9
 
 import android.app.Application
 import android.content.Context
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.util.ServiceLocator
 import kotlin.properties.Delegates
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * An application that lazily provides a repository. Note that this Service Locator pattern is
  * used to simplify the sample. Consider a Dependency Injection framework.
@@ -15,7 +15,7 @@ import kotlin.properties.Delegates
 class Mr9Application : Application() {
 
     // Depends on the flavor,
-    val stylishRepository: StylishRepository
+    val repository: Repository
         get() = ServiceLocator.provideTasksRepository(this)
 
     companion object {

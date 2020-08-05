@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.tina.mr9.detailpage.DetailViewModel" />
+            type="com.tina.mr9.detail_drink.DetailDrinkViewModel" />
 
         <variable
             name="ratings"
-            type="com.tina.mr9.data.Ratings" />
+            type="com.tina.mr9.data.Rating" />
 
     </data>
 

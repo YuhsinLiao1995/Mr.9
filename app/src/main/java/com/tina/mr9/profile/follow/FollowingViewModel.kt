@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.R
 import com.tina.mr9.data.Result
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.data.User
-import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import com.tina.mr9.util.Util
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
  * The [ViewModel] that is attached to the [FollowingFragment].
  */
 class FollowingViewModel(
-    private val repository: StylishRepository,
+    private val repository: Repository,
     user: User,
     follow: Boolean
 ) : ViewModel() {

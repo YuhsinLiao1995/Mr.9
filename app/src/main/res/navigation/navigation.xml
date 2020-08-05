@@ -31,7 +31,7 @@
         tools:layout="@layout/fragment_rate">
         <argument
             android:name="drinkKey"
-            app:argType="com.tina.mr9.data.Drinks"
+            app:argType="com.tina.mr9.data.Drink"
             app:nullable="true"
             android:defaultValue="@null"/>
     </fragment>
@@ -91,14 +91,14 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.tina.mr9.detailpage.DetailFragment"
+        android:name="com.tina.mr9.detail_drink.DetailDrinkFragment"
         android:label="DetailFragment"
-        tools:layout="@layout/fragment_detail">
+        tools:layout="@layout/fragment_detail_drink">
         <argument android:name="drinkKey"
-            app:argType="com.tina.mr9.data.Drinks"
+            app:argType="com.tina.mr9.data.Drink"
             app:nullable="true"/>
         <argument android:name="ratingKey"
-            app:argType="com.tina.mr9.data.Ratings"
+            app:argType="com.tina.mr9.data.Rating"
             app:nullable="true"/>
     </fragment>
 
@@ -107,13 +107,13 @@
         app:destination="@id/detailFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_detail"/>
+        tools:layout="@layout/fragment_detail_drink"/>
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.tina.mr9.list.ListFragment"
+        android:name="com.tina.mr9.list_drink.ListDrinkFragment"
         android:label="ListFragment"
         tools:layout="@layout/fragment_list">
         <argument android:name="SearchKey"
@@ -133,9 +133,9 @@
     <action android:id="@+id/navigate_to_list_fragment" app:destination="@id/listFragment"/>
     <fragment
         android:id="@+id/barListFragment"
-        android:name="com.tina.mr9.bar_list.BarListFragment"
+        android:name="com.tina.mr9.list_bar.ListBarFragment"
         android:label="BarListFragment"
-        tools:layout="@layout/fragment_barlist">
+        tools:layout="@layout/fragment_list_bar">
         <argument android:name="SearchKey"
             app:argType="com.tina.mr9.data.Search"
             app:nullable="false"/>
@@ -151,9 +151,9 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/barDetailFragment"
-        android:name="com.tina.mr9.bardetailpage.BarDetailFragment"
+        android:name="com.tina.mr9.detail_bar.DetailBarFragment"
         android:label="BarDetailFragment"
-        tools:layout="@layout/fragment_bardetail">
+        tools:layout="@layout/fragment_detail_bar">
         <argument android:name="barKey"
             app:argType="com.tina.mr9.data.Bar"
             app:nullable="false"/>
@@ -209,7 +209,7 @@
             app:argType="com.tina.mr9.data.User"
             app:nullable="true"/>
         <argument android:name="rating"
-            app:argType="com.tina.mr9.data.Ratings"
+            app:argType="com.tina.mr9.data.Rating"
             app:nullable="true"/>
     </fragment>
 
@@ -261,7 +261,7 @@
         android:label="SuccessDialog"
         tools:layout="@layout/dialog_success">
         <argument android:name="ratingKey"
-            app:argType="com.tina.mr9.data.Ratings"
+            app:argType="com.tina.mr9.data.Rating"
             app:nullable="false"/>
     </dialog>
     <action

@@ -1,18 +1,16 @@
 package com.tina.mr9.rate
 
 import android.util.Log
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.Bar
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
+import com.tina.mr9.data.Drink
+import com.tina.mr9.data.Rating
 import com.tina.mr9.data.Result
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
@@ -22,18 +20,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * The [ViewModel] that is attached to the [RateFragment].
  */
 class RateViewModel(
-    private val repository: StylishRepository,
-    private val arguments: Drinks?
+    private val repository: Repository,
+    private val arguments: Drink?
 ) : ViewModel() {
 
-    val _rating = MutableLiveData<Ratings>().apply {
+    val _rating = MutableLiveData<Rating>().apply {
 
-            value = Ratings(
+            value = Rating(
                 author = UserManager.user.uid,
                 authorName = UserManager.user.name,
                 authorImage = UserManager.user.image,
@@ -46,7 +44,7 @@ class RateViewModel(
             )
 
         arguments?.let {
-            value = Ratings(
+            value = Rating(
                 name = arguments.name,
                 bar = arguments.bar,
                 contents = arguments.contents,
@@ -66,9 +64,9 @@ class RateViewModel(
 
     }
 
-    private val _searchedDrinks = MutableLiveData<List<Drinks>>()
+    private val _searchedDrinks = MutableLiveData<List<Drink>>()
 
-    val searchedDrinks: LiveData<List<Drinks>>
+    val searchedDrink: LiveData<List<Drink>>
         get() = _searchedDrinks
 
     private val _searchedBars = MutableLiveData<List<Bar>>()
@@ -98,14 +96,14 @@ class RateViewModel(
     }
 
 
-    val rating: LiveData<Ratings>
+    val rating: LiveData<Rating>
         get() = _rating
 
-    val _drink = MutableLiveData<Drinks>().apply {
+    val _drink = MutableLiveData<Drink>().apply {
         if (arguments != null) {
             value = arguments
         } else {
-            value = Drinks(
+            value = Drink(
 
                 name = rating.value?.name ?: "",
                 bar = rating.value?.bar ?: "",
@@ -125,14 +123,14 @@ class RateViewModel(
         }
     }
 
-    val drink: LiveData<Drinks>
+    val drink: LiveData<Drink>
         get() = _drink
 
-    private val _updatedDrink = MutableLiveData<Drinks>().apply {
-        value = Drinks()
+    private val _updatedDrink = MutableLiveData<Drink>().apply {
+        value = Drink()
     }
 
-    val upDatedDrink: LiveData<Drinks>
+    val upDatedDrink: LiveData<Drink>
         get() = _updatedDrink
 
     val _bar = MutableLiveData<Bar>().apply {
@@ -171,21 +169,21 @@ class RateViewModel(
         get() = _refresh
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Ratings>()
+    private val _navigateToDetail = MutableLiveData<Rating>()
 
-    val navigateToDetail: LiveData<Ratings>
+    val navigateToDetail: LiveData<Rating>
         get() = _navigateToDetail
 
     // Handle navigation to Added Success
-    private val _navigateToAddedSuccess = MutableLiveData<Ratings>()
+    private val _navigateToAddedSuccess = MutableLiveData<Rating>()
 
-    val navigateToAddedSuccess: LiveData<Ratings>
+    val navigateToAddedSuccess: LiveData<Rating>
         get() = _navigateToAddedSuccess
 
     // Handle navigation to Added Fail
-    private val _navigateToAddedFail = MutableLiveData<Ratings>()
+    private val _navigateToAddedFail = MutableLiveData<Rating>()
 
-    val navigateToAddedFail: LiveData<Ratings>
+    val navigateToAddedFail: LiveData<Rating>
         get() = _navigateToAddedFail
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -210,21 +208,21 @@ class RateViewModel(
         Logger.d("rating.value.author = ${rating.value?.author}")
     }
 
-    fun publish(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun publish(rating: Rating, drink: Drink, bar: Bar) {
 
         coroutineScope.launch {
             Logger.d("fun publish")
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.publish(ratings, drinks, bar)) {
+            when (val result = repository.publish(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    navigateToAddedSuccess(ratings)
+                    navigateToAddedSuccess(rating)
                 }
                 is Result.DrinkNotExist -> {
-                    publish2(ratings, drinks, bar)
+                    publish2(rating, drink, bar)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -242,22 +240,22 @@ class RateViewModel(
         }
     }
 
-    fun publish2(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun publish2(rating: Rating, drink: Drink, bar: Bar) {
         Log.d("Tina", "ifcalled")
         Logger.d("fun add drink")
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.addDrinks(ratings, drinks, bar)) {
+            when (val result = repository.addDrinks(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    publish(ratings, drinks, bar)
+                    publish(rating, drink, bar)
                     leave(true)
                 }
                 is Result.BarNotExist -> {
-                    addBar(ratings, drinks, bar)
+                    addBar(rating, drink, bar)
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -275,17 +273,17 @@ class RateViewModel(
         }
     }
 
-    fun addBar(ratings: Ratings, drinks: Drinks, bar: Bar) {
+    fun addBar(rating: Rating, drink: Drink, bar: Bar) {
         Logger.d("fun add bar")
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = repository.addBar(ratings, drinks, bar)) {
+            when (val result = repository.addBar(rating, drink, bar)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    publish(ratings, drinks, bar)
+                    publish(rating, drink, bar)
                     leave(true)
                 }
                 is Result.Fail -> {
@@ -494,8 +492,8 @@ class RateViewModel(
     fun onAddedFailNavigated() {
         _navigateToAddedFail.value = null
     }
-    fun navigateToAddedSuccess(ratings: Ratings) {
-        _navigateToAddedSuccess.value = ratings
+    fun navigateToAddedSuccess(rating: Rating) {
+        _navigateToAddedSuccess.value = rating
     }
 
     fun onDetailNavigated() {
@@ -503,8 +501,8 @@ class RateViewModel(
         navigateToAddedSuccess(rating.value!!)
     }
 
-    fun navigateToDetail(ratings: Ratings) {
-        _navigateToDetail.value = ratings
+    fun navigateToDetail(rating: Rating) {
+        _navigateToDetail.value = rating
     }
 
 

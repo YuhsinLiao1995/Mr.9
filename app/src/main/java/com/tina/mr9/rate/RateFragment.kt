@@ -38,8 +38,8 @@ import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.NavigationDirections
 import com.tina.mr9.data.Bar
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
+import com.tina.mr9.data.Drink
+import com.tina.mr9.data.Rating
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.Logger
@@ -47,7 +47,7 @@ import java.io.File
 import java.util.*
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 
 @Suppress("DEPRECATION")
@@ -245,8 +245,8 @@ class RateFragment : Fragment() {
 
             Logger.d("viewModel._drink.value ${viewModel._drink.value}")
             viewModel.publish(
-                viewModel.rating.value ?: Ratings(),
-                viewModel.drink.value ?: Drinks(),
+                viewModel.rating.value ?: Rating(),
+                viewModel.drink.value ?: Drink(),
                 viewModel.bar.value ?: Bar()
             )
         }
@@ -372,9 +372,9 @@ class RateFragment : Fragment() {
                     searchBarAddressText
                 )
 
-                Logger.d("viewModel.searchedDrinks = ${viewModel.searchedDrinks}")
+                Logger.d("viewModel.searchedDrinks = ${viewModel.searchedDrink}")
 
-                viewModel.searchedDrinks.observe(viewLifecycleOwner, Observer { it ->
+                viewModel.searchedDrink.observe(viewLifecycleOwner, Observer { it ->
                     it?.let {
                         binding.listViewDrink.adapter =
                             RateSearchedDrinksAdapter(RateSearchedDrinksAdapter.OnClickListener {

@@ -6,29 +6,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.*
-import com.tina.mr9.databinding.ItemFriendsBinding
 import com.tina.mr9.databinding.ItemSearchedBarBinding
-import com.tina.mr9.databinding.ItemSearchedDrinkBinding
-import com.tina.mr9.databinding.ItemSearchedDrinkBindingImpl
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  */
 class SearchedBarAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<Bar, SearchedBarAdapter.FullProductViewHolder>(DiffCallback) {
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Product]
-     * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [Product]
-     */
+        ListAdapter<Bar, SearchedBarAdapter.BarViewHolder>(DiffCallback) {
+
     class OnClickListener(val clickListener: (bars: Bar) -> Unit) {
         fun onClick(bars: Bar) = clickListener(bars)
     }
 
 
 
-    class FullProductViewHolder(private var binding: ItemSearchedBarBinding):
+    class BarViewHolder(private var binding: ItemSearchedBarBinding):
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bars: Bar, onClickListener: OnClickListener) {
@@ -51,15 +44,15 @@ class SearchedBarAdapter(private val onClickListener: OnClickListener) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
-        return FullProductViewHolder(ItemSearchedBarBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarViewHolder {
+        return BarViewHolder(ItemSearchedBarBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
 
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
-    override fun onBindViewHolder(holder: FullProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BarViewHolder, position: Int) {
 
                 holder.bind((getItem(position) as Bar), onClickListener)
 

@@ -7,7 +7,7 @@
 
         <variable
             name="drink"
-            type="com.tina.mr9.data.Drinks" />
+            type="com.tina.mr9.data.Drink" />
 
 
     </data>

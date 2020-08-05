@@ -14,7 +14,7 @@ import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.others_profile.OthersProfileFragmentArgs
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 class FollowingFragment : Fragment() {
 

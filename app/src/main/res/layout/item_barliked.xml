@@ -21,7 +21,7 @@
         android:layout_marginBottom="0dp">
 
         <ImageView
-            android:id="@+id/product_image"
+            android:id="@+id/drink_image"
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:layout_marginBottom="30dp"
@@ -36,7 +36,7 @@
 
         
         <TextView
-            android:id="@+id/product_title"
+            android:id="@+id/drink_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -44,8 +44,8 @@
             tools:text="Bar Name"
             style="@style/DetailContent"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/product_image"
-            app:layout_constraintTop_toTopOf="@+id/product_image"/>
+            app:layout_constraintStart_toEndOf="@id/drink_image"
+            app:layout_constraintTop_toTopOf="@+id/drink_image"/>
 
         <TextView
             android:id="@+id/bar_add"
@@ -53,21 +53,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="@id/product_title"
+            app:layout_constraintStart_toStartOf="@id/drink_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product_title"
+            app:layout_constraintTop_toBottomOf="@+id/drink_title"
             android:text="@{bar.address}"
             style="@style/DetailContent"
             android:textSize="12sp"
             tools:text="Bar"/>
 
         <TextView
-            android:id="@+id/product_price"
+            android:id="@+id/drink_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/bar"
-            app:layout_constraintTop_toBottomOf="@+id/product_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/drink_title"/>
 
         <com.kaelli.niceratingbar.NiceRatingBar
             android:id="@+id/niceRatingBar"

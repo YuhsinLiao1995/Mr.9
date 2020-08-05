@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tina.mr9.Mr9Application
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
 import com.tina.mr9.data.*
@@ -23,11 +23,11 @@ import com.tina.mr9.data.Result
  *
  * The [ViewModel] that is attached to the [HomeFragment].
  */
-class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
+class HomeViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _drink = MutableLiveData<List<Drinks>>()
+    private val _drink = MutableLiveData<List<Drink>>()
 
-    val drinks: LiveData<List<Drinks>>
+    val drink: LiveData<List<Drink>>
         get() = _drink
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -49,9 +49,9 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Drinks>()
+    private val _navigateToDetail = MutableLiveData<Drink>()
 
-    val navigateToDetail: LiveData<Drinks>
+    val navigateToDetail: LiveData<Drink>
         get() = _navigateToDetail
 
 
@@ -199,8 +199,8 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(drinks: Drinks) {
-        _navigateToDetail.value = drinks
+    fun navigateToDetail(drink: Drink) {
+        _navigateToDetail.value = drink
     }
 
     fun refresh() {

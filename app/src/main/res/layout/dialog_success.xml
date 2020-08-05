@@ -62,9 +62,8 @@
                 app:layout_constraintEnd_toEndOf="@id/success_text"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageButton
             android:id="@+id/close_btn"
             android:layout_width="match_parent"
@@ -73,4 +72,5 @@
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/transparent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

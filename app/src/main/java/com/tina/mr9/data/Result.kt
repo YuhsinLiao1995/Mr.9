@@ -11,8 +11,8 @@ sealed class Result<out R> {
     data class Success<out T>(val data: T) : Result<T>()
     data class Fail(val error: String) : Result<Nothing>()
     data class Error(val exception: Exception) : Result<Nothing>()
-    data class DrinkNotExist(val ratings: Ratings) : Result<Nothing>()
-    data class BarNotExist(val ratings: Ratings) : Result<Nothing>()
+    data class DrinkNotExist(val rating: Rating) : Result<Nothing>()
+    data class BarNotExist(val rating: Rating) : Result<Nothing>()
     object Loading : Result<Nothing>()
 
     override fun toString(): String {

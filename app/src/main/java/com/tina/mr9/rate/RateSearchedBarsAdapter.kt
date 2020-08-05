@@ -6,17 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.*
-import com.tina.mr9.databinding.ItemFriendsBinding
 import com.tina.mr9.databinding.ItemSearchedBarBinding
-import com.tina.mr9.databinding.ItemSearchedDrinkBinding
-import com.tina.mr9.databinding.ItemSearchedDrinkBindingImpl
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  */
 class RateSearchedBarAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<Bar, RateSearchedBarAdapter.FullProductViewHolder>(DiffCallback) {
+        ListAdapter<Bar, RateSearchedBarAdapter.BarViewHolder>(DiffCallback) {
     /**
      */
     class OnClickListener(val clickListener: (bars: Bar) -> Unit) {
@@ -25,7 +22,7 @@ class RateSearchedBarAdapter(private val onClickListener: OnClickListener) :
 
 
 
-    class FullProductViewHolder(private var binding: ItemSearchedBarBinding):
+    class BarViewHolder(private var binding: ItemSearchedBarBinding):
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bars: Bar, onClickListener: OnClickListener) {
@@ -48,15 +45,15 @@ class RateSearchedBarAdapter(private val onClickListener: OnClickListener) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
-        return FullProductViewHolder(ItemSearchedBarBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarViewHolder {
+        return BarViewHolder(ItemSearchedBarBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
 
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
-    override fun onBindViewHolder(holder: FullProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BarViewHolder, position: Int) {
 
                 holder.bind((getItem(position) as Bar), onClickListener)
 

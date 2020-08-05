@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.LoginViewModel
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
 import com.tina.mr9.friends.FriendsViewModel
@@ -19,7 +19,7 @@ import com.tina.mr9.search.SearchViewModel
  */
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory constructor(
-    private val stylishRepository: StylishRepository
+    private val repository: Repository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -27,24 +27,22 @@ class ViewModelFactory constructor(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) ->
-                    MainViewModel(stylishRepository)
+                    MainViewModel(repository)
 
                 isAssignableFrom(HomeViewModel::class.java) ->
-                    HomeViewModel(stylishRepository)
+                    HomeViewModel(repository)
 
                 isAssignableFrom(FriendsViewModel::class.java) ->
-                    FriendsViewModel(stylishRepository)
+                    FriendsViewModel(repository)
 
                 isAssignableFrom(LoginViewModel::class.java) ->
-                    LoginViewModel(stylishRepository)
+                    LoginViewModel(repository)
 
                 isAssignableFrom(SearchViewModel::class.java) ->
-                    SearchViewModel(stylishRepository)
+                    SearchViewModel(repository)
 
                 isAssignableFrom(BarLikedViewModel::class.java) ->
-                    BarLikedViewModel(stylishRepository)
-
-
+                    BarLikedViewModel(repository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

@@ -38,31 +38,11 @@ class MyRatingFragment : Fragment() {
         binding.viewModel = viewModel
 
         Logger.d("test=${viewModel.user.value}")
-//        binding.photosGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
-//            viewModel.displayProductDetails(it)
-//        })
 
         binding.recyclerRatings.adapter = MyRatingAdapter(MyRatingAdapter.OnClickListener{
-//            viewModel.getMyRatedDrink()
             findNavController().navigate(NavigationDirections.navigateToDetailFragment(null,it))
             viewModel.navigateToDetail
         })
-
-
-
-
-
-
-
-
-//        viewModel.navigateToSelectedProduct.observe(viewLifecycleOwner, Observer {
-//            if ( null != it ) {
-//                // Must find the NavController from the Fragment
-//                this.findNavController().navigate(WomwnProductFragmentDirections.actionGlobalDetailPageFragment(it))
-//                // Tell the ViewModel we've made the navigate call to prevent multiple navigation
-//                viewModel.displayProductDetailsComplete()
-//            }
-//        })
 
 
         return binding.root
@@ -70,11 +50,5 @@ class MyRatingFragment : Fragment() {
 
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(WomwnProductViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

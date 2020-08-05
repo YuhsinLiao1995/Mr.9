@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.Search
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.data.Result
 import com.tina.mr9.search.SearchTypeFilter
@@ -18,11 +18,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * The [ViewModel] that is attached to the [SearchItemFragment].
  */
-class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
+class SearchItemViewModel(private val repository: Repository, private val searchType: SearchTypeFilter) : ViewModel() {
 
     val typeFilter: SearchTypeFilter = searchType
 

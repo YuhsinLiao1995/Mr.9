@@ -19,7 +19,7 @@ import java.util.logging.Logger
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 open class BaseActivity : AppCompatActivity(), CoroutineScope {
 

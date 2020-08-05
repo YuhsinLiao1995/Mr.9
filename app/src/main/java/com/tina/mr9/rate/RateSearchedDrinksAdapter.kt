@@ -5,60 +5,56 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.tina.mr9.data.Drinks
+import com.tina.mr9.data.Drink
 import com.tina.mr9.databinding.ItemSearchedDrinkBinding
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  */
 class RateSearchedDrinksAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<Drinks, RateSearchedDrinksAdapter.FullProductViewHolder>(DiffCallback) {
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Product]
-     * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [Product]
-     */
-    class OnClickListener(val clickListener: (Drinks) -> Unit){
-        fun onClick(drinks: Drinks) = clickListener(drinks)
+        ListAdapter<Drink, RateSearchedDrinksAdapter.DrinkViewHolder>(DiffCallback) {
+
+    class OnClickListener(val clickListener: (Drink) -> Unit){
+        fun onClick(drink: Drink) = clickListener(drink)
     }
 
 
 
-    class FullProductViewHolder(private var binding: ItemSearchedDrinkBinding):
+    class DrinkViewHolder(private var binding: ItemSearchedDrinkBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(drinks: Drinks, onClickListener: OnClickListener) {
+        fun bind(drink: Drink, onClickListener: OnClickListener) {
 
-            binding.drink = drinks
-            binding.root.setOnClickListener { onClickListener.onClick(drinks) }
+            binding.drink = drink
+            binding.root.setOnClickListener { onClickListener.onClick(drink) }
             binding.executePendingBindings()
         }
     }
 
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Drinks>() {
-        override fun areItemsTheSame(oldItem: Drinks, newItem: Drinks): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Drink>() {
+        override fun areItemsTheSame(oldItem: Drink, newItem: Drink): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: Drinks, newItem: Drinks): Boolean {
+        override fun areContentsTheSame(oldItem: Drink, newItem: Drink): Boolean {
             return oldItem == newItem
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullProductViewHolder {
-        return FullProductViewHolder(ItemSearchedDrinkBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrinkViewHolder {
+        return DrinkViewHolder(ItemSearchedDrinkBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
 
     /**
      * Replaces the contents of a view (invoked by the layout manager)
      */
-    override fun onBindViewHolder(holder: FullProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DrinkViewHolder, position: Int) {
 
-                holder.bind((getItem(position) as Drinks), onClickListener)
+                holder.bind((getItem(position) as Drink), onClickListener)
 
         }
     }

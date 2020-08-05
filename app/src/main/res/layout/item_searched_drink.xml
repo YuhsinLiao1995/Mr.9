@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="drink" type="com.tina.mr9.data.Drinks"/>
+        <variable name="drink" type="com.tina.mr9.data.Drink"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

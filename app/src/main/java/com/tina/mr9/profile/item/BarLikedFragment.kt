@@ -41,26 +41,9 @@ class BarLikedFragment : Fragment() {
         })
 
 
-
-
-//        viewModel.navigateToSelectedProduct.observe(viewLifecycleOwner, Observer {
-//            if ( null != it ) {
-//                // Must find the NavController from the Fragment
-//                this.findNavController().navigate(WomwnProductFragmentDirections.actionGlobalDetailPageFragment(it))
-//                // Tell the ViewModel we've made the navigate call to prevent multiple navigation
-//                viewModel.displayProductDetailsComplete()
-//            }
-//        })
-
-
         return binding.root
 
 
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(WomwnProductViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

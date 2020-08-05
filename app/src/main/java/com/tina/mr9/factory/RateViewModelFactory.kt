@@ -4,21 +4,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.tina.mr9.data.Drinks
-import com.tina.mr9.data.Ratings
-import com.tina.mr9.data.source.StylishRepository
-import com.tina.mr9.detailpage.DetailViewModel
+import com.tina.mr9.data.Drink
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.rate.RateViewModel
 
 /**
  * Created by Yuhsin Liao in Jul. 2030.
  *
- * Factory for all ViewModels which need [Drinks].
+ * Factory for all ViewModels which need [Drink].
  */
 @Suppress("UNCHECKED_CAST")
 class RateViewModelFactory(
-    private val stylishRepository: StylishRepository,
-    private val drinks: Drinks?
+    private val repository: Repository,
+    private val drink: Drink?
 ) : ViewModelProvider.Factory {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -27,7 +25,7 @@ class RateViewModelFactory(
             when {
 
                 isAssignableFrom(RateViewModel::class.java) ->
-                    RateViewModel(stylishRepository, drinks)
+                    RateViewModel(repository, drink)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

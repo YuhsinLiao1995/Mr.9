@@ -17,7 +17,7 @@ import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
 class ProfileFragment : Fragment() {
 

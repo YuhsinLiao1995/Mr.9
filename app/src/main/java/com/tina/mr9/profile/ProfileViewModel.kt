@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tina.mr9.R
 import com.tina.mr9.data.Result
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.data.User
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  *
  * The [ViewModel] that is attached to the [ProfileFragment].
  */
-class ProfileViewModel(private val stylishRepository: StylishRepository, private val arguments: User?) : ViewModel() {
+class ProfileViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
@@ -92,7 +92,7 @@ class ProfileViewModel(private val stylishRepository: StylishRepository, private
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = stylishRepository.getMyProfileResult(searchId)
+            val result = repository.getMyProfileResult(searchId)
 
             Logger.d("profile result = $result")
 

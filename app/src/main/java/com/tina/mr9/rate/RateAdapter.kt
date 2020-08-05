@@ -9,7 +9,7 @@ import com.tina.mr9.databinding.ItemHomeFullBinding
 import com.tina.mr9.databinding.ItemImageBinding
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  */
 class RateAdapter(private val onClickListener: OnClickListener) :

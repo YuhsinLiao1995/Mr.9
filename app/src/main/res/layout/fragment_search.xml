@@ -196,7 +196,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="0dp"
-                                app:drinkList="@{viewModel.searchedDrinks}"
+                                app:drinkList="@{viewModel.searchedDrink}"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:listitem="@layout/item_searched_drink" />

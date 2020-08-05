@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.*
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class OthersRatingViewModel(private val repository: StylishRepository, private val arguments: User?) : ViewModel() {
+class OthersRatingViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
 
@@ -34,14 +34,14 @@ class OthersRatingViewModel(private val repository: StylishRepository, private v
     val searchUser: LiveData<User>
         get() = _searchUser
 
-    private val _drink = MutableLiveData<List<Drinks>>()
+    private val _drink = MutableLiveData<List<Drink>>()
 
-    val drinks: LiveData<List<Drinks>>
+    val drink: LiveData<List<Drink>>
         get() = _drink
 
-    private val _rating = MutableLiveData<List<Ratings>>()
+    private val _rating = MutableLiveData<List<Rating>>()
 
-    val rating : LiveData<List<Ratings>>
+    val rating : LiveData<List<Rating>>
         get() = _rating
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -63,9 +63,9 @@ class OthersRatingViewModel(private val repository: StylishRepository, private v
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Drinks>()
+    private val _navigateToDetail = MutableLiveData<Drink>()
 
-    val navigateToDetail: LiveData<Drinks>
+    val navigateToDetail: LiveData<Drink>
         get() = _navigateToDetail
 
 
@@ -129,8 +129,8 @@ class OthersRatingViewModel(private val repository: StylishRepository, private v
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(drinks: Drinks) {
-        _navigateToDetail.value = drinks
+    fun navigateToDetail(drink: Drink) {
+        _navigateToDetail.value = drink
     }
 
     fun refresh() {
