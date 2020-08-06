@@ -53,7 +53,6 @@ class DetailDrinkFragment : Fragment() {
 
         viewModel.drink.observe(viewLifecycleOwner, Observer {it?.let {
 
-
             if (viewModel.drink.value?.amtRating!! < 1) {
                 binding.noReview.visibility = View.VISIBLE
                 Logger.d("no review")
@@ -88,8 +87,6 @@ class DetailDrinkFragment : Fragment() {
 
                 Logger.d("viewModel.drink.value = ${viewModel.drink.value?.overall_rating}")
                 viewModel.getRatingsResult()
-
-                viewModel.array2String()
 
                 if (viewModel.drink.value?.overall_rating!! > 0f) {
                     binding.niceRatingBar.setRating(viewModel.drink.value?.overall_rating!!)

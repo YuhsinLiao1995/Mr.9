@@ -1,6 +1,5 @@
 package com.tina.mr9.others_profile
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
  * The [ViewModel] that is attached to the [OthersProfileFragment].
  */
 class OthersProfileViewModel(private val repository: Repository, private val argUser: User?, private val ratings: Rating?) : ViewModel() {
-    // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
             value = UserManager.user
@@ -37,9 +35,7 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
     private val _searchUser = MutableLiveData<User>().apply { argUser?.let {
         value = argUser
     }
-        Logger.d("search profile arguments = $argUser")
     }
-
 
     val rating: LiveData<Rating>
         get() = _rating
@@ -47,7 +43,6 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
     private val _rating = MutableLiveData<Rating>().apply { ratings?.let {
         value = ratings
     }
-        Logger.d("search profile arguments = $argUser")
     }
 
 
@@ -105,11 +100,9 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
         statusAbout.value = !statusAbout.value!!
 
         if (statusAbout.value == true){
-            Toast.makeText(Mr9Application.instance,"Followed", Toast.LENGTH_SHORT).show()
             Logger.d("liked")
             updateFollowedBy(true, user.value!!,searchUser.value!! )
         } else{
-            Toast.makeText(Mr9Application.instance,"UnFollowed", Toast.LENGTH_SHORT).show()
             Logger.d("unliked")
             updateFollowedBy(false, user.value!!,searchUser.value!! )
         }
@@ -119,11 +112,10 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
 
     init {
 
-        Logger.d("ProfileViewModel, argUser=${argUser}")
         if (argUser == null) {
             getAuthorResult()
         }
-//        Logger.d("ProfileViewModel, UserManager.user=${UserManager.user}")
+
     }
 
     private fun updateFollowedBy(likedStatus: Boolean, user: User, searchUser: User) {
@@ -163,8 +155,6 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
 
             val result = repository.getMyProfileResult(searchId)
 
-            Logger.d("profile result = $result")
-
             _searchUser.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -191,7 +181,7 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
         }
     }
 
-    fun getAuthorResult() {
+    private fun getAuthorResult() {
 
         coroutineScope.launch {
 
@@ -199,8 +189,6 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
 
             val result = rating.value?.let { repository.getAuthorResult(it) }
 
-            Logger.d("profile result = $result")
-
             _searchUser.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -227,7 +215,7 @@ class OthersProfileViewModel(private val repository: Repository, private val arg
         }
     }
 
-    fun leave(needRefresh: Boolean = false) {
+    private fun leave(needRefresh: Boolean = false) {
         _leave.value = needRefresh
     }
 

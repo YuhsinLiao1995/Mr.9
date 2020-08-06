@@ -6,7 +6,8 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tina.mr9.profile.item.BarLikedViewModel" />
+            type="com.tina.mr9.profile.item.LikedBarViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +30,25 @@
             app:barList="@{viewModel.bar}"
             app:spanCount="1"
             tools:itemCount="6"
-            tools:listitem="@layout/item_barliked" />
+            tools:listitem="@layout/item_liked_bar" />
+
+        <ProgressBar
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiErrorMessage="@{viewModel.error}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

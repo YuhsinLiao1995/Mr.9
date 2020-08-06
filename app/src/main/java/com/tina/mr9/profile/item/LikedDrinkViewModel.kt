@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class LikedViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
+class LikedDrinkViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
 
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
@@ -76,7 +76,7 @@ class LikedViewModel(private val repository: Repository, private val arguments: 
         getLikedDrinks()
     }
 
-    fun getLikedDrinks() {
+    private fun getLikedDrinks() {
 
         coroutineScope.launch {
 
@@ -85,10 +85,6 @@ class LikedViewModel(private val repository: Repository, private val arguments: 
             val result = user.value.let {
                 repository.getLikedDrinks(it!!)
             }
-            Logger.d("repository.getLikedDrinks(it!!)")
-            Logger.d("uid = ${user.value?.uid} ")
-            Logger.d("result = $result ")
-
 
             _drink.value = when (result) {
                 is Result.Success -> {

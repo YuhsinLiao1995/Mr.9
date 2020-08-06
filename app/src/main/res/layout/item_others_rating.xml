@@ -56,7 +56,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
-            android:text="Rated "
+            android:text=" Rated "
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_author"/>
 

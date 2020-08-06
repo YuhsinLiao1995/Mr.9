@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class OthersLikedViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
+class OthersLikedBarViewModel(private val repository: Repository, private val arguments: User?) : ViewModel() {
 
     // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
     private val _user = MutableLiveData<User>().apply {
@@ -28,17 +28,17 @@ class OthersLikedViewModel(private val repository: Repository, private val argum
 
     private val _searchUser = MutableLiveData<User>().apply {
         value = arguments
-        Logger.d("OthersLikedViewModel argument = $arguments")
+        Logger.d("OthersBarLikedViewModel argument = $arguments")
 
     }
 
     val searchUser: LiveData<User>
         get() = _searchUser
 
-    private val _drink = MutableLiveData<List<Drink>>()
+    private val _bar = MutableLiveData<List<Bar>>()
 
-    val drink: LiveData<List<Drink>>
-        get() = _drink
+    val bar: LiveData<List<Bar>>
+        get() = _bar
 
     private val _rating = MutableLiveData<List<Rating>>()
 
@@ -79,24 +79,24 @@ class OthersLikedViewModel(private val repository: Repository, private val argum
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getLikedDrinks()
+        getLikedBar()
     }
 
-    fun getLikedDrinks() {
+    fun getLikedBar() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
             val result = searchUser.value.let {
-                repository.getLikedDrinks(it!!)
+                repository.getLikedBar(it!!)
             }
             Logger.d("repository.getOthersLikedDrinks(it!!)")
             Logger.d("search uid = ${searchUser.value?.uid} ")
             Logger.d("search result = $result ")
 
 
-            _drink.value = when (result) {
+            _bar.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -135,11 +135,6 @@ class OthersLikedViewModel(private val repository: Repository, private val argum
         _navigateToDetail.value = drink
     }
 
-    fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
-            getLikedDrinks()
-        }
-    }
 
 }
 

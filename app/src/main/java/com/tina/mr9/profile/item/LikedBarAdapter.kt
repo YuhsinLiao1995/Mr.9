@@ -3,19 +3,17 @@ package com.tina.mr9.profile.item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Bar
-import com.tina.mr9.databinding.ItemBarlikedBinding
-import com.tina.mr9.databinding.ItemLikedBinding
+import com.tina.mr9.databinding.ItemLikedBarBinding
 
-//
-class BarLikedAdapter(private val onClickListener: OnClickListener) :
+class LikedBarAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Bar, RecyclerView.ViewHolder>(
-        DiffCallback ) {
+        DiffCallback
+    ) {
 
-    class OnClickListener(val clickListener: (bar:Bar) -> Unit) {
-        fun onClick(bar:Bar) = clickListener(bar)
+    class OnClickListener(val clickListener: (bar: Bar) -> Unit) {
+        fun onClick(bar: Bar) = clickListener(bar)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -23,7 +21,6 @@ class BarLikedAdapter(private val onClickListener: OnClickListener) :
             is LayoutViewHolder -> {
                 val bar = getItem(position) as Bar
                 (holder).bind(bar,onClickListener)
-
             }
         }
     }
@@ -43,16 +40,13 @@ class BarLikedAdapter(private val onClickListener: OnClickListener) :
     }
 
 
-
-
-
-    class LayoutViewHolder(private var binding: ItemBarlikedBinding) :
+    class LayoutViewHolder(private var binding: ItemLikedBarBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(bar:Bar, onClickListener: OnClickListener) {
+        fun bind(bar: Bar, onClickListener: OnClickListener) {
             binding.bar = bar
 
-            if (bar.overallRating!! > 0f) {
-                binding.niceRatingBar.setRating(bar.overallRating!!)
+            if (bar.overallRating > 0f) {
+                binding.niceRatingBar.setRating(bar.overallRating)
             } else {
                 binding.niceRatingBar.setRating(0f)
             }
@@ -63,15 +57,10 @@ class BarLikedAdapter(private val onClickListener: OnClickListener) :
         companion object {
             fun from(parent: ViewGroup): LayoutViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemBarlikedBinding
+                val binding = ItemLikedBarBinding
                     .inflate(layoutInflater, parent, false)
                 return LayoutViewHolder(binding)
             }
-
         }
-
-
-
     }
-
 }

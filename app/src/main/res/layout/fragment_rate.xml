@@ -444,7 +444,7 @@
                         android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
-                        android:text="Send"
+                        android:text='@{viewModel.status != LoadApiStatus.LOADING ? "send" : ""}'
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="18sp"
@@ -452,6 +452,17 @@
                         app:layout_constraintStart_toStartOf="@id/comment_input_layout"
                         app:layout_constraintTop_toBottomOf="@id/comment_input_layout"
                         app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ProgressBar
+                        android:id="@+id/progress_payment_checkout"
+                        android:layout_width="@dimen/size_payment_progress"
+                        android:layout_height="@dimen/size_payment_progress"
+                        android:theme="@style/ProgressThemeDark"
+                        android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/button_publish"
+                        app:layout_constraintEnd_toEndOf="@id/button_publish"
+                        app:layout_constraintStart_toStartOf="@id/button_publish"
+                        app:layout_constraintTop_toTopOf="@id/button_publish"/>
 
                     <TextView
                         android:id="@+id/overallRating"
@@ -763,15 +774,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,9 @@ package com.tina.mr9
 
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,10 +26,10 @@ import com.tina.mr9.friends.FriendsAdapter
 import com.tina.mr9.friends.FriendsRatingAdapter
 import com.tina.mr9.home.HomeAdapter
 import com.tina.mr9.list_drink.ListAdapter
-import com.tina.mr9.others_profile.item.OthersLikedAdapter
+import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.others_profile.item.OthersRatingAdapter
-import com.tina.mr9.profile.item.BarLikedAdapter
-import com.tina.mr9.profile.item.LikedAdapter
+import com.tina.mr9.profile.item.LikedBarAdapter
+import com.tina.mr9.profile.item.LikedDrinkAdapter
 import com.tina.mr9.profile.item.MyRatingAdapter
 import com.tina.mr9.rate.RateSearchedBarAdapter
 import com.tina.mr9.rate.RateSearchedDrinksAdapter
@@ -48,9 +50,7 @@ fun bindRecyclerViewWithHomeItems(recyclerView: RecyclerView, drinks: List<Drink
             when (this) {
                 is HomeAdapter -> submitList(it)
 
-                is LikedAdapter -> submitList(it)
-
-                is OthersLikedAdapter -> submitList(it)
+                is LikedDrinkAdapter -> submitList(it)
             }
         }
     }
@@ -122,7 +122,7 @@ fun bindRecyclerViewWithBar(recyclerView: RecyclerView, bar: List<Bar>?) {
 
                 is RateSearchedBarAdapter -> submitList(it)
 
-                is BarLikedAdapter -> submitList(it)
+                is LikedBarAdapter -> submitList(it)
             }
         }
     }
@@ -260,6 +260,33 @@ fun bindImage1(imgView: ImageView, imgUrl: String?) {
                     .placeholder(R.drawable.ic_nav_profile)
                     .error(R.drawable.ic_nav_profile))
             .into(imgView)
+    }
+}
+
+/**
+ * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiStatus")
+fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
+    when (status) {
+        LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
+        LoadApiStatus.DONE, LoadApiStatus.ERROR -> view.visibility = View.GONE
+    }
+}
+
+/**
+ * According to [message] to decide the visibility of [ProgressBar]
+ */
+@BindingAdapter("setupApiErrorMessage")
+fun bindApiErrorMessage(view: TextView, message: String?) {
+    when (message) {
+        null, "" -> {
+            view.visibility = View.GONE
+        }
+        else -> {
+            view.text = message
+            view.visibility = View.VISIBLE
+        }
     }
 }
 

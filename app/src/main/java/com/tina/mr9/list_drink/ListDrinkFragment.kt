@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.tina.mr9.NavigationDirections
-import com.tina.mr9.databinding.FragmentListBinding
+import com.tina.mr9.databinding.FragmentListDrinkBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.util.Logger
 
@@ -20,9 +20,6 @@ import com.tina.mr9.util.Logger
  */
 class ListDrinkFragment : Fragment() {
 
-    /**
-     * Lazily initialize our [ListDrinkViewModel].
-     */
     val viewModel by viewModels<ListDrinkViewModel> { getVmFactory(
         ListDrinkFragmentArgs.fromBundle(requireArguments()).SearchKey,
         ListDrinkFragmentArgs.fromBundle(requireArguments()).type)
@@ -31,16 +28,13 @@ class ListDrinkFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentListBinding.inflate(inflater, container, false)
+        val binding = FragmentListDrinkBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.recyclerList.adapter = ListAdapter(ListAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
             Logger.d("viewModel.navigateToDetail = ${viewModel.navigateToDetail}")
         })
-
-
-
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -50,8 +44,6 @@ class ListDrinkFragment : Fragment() {
         })
 
         return binding.root
-
-//        viewModel.drink.value?.base?.let { intArrayToArrayString(it) }
 
     }
 

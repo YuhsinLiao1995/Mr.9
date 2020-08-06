@@ -74,7 +74,7 @@
     <dimen name="size_particle_logo">30dp</dimen>
 
     <!-- Catalog -->
-    <dimen name="height_catalog_tab">48dp</dimen>
+    <dimen name="height_tab">48dp</dimen>
     <dimen name="space_catalog_grid">16dp</dimen>
     <dimen name="width_catalog_item">156dp</dimen>
     <dimen name="height_catalog_item">220dp</dimen>

@@ -25,7 +25,6 @@ class FollowingViewModel(
     user: User,
     follow: Boolean
 ) : ViewModel() {
-    // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
 
     private val _user = MutableLiveData<User>().apply {
         value = user
@@ -64,9 +63,6 @@ class FollowingViewModel(
     val navigateToDetail: LiveData<User>
         get() = _navigateToDetail
 
-
-
-
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -84,9 +80,9 @@ class FollowingViewModel(
 
     init {
         if (follow) {
-            user.following?.let { getUserResult(it) }
+            getUserResult(user.following)
         } else{
-            user.followedBy?.let { getUserResult(it) }
+            getUserResult(user.followedBy)
         }
     }
 

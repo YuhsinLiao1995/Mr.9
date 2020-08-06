@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tina.mr9.data.User
 import com.tina.mr9.data.source.Repository
-import com.tina.mr9.others_profile.item.OthersBarLikedViewModel
-import com.tina.mr9.others_profile.item.OthersLikedViewModel
+import com.tina.mr9.others_profile.item.OthersLikedBarViewModel
+import com.tina.mr9.others_profile.item.OthersLikedDrinkViewModel
 import com.tina.mr9.others_profile.item.OthersRatingViewModel
 import com.tina.mr9.profile.ProfileViewModel
-import com.tina.mr9.profile.item.LikedViewModel
+import com.tina.mr9.profile.item.LikedDrinkViewModel
 import com.tina.mr9.profile.item.MyRatingViewModel
 
 /**
@@ -32,8 +32,8 @@ class ProfileViewModelFactory(
             return MyRatingViewModel(repository, user) as T
         }
 
-        if (modelClass.isAssignableFrom(LikedViewModel::class.java)) {
-            return LikedViewModel(repository, user) as T
+        if (modelClass.isAssignableFrom(LikedDrinkViewModel::class.java)) {
+            return LikedDrinkViewModel(repository, user) as T
         }
 
 //        if (modelClass.isAssignableFrom(RateViewModel::class.java)) {
@@ -44,12 +44,12 @@ class ProfileViewModelFactory(
             return OthersRatingViewModel(repository, user) as T
         }
 
-        if (modelClass.isAssignableFrom(OthersLikedViewModel::class.java)) {
-            return OthersLikedViewModel(repository, user) as T
+        if (modelClass.isAssignableFrom(OthersLikedDrinkViewModel::class.java)) {
+            return OthersLikedDrinkViewModel(repository, user) as T
         }
 
-        if (modelClass.isAssignableFrom(OthersBarLikedViewModel::class.java)) {
-            return OthersBarLikedViewModel(repository, user) as T
+        if (modelClass.isAssignableFrom(OthersLikedBarViewModel::class.java)) {
+            return OthersLikedBarViewModel(repository, user) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

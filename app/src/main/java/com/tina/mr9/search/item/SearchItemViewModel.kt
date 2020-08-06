@@ -69,7 +69,7 @@ class SearchItemViewModel(private val repository: Repository, private val search
     }
 
 
-    fun getSearchResult() {
+    private fun getSearchResult() {
 
         coroutineScope.launch {
 
@@ -82,8 +82,6 @@ class SearchItemViewModel(private val repository: Repository, private val search
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-
-                    Log.d("Tina","result.data = ${result.data}")
                     result.data
 
                 }
@@ -111,10 +109,6 @@ class SearchItemViewModel(private val repository: Repository, private val search
         super.onCleared()
         viewModelJob.cancel()
     }
-
-
-
-
 
     fun onDetailNavigated() {
         _navigateToDetail.value = null

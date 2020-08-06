@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.tina.mr9.data.User
-import com.tina.mr9.profile.item.BarLikedFragment
-import com.tina.mr9.profile.item.LikedFragment
+import com.tina.mr9.profile.item.LikedBarFragment
+import com.tina.mr9.profile.item.LikedDrinkFragment
 import com.tina.mr9.profile.item.MyRatingFragment
 
 
@@ -16,11 +16,11 @@ class PagesAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(frag
             0 -> MyRatingFragment().apply {
                 arguments = Bundle().apply { putParcelable("userKey", User()) }
             }
-            1 -> LikedFragment().apply {
+            1 -> LikedDrinkFragment().apply {
                 arguments = Bundle().apply { putParcelable("userKey", User()) }
             }
 
-            else -> BarLikedFragment().apply {
+            else -> LikedBarFragment().apply {
                 arguments = Bundle().apply { putParcelable("userKey", User()) }
             }
         }

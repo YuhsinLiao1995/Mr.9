@@ -53,9 +53,6 @@ import java.util.*
 @Suppress("DEPRECATION")
 class RateFragment : Fragment() {
 
-    /**
-     * Lazily initialize our [RateViewModel].
-     */
     val viewModel by viewModels<RateViewModel> { getVmFactory(RateFragmentArgs.fromBundle(requireArguments()).drinkKey) }
 
     override fun onCreateView(
@@ -63,88 +60,87 @@ class RateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        init()
+
         val binding = FragmentRateBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
 
         val chipGroup = binding.groupProfileTag
         val newChip = binding.conetentInput
         val paddingDp = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             10f,
-            resources.displayMetrics
-        ).toInt()
-        fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup,newChip: EditText ,newTag:  MutableLiveData<String>) {
+            resources.displayMetrics).toInt()
 
-            for (index in taglist.indices) {
-                val tagName = taglist[index]
-                val chip = Chip(chipGroup.context)
-
-                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
-                chip.text = tagName
-                chip.textSize = 14f
-                chip.setTextColor(Color.WHITE)
-                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
-                val chipColors = intArrayOf(Color.parseColor("#3f3a3a"))
-                val chipColorsStateList = ColorStateList(states, chipColors)
-                chip.chipBackgroundColor = chipColorsStateList
-                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
-
-                chip.setOnClickListener {
-                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
-                    //Added click listener on close icon to remove tag from ChipGroup
-                    chip.setOnCloseIconClickListener {
-//                        taglist.remove(tagName)
-                        chipGroup.removeView(chip)
-                        Logger.d("$taglist.toString()")
-                        viewModel.taglist.value?.remove(tagName)
-                    }
-                }
-                chip.text = newChip.text
-                chipGroup.addView(chip)
-            }
-            newTag.value = null
-        }
+//        fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup,newChip: EditText ,newTag:  MutableLiveData<String>) {
+//
+//            for (index in taglist.indices) {
+//                val tagName = taglist[index]
+//                val chip = Chip(chipGroup.context)
+//
+//                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+//                chip.text = tagName
+//                chip.textSize = 14f
+//                chip.setTextColor(Color.WHITE)
+//                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+//                val chipColors = intArrayOf(Color.parseColor("#3f3a3a"))
+//                val chipColorsStateList = ColorStateList(states, chipColors)
+//                chip.chipBackgroundColor = chipColorsStateList
+//                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+//
+//                chip.setOnClickListener {
+//                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+//                    //Added click listener on close icon to remove tag from ChipGroup
+//                    chip.setOnCloseIconClickListener {
+////                        taglist.remove(tagName)
+//                        chipGroup.removeView(chip)
+//                        Logger.d("$taglist.toString()")
+//                        viewModel.taglist.value?.remove(tagName)
+//                    }
+//                }
+//                chip.text = newChip.text
+//                chipGroup.addView(chip)
+//            }
+//            newTag.value = null
+//        }
 
         viewModel.taglist.observe(viewLifecycleOwner, Observer {
             Logger.d("viewModel.taglist = ${viewModel.taglist.value}")
         })
 
 
-        fun updateChip(taglist: MutableList<String>) {
-            for (index in taglist.indices) {
-                val tagName = taglist[index]
-                val chip = Chip(chipGroup.context)
-
-                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
-                chip.text = tagName
-                chip.textSize = 14f
-                chip.setTextColor(Color.WHITE)
-                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
-                val chipColors = intArrayOf(Color.parseColor("#999999"))
-                val chipColorsStateList = ColorStateList(states, chipColors)
-                chip.chipBackgroundColor = chipColorsStateList
-                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
-
-                chip.setOnClickListener {
-                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
-                    //Added click listener on close icon to remove tag from ChipGroup
-                    chip.setOnCloseIconClickListener {
-                        taglist.remove(tagName)
-                        chipGroup.removeView(chip)
-                        Logger.d("$taglist.toString()")
-                        viewModel.taglist.value?.remove(tagName)
-                    }
-                }
-
-                viewModel.taglist.value?.plus(taglist)
-                Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
-
-                chipGroup.addView(chip)
-            }
-        }
+//        fun updateChip(taglist: MutableList<String>) {
+//            for (index in taglist.indices) {
+//                val tagName = taglist[index]
+//                val chip = Chip(chipGroup.context)
+//
+//                chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+//                chip.text = tagName
+//                chip.textSize = 14f
+//                chip.setTextColor(Color.WHITE)
+//                val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+//                val chipColors = intArrayOf(Color.parseColor("#999999"))
+//                val chipColorsStateList = ColorStateList(states, chipColors)
+//                chip.chipBackgroundColor = chipColorsStateList
+//                chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+//
+//                chip.setOnClickListener {
+//                    chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+//                    //Added click listener on close icon to remove tag from ChipGroup
+//                    chip.setOnCloseIconClickListener {
+//                        taglist.remove(tagName)
+//                        chipGroup.removeView(chip)
+//                        Logger.d("$taglist.toString()")
+//                        viewModel.taglist.value?.remove(tagName)
+//                    }
+//                }
+//
+//                viewModel.taglist.value?.plus(taglist)
+//                Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
+//
+//                chipGroup.addView(chip)
+//            }
+//        }
 
 
 
@@ -158,11 +154,11 @@ class RateFragment : Fragment() {
 
                 viewModel.rating.value?.pairings = (viewModel.taglist.value ?: listOf())
 
-                chipFun(
+                viewModel.chipFun(
                     mutableListOf(newChip.text.toString()),
                     chipGroup,
                     newChip,
-                    viewModel.newtag
+                    viewModel.newtag,paddingDp
                 )
                 Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
             } else {
@@ -178,15 +174,6 @@ class RateFragment : Fragment() {
 
         val scrollView = binding.scrollView
         val rating = binding.rating
-
-//        viewModel.statusReview.observe(viewLifecycleOwner, Observer {
-//            if (it == true){
-//                scrollView.post{
-//                    scrollView.scrollTo(0,   rating.top);
-//                    Logger.d("scroll to rate")
-//                }
-//            }
-//        })
 
         // Click next btn to move forward to review part
         binding.btnNext.setOnClickListener {
@@ -262,7 +249,7 @@ class RateFragment : Fragment() {
 
                 viewModel.rating.value?.pairings = (viewModel.pairingTagList.value?: listOf())
 
-                chipFun(mutableListOf(newChipPairing.text.toString()),chipGroupPairing,newChipPairing,viewModel.newPairingTag)
+                viewModel.chipFun(mutableListOf(newChipPairing.text.toString()),chipGroupPairing,newChipPairing,viewModel.newPairingTag,paddingDp)
 
                 Logger.d("viewModel.taglist.value = ${viewModel.pairingTagList.value}")
 
@@ -275,7 +262,7 @@ class RateFragment : Fragment() {
 
 
 
-        binding.recyclerImages.adapter = RateAdapter(RateAdapter.OnClickListener {})
+        binding.recyclerImages.adapter = ImageAdapter(ImageAdapter.OnClickListener {})
         if (savedInstanceState != null) {
             saveUri = Uri.parse(savedInstanceState.getString("saveUri"))
         }
@@ -296,8 +283,8 @@ class RateFragment : Fragment() {
         viewModel.images.observe(viewLifecycleOwner, Observer {
             Log.i("images", "images = $it")
             it?.let {
-                (binding.recyclerImages.adapter as RateAdapter).submitList(it)
-                (binding.recyclerImages.adapter as RateAdapter).notifyDataSetChanged()
+                (binding.recyclerImages.adapter as ImageAdapter).submitList(it)
+                (binding.recyclerImages.adapter as ImageAdapter).notifyDataSetChanged()
 
                 if(it.size != 0) {
                     binding.recyclerImageitems.visibility = View.VISIBLE
@@ -384,7 +371,7 @@ class RateFragment : Fragment() {
                                 binding.nameInput.setText(it.name)
                                 binding.priceInput.setText(it.price.toString())
                                 viewModel.taglist.value?.plus(it.contents)
-                                updateChip(it.contents.toMutableList())
+                                viewModel.updateChip(it.contents.toMutableList(),chipGroup,paddingDp)
                                 binding.listViewDrink.visibility = View.GONE
                             })
 
@@ -480,19 +467,20 @@ class RateFragment : Fragment() {
 
     }
 
-    var saveUri: Uri? = null
+
 
     companion object {
         const val PHOTO_FROM_GALLERY = 0
         const val PHOTO_FROM_CAMERA = 1
     }
 
-    fun toAlbum() {
+    private fun toAlbum() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.setType("image/*")
         startActivityForResult(intent, PHOTO_FROM_GALLERY)
     }
 
+    var saveUri: Uri? = null
 
     fun toCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -617,10 +605,6 @@ class RateFragment : Fragment() {
                     viewModel.images.value?.add(it.toString())
                     viewModel.images.value = viewModel.images.value
                     viewModel.rating.value?.images = viewModel.images.value
-
-
-
-
 
                 }
             }

@@ -119,14 +119,6 @@ class DetailBarViewModel(
         getDrinksResult()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun main(args: List<String>): String? {
-        val delim = ", "
-        val res = java.lang.String.join(delim, args)
-        println(res)
-        return res
-    }
-
 
     private fun getDrinksResult() {
 

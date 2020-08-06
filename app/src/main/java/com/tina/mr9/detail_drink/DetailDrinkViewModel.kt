@@ -124,26 +124,6 @@ class DetailDrinkViewModel(
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun main(args: List<String>): String? {
-        val delim = ", "
-        val res = java.lang.String.join(delim, args)
-        println(res)
-        return res
-    }
-
-    fun array2String(){
-
-        base2String.value = drink.value?.base?.let { main(it) }
-
-        contents2String.value = drink.value?.contents?.let { main(it) }
-
-        pairings2String.value = drink.value?.pairings?.let { main(it) }
-
-        overallRating2String.value = drink.value?.overall_rating?.toDouble()?.toBigDecimal()?.setScale(2, BigDecimal.ROUND_HALF_UP).toString()
-
-    }
-
     fun getRatingsResult() {
 
         coroutineScope.launch {

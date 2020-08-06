@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tina.mr9.databinding.ItemBardetailsImagesBinding
+import com.tina.mr9.databinding.ItemDetailBarImageBinding
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -14,7 +14,7 @@ class DetailBarImagesAdapter : RecyclerView.Adapter<DetailBarImagesAdapter.Image
     private lateinit var context: Context
     private var images: List<String>? = null
 
-    class ImageViewHolder(private var binding: ItemBardetailsImagesBinding): RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(private var binding: ItemDetailBarImageBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(imageUrl: String) {
 
@@ -28,7 +28,7 @@ class DetailBarImagesAdapter : RecyclerView.Adapter<DetailBarImagesAdapter.Image
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         context = parent.context
-        return ImageViewHolder(ItemBardetailsImagesBinding.inflate(
+        return ImageViewHolder(ItemDetailBarImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 

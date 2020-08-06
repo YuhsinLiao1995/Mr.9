@@ -26,7 +26,7 @@ class FollowingFragment : Fragment() {
         FollowingFragmentArgs.fromBundle(requireArguments()).follow) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        init()
+
         val binding = FragmentFollowingBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -38,11 +38,8 @@ class FollowingFragment : Fragment() {
         return binding.root
     }
 
-
-
     companion object {
         fun newInstance() = FollowingFragment()
     }
-
 
 }

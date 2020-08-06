@@ -115,7 +115,7 @@
         android:id="@+id/listFragment"
         android:name="com.tina.mr9.list_drink.ListDrinkFragment"
         android:label="ListFragment"
-        tools:layout="@layout/fragment_list">
+        tools:layout="@layout/fragment_list_drink">
         <argument android:name="SearchKey"
             app:argType="com.tina.mr9.data.Search"
             app:nullable="false"/>
@@ -167,9 +167,9 @@
 
     <fragment
         android:id="@+id/likedFragment"
-        android:name="com.tina.mr9.profile.item.LikedFragment"
+        android:name="com.tina.mr9.profile.item.LikedDrinkFragment"
         android:label="LikedFragment"
-        tools:layout="@layout/fragment_liked">
+        tools:layout="@layout/fragment_liked_drink">
         <argument
             android:name="userKey"
             app:argType="com.tina.mr9.data.User"
@@ -222,9 +222,9 @@
 
     <fragment
         android:id="@+id/othersLikedFragment"
-        android:name="com.tina.mr9.others_profile.item.OthersLikedFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersLikedDrinkFragment"
         android:label="OthersLikedFragment"
-        tools:layout="@layout/fragment_others_liked">
+        tools:layout="@layout/fragment_others_liked_drink">
     <argument android:name="searchUser"
         app:argType="com.tina.mr9.data.User"
         app:nullable="false"/>
@@ -274,9 +274,9 @@
 
     <fragment
         android:id="@+id/othersBarLikedFragment"
-        android:name="com.tina.mr9.others_profile.item.OthersBarLikedFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersLikedBarFragment"
         android:label="OthersBarLikedFragment"
-        tools:layout="@layout/fragment_othersbarliked">
+        tools:layout="@layout/fragment_others_liked_bar">
         <argument
             android:name="searchUser"
             app:argType="com.tina.mr9.data.User"

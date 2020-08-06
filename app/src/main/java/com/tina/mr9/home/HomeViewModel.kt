@@ -64,55 +64,11 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-//        getAllData()
         getDrinksResult()
     }
 
-//    fun getAllData() {
-////        var articlesFirebase = db.collection("drinks")
-////            .orderBy("createdTime", Query.Direction.DESCENDING)
-//        drinksFirebase
-//            .get()
-//            .addOnSuccessListener { result ->
-//
-//                Log.d("Tina", "${result.documents}")
-//
-//                for (document in result) {
-//                    Log.d("Tina", "${document.id} => ${document.data}")
-//
-//
-//                    val drink = Drinks(
-//                        name = document.data["name"] as String,
-//                        bar = document.data["bar"] as String,
-//                        base = document.data["base"] as ArrayList<String>,
-//                        contents = document.data["contents"] as ArrayList<String>,
-//                        pairings = document.data["pairings"] as ArrayList<String>,
-//                        category = document.data["category"] as String,
-//                        main_image = document.data["main_image"] as String,
-//                        images = document.data["images"] as ArrayList<String?>,
-//                        tag = document.data["tag"] as ArrayList<String>
-////                        rating = document.data["rating"] as HashMap<Ratings, Any>
-//                    )
-//
-//                    Log.d("Tina", "drinks => $drinks")
-//
-//                    drinksList.add(drink)
-//
-//                    drinks.value = drinksList
-//
-//                    Log.d("Tina", "articles => ${drinks.value}")
-//
-////                    val ratings = document.collection("rating").get
-//                }
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.d("Tina", "Error getting documents: ", exception)
-//            }
-//
-//    }
 
-    fun getDrinksResult() {
+    private fun getDrinksResult() {
 
         coroutineScope.launch {
 

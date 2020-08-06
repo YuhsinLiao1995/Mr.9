@@ -9,7 +9,7 @@ import com.tina.mr9.data.source.Repository
 import com.tina.mr9.home.HomeViewModel
 import com.tina.mr9.MainViewModel
 import com.tina.mr9.friends.FriendsViewModel
-import com.tina.mr9.profile.item.BarLikedViewModel
+import com.tina.mr9.profile.item.LikedBarViewModel
 import com.tina.mr9.search.SearchViewModel
 
 /**
@@ -41,8 +41,8 @@ class ViewModelFactory constructor(
                 isAssignableFrom(SearchViewModel::class.java) ->
                     SearchViewModel(repository)
 
-                isAssignableFrom(BarLikedViewModel::class.java) ->
-                    BarLikedViewModel(repository)
+                isAssignableFrom(LikedBarViewModel::class.java) ->
+                    LikedBarViewModel(repository)
 
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

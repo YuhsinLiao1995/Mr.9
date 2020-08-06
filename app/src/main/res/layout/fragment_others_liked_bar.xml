@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.tina.mr9.others_profile.item.OthersBarLikedViewModel" />
+            type="com.tina.mr9.others_profile.item.OthersLikedBarViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             app:barList="@{viewModel.bar}"
             app:spanCount="1"
             tools:itemCount="6"
-            tools:listitem="@layout/item_barliked" />
+            tools:listitem="@layout/item_liked_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

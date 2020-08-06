@@ -56,23 +56,23 @@ class DetailDrinkRatingsAdapter(
             binding.ratings = rating
             binding.root.setOnClickListener { onClickListener.onClick(rating) }
 
-            if (rating.overall_rating!! > 0f) {
-                binding.niceRatingBar.setRating(rating.overall_rating!!)
+            if (rating.overall_rating > 0f) {
+                binding.niceRatingBar.setRating(rating.overall_rating)
             } else {
                 binding.niceRatingBar.setRating(0f)
             }
 
 
-            val taglist = rating.pairings
+            val tagList = rating.pairings
             val chipGroup = binding.pairingTag
 
-            if (taglist.isNotEmpty()) {
+            if (tagList.isNotEmpty()) {
                 binding.pairingIcon.visibility = View.VISIBLE
                 binding.blank.visibility = View.VISIBLE
             }
 
-            for (index in taglist.indices) {
-                val tagName = taglist[index]
+            for (index in tagList.indices) {
+                val tagName = tagList[index]
                 val chip = Chip(chipGroup.context)
 
                 chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)

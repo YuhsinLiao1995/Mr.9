@@ -1,4 +1,4 @@
-package com.tina.mr9.profile.item
+package com.tina.mr9.others_profile.item
 
 
 import android.os.Bundle
@@ -9,34 +9,38 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tina.mr9.NavigationDirections
-import com.tina.mr9.databinding.FragmentLikedBinding
+import com.tina.mr9.databinding.FragmentOthersLikedBarBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.item.LikedViewModel
 import com.tina.mr9.profile.ProfileViewModel
+import com.tina.mr9.profile.item.*
 
 
-class LikedFragment : Fragment() {
+class OthersLikedBarFragment : Fragment() {
 
     companion object {
-        fun newInstance() = LikedFragment()
+        fun newInstance() = LikedDrinkFragment()
     }
+
+
     /**
      * Lazily initialize our [ProfileViewModel].
      */
-    private val viewModel by viewModels<LikedViewModel> { getVmFactory(LikedFragmentArgs.fromBundle(requireArguments()).userKey) }
-
+    private val viewModel by viewModels<OthersLikedBarViewModel> { getVmFactory(
+        OthersLikedBarFragmentArgs.fromBundle(
+            requireArguments()
+        ).searchUser) }
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentLikedBinding.inflate(inflater)
+        val binding = FragmentOthersLikedBarBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.likedGrid.adapter = LikedAdapter(LikedAdapter.OnClickListener{
-            findNavController().navigate(NavigationDirections.navigateToDetailFragment(it,ratingKey = null))
+        binding.likedGrid.adapter = LikedBarAdapter(LikedBarAdapter.OnClickListener{
+            findNavController().navigate(NavigationDirections.navigateToBardetailFragment(it))
             viewModel.navigateToDetail
         })
-
 
         return binding.root
 

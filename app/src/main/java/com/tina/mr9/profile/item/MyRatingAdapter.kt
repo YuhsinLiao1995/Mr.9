@@ -41,10 +41,6 @@ class MyRatingAdapter(private val onClickListener: OnClickListener) :
         return LayoutViewHolder.from(parent)
     }
 
-
-
-
-
     class LayoutViewHolder(private var binding: ItemMyRatingBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(rating: Rating, onClickListener: OnClickListener) {
@@ -64,11 +60,6 @@ class MyRatingAdapter(private val onClickListener: OnClickListener) :
                     .inflate(layoutInflater, parent, false)
                 return LayoutViewHolder(binding)
             }
-
         }
-
-
-
     }
-
 }

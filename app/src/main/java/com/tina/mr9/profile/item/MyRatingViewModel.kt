@@ -19,11 +19,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MyRatingViewModel (private val repository: Repository, private val arguments: User?) : ViewModel() {
-    // After login to Mr.9 server through Google, at the same time we can get user info to provide to display ui
+
     private val _user = MutableLiveData<User>().apply {
 
             value = com.tina.mr9.login.UserManager.user
-
     }
 
     val user: LiveData<User>
@@ -73,7 +72,6 @@ class MyRatingViewModel (private val repository: Repository, private val argumen
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-//        getAllData()
         getRatingResult()
     }
 
@@ -87,7 +85,6 @@ class MyRatingViewModel (private val repository: Repository, private val argumen
                 repository.getMyRatingDrinks(it!!)
 
             }
-            Logger.d("repository.getMyRatingDrinks(it!!)")
 
 
             _rating.value = when (result) {
@@ -115,45 +112,6 @@ class MyRatingViewModel (private val repository: Repository, private val argumen
             _refreshStatus.value = false
         }
     }
-
-//    private fun getMyRatedDrink() {
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            val result = rating.value
-//                .let { repository.getMyRatedDrink(it!!)
-//
-//            }
-//            Logger.d("repository.getMyRatingDrinks(it!!)")
-//
-//
-//            _drink.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//            _refreshStatus.value = false
-//        }
-//    }
 
     override fun onCleared() {
         super.onCleared()

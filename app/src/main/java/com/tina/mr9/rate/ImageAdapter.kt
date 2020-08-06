@@ -12,7 +12,7 @@ import com.tina.mr9.databinding.ItemImageBinding
  * Created by Yuhsin Liao in Jul. 2020.
  *
  */
-class RateAdapter(private val onClickListener: OnClickListener) :
+class ImageAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<String, RecyclerView.ViewHolder>(
         DiffCallback ) {
 
@@ -44,15 +44,10 @@ class RateAdapter(private val onClickListener: OnClickListener) :
         return LayoutViewHolder.from(parent)
     }
 
-
-
-
-
     class LayoutViewHolder(private var binding: ItemImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind( image: String,onClickListener: OnClickListener) {
+        fun bind( image: String, onClickListener: OnClickListener) {
             binding.image = image
-
             binding.executePendingBindings()
         }
 
@@ -65,9 +60,6 @@ class RateAdapter(private val onClickListener: OnClickListener) :
             }
 
         }
-
-
-
     }
 
 

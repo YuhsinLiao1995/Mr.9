@@ -9,41 +9,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tina.mr9.NavigationDirections
-import com.tina.mr9.databinding.FragmentBarlikedBinding
-import com.tina.mr9.databinding.FragmentLikedBinding
+import com.tina.mr9.databinding.FragmentLikedBarBinding
 import com.tina.mr9.ext.getVmFactory
-import com.tina.mr9.profile.item.LikedViewModel
 import com.tina.mr9.profile.ProfileViewModel
 
 
-class BarLikedFragment : Fragment() {
+class LikedBarFragment : Fragment() {
 
     companion object {
-        fun newInstance() = BarLikedFragment()
+        fun newInstance() = LikedBarFragment()
     }
-
-
-    /**
-     * Lazily initialize our [ProfileViewModel].
-     */
-    private val viewModel by viewModels<BarLikedViewModel> { getVmFactory() }
+    private val viewModel by viewModels<LikedBarViewModel> { getVmFactory() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentBarlikedBinding.inflate(inflater)
+        val binding = FragmentLikedBarBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.likedGrid.adapter = BarLikedAdapter(BarLikedAdapter.OnClickListener{
+        binding.likedGrid.adapter = LikedBarAdapter(LikedBarAdapter.OnClickListener{
             findNavController().navigate(NavigationDirections.navigateToBardetailFragment(it))
             viewModel.navigateToDetail
         })
 
-
         return binding.root
-
-
     }
-
 }

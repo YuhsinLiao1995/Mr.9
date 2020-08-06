@@ -12,16 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
@@ -59,7 +49,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/drink_btn"
                     app:layout_constraintTop_toBottomOf="@id/title"
-                    android:hint="tell me what you'd like"
+                    android:hint="@string/search_hint"
                     android:paddingStart="44dp" />
 
                 <Button
@@ -72,12 +62,13 @@
                     android:layout_marginEnd="16dp"
                     android:text='@{viewModel.statusType == true ? "Drink" : "Bar"}'
                     android:background="@drawable/background_search_type"
-                    android:textColor="@{@color/white}"
+                    android:textColor="@color/white"
                     android:textSize="11sp"
                     app:layout_constraintStart_toEndOf="@id/search_edit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/search_edit"
-                    app:layout_constraintBottom_toBottomOf="@id/search_edit"/>
+                    app:layout_constraintBottom_toBottomOf="@id/search_edit"
+                    tools:ignore="SmallSp" />
 
 
                 <androidx.viewpager.widget.ViewPager
@@ -93,7 +84,8 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs_catalog"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_catalog_tab"
+                        android:layout_height="@dimen/height_tab"
+
                         android:elevation="4dp"
                         android:background="@drawable/background_tab"
                         app:tabIndicatorColor="@color/black_3f3a3a"
@@ -131,12 +123,13 @@
                         android:layout_height="35dp"
                         android:onClick="@{() -> viewModel.setSearchStatus()}"
                         android:layout_margin="8dp"
-                        android:text="Drink"
+                        android:text="@string/btn_drink"
                         android:background="@{viewModel.statusType == true ? @drawable/background_send : @drawable/background_unselect}"
                         android:textColor="@{viewModel.statusType == true ? @color/white : @color/gray_646464}"
                         android:textSize="11sp"
                         app:layout_constraintStart_toEndOf="@id/drink_icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SmallSp" />
 
 
                     <ImageView
@@ -167,18 +160,18 @@
                         android:layout_height="35dp"
                         android:onClick="@{() -> viewModel.setSearchStatus()}"
                         android:layout_marginHorizontal="16dp"
-                        android:text="Bar"
+                        android:text="@string/btn_bar"
                         android:background="@{viewModel.statusType == false ? @drawable/background_send : @drawable/background_unselect}"
                         android:textColor="@{viewModel.statusType == false ? @color/white : @color/gray_646464}"
                         android:textSize="11sp"
                         app:layout_constraintStart_toEndOf="@id/bar_icon"
-                        app:layout_constraintTop_toTopOf="@id/drink" />
+                        app:layout_constraintTop_toTopOf="@id/drink"
+                        tools:ignore="SmallSp" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
                     <ScrollView
-                        android:id="@+id/scrolllist_view_drink"
+                        android:id="@+id/scroll_view_drink"
                         android:visibility="gone"
                         android:background="@color/translucent_40"
                         android:layout_width="match_parent"
@@ -208,7 +201,7 @@
                     </ScrollView>
 
             <ScrollView
-                android:id="@+id/scrolllist_view_bar"
+                android:id="@+id/scroll_view_bar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="gone"
@@ -231,11 +224,10 @@
                     tools:listitem="@layout/item_searched_drink">
 
                 </androidx.recyclerview.widget.RecyclerView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-                </ScrollView>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

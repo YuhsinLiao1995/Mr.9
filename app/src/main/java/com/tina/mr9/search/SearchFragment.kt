@@ -91,15 +91,15 @@ class SearchFragment : Fragment() {
                 })
 
                 if (searchText != "" && viewModel.statusType.value == true) {
-                    binding.scrolllistViewDrink.visibility = View.VISIBLE
-                    binding.scrolllistViewBar.visibility = View.GONE
+                    binding.scrollViewDrink.visibility = View.VISIBLE
+                    binding.scrollViewBar.visibility = View.GONE
 
                 } else if (searchText != "" && viewModel.statusType.value == false){
-                    binding.scrolllistViewDrink.visibility = View.GONE
-                    binding.scrolllistViewBar.visibility = View.VISIBLE
+                    binding.scrollViewDrink.visibility = View.GONE
+                    binding.scrollViewBar.visibility = View.VISIBLE
                 } else{
-                    binding.scrolllistViewDrink.visibility = View.GONE
-                    binding.scrolllistViewBar.visibility = View.GONE
+                    binding.scrollViewDrink.visibility = View.GONE
+                    binding.scrollViewBar.visibility = View.GONE
                 }
 
             }
@@ -108,22 +108,4 @@ class SearchFragment : Fragment() {
         return binding.root
 
     }
-
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//
-//        viewpagerCatalog.let {
-//            tabsCatalog.setupWithViewPager(it)
-//            it.adapter = SearchAdapter(childFragmentManager)
-////                it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
-//        }
-//
-//        SearchAdapter = PagesAdapter(childFragmentManager)
-//        viewPager = view.findViewById(R.id.viewpager_catalog)
-//        viewPager.adapter = SearchAdapter
-//
-////        PagerAdapter = PagesAdapter(childFragmentManager)
-////        viewPager = view.findViewById(R.id.viewpager_profile)
-////        viewPager.adapter = PagerAdapter
-//    }
 }

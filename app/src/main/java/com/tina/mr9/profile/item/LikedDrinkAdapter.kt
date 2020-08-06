@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Drink
-import com.tina.mr9.databinding.ItemLikedBinding
+import com.tina.mr9.databinding.ItemLikedDrinkBinding
 
-//
-class LikedAdapter(private val onClickListener: OnClickListener) :
+class LikedDrinkAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Drink, RecyclerView.ViewHolder>(
         DiffCallback ) {
 
@@ -44,13 +43,13 @@ class LikedAdapter(private val onClickListener: OnClickListener) :
 
 
 
-    class LayoutViewHolder(private var binding: ItemLikedBinding) :
+    class LayoutViewHolder(private var binding: ItemLikedDrinkBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(drink:Drink, onClickListener: OnClickListener) {
             binding.drink = drink
 
-            if (drink.overall_rating!! > 0f) {
-                binding.niceRatingBar.setRating(drink.overall_rating!!)
+            if (drink.overall_rating > 0f) {
+                binding.niceRatingBar.setRating(drink.overall_rating)
             } else {
                 binding.niceRatingBar.setRating(0f)
             }
@@ -61,7 +60,7 @@ class LikedAdapter(private val onClickListener: OnClickListener) :
         companion object {
             fun from(parent: ViewGroup): LayoutViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemLikedBinding
+                val binding = ItemLikedDrinkBinding
                     .inflate(layoutInflater, parent, false)
                 return LayoutViewHolder(binding)
             }

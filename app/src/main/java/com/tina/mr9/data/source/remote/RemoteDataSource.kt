@@ -4,13 +4,16 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.solver.widgets.Snapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.*
 import com.tina.mr9.data.source.DataSource
 import com.tina.mr9.login.UserManager
 import com.tina.mr9.util.Logger
+import io.fabric.sdk.android.services.concurrency.Task
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -33,14 +36,21 @@ object RemoteDataSource : DataSource {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val list = mutableListOf<Drink>()
-                    for (document in task.result!!) {
-                        Logger.d(document.id + " => " + document.data)
 
-                        val drink = document.toObject(Drink::class.java)
-                        list.add(drink)
-                    }
-                    continuation.resume(Result.Success(list))
+                        task.result?.let {
+
+                            for (document in it) {
+
+                                Logger.d(document.id + " => " + document.data)
+
+                                val drink = document.toObject(Drink::class.java)
+                                list.add(drink)
+                            }
+                            continuation.resume(Result.Success(list))
+                        }
+
                 } else {
+
                     task.exception?.let {
 
                         Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")

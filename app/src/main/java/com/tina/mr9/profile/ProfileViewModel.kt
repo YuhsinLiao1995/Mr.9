@@ -44,12 +44,6 @@ class ProfileViewModel(private val repository: Repository, private val arguments
     val error: LiveData<String>
         get() = _error
 
-    // status for the loading icon of swl
-    private val _refreshStatus = MutableLiveData<Boolean>()
-
-    val refreshStatus: LiveData<Boolean>
-        get() = _refreshStatus
-
     // Handle navigation to detail
     private val _navigateToDetail = MutableLiveData<User>()
 
@@ -94,8 +88,6 @@ class ProfileViewModel(private val repository: Repository, private val arguments
 
             val result = repository.getMyProfileResult(searchId)
 
-            Logger.d("profile result = $result")
-
             _user.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
@@ -118,12 +110,6 @@ class ProfileViewModel(private val repository: Repository, private val arguments
                     null
                 }
             }
-            _refreshStatus.value = false
-        }
-    }
-
-    fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
         }
     }
 

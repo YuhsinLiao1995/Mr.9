@@ -1,9 +1,14 @@
 package com.tina.mr9.rate
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.Bar
@@ -85,6 +90,7 @@ class RateViewModel(
     val newtag = MutableLiveData<String>().apply {
         value = String()
     }
+
 
 
     val pairingTagList = MutableLiveData<MutableList<String>>().apply {
@@ -302,69 +308,68 @@ class RateViewModel(
         }
     }
 
-//    fun bindingDrink() {
-//
-//        _drink.value?.name = rating.value!!.name
-//        _drink.value?.bar = rating.value!!.bar
-//        _drink.value?.contents = rating.value!!.contents
-//        _drink.value?.base = rating.value!!.base
-//        _drink.value?.contents = rating.value!!.contents
-//        _drink.value?.category = rating.value!!.category
-//        _drink.value?.pairings = rating.value!!.pairings
-//        _drink.value?.strong = rating.value!!.strong
-//        _drink.value?.sweet = rating.value!!.sweet
-//        _drink.value?.sour = rating.value!!.sour
-//        _drink.value?.take_again = rating.value!!.take_again
-//        _drink.value?.main_image = rating.value!!.main_photo
-//        _drink.value?.images = rating.value!!.images!!
-//
-//        _bar.value?.name = rating.value!!.bar
-//        _bar.value?.main_image = rating.value!!.main_photo
-//        _bar.value?.images = rating.value!!.images!!
-//        Logger.d("drink.value = ${_drink.value?.name}")
-//        Logger.d("rating.value = ${rating.value?.name}")
-//    }
+    fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup, newChip: EditText, newTag:  MutableLiveData<String>, paddingDp: Int) {
 
-//    fun getRatedDrinks() {
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            val result = drink.value.let {
-//                repository.getRatedDrinks(it!!)
-//            }
-//            Logger.d("repository.getLikedDrinks(it!!)")
-//            Logger.d("drink.name = ${drink.value?.name} ")
-//            Logger.d("result = $result ")
-//
-//
-//            _updatedDrink.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value = Mr9Application.instance.getString(R.string.you_know_nothing)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//
-//
-//        }
-//    }
+        for (index in taglist.indices) {
+            val tagName = taglist[index]
+            val chip = Chip(chipGroup.context)
+
+            chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+            chip.text = tagName
+            chip.textSize = 14f
+            chip.setTextColor(Color.WHITE)
+            val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+            val chipColors = intArrayOf(Color.parseColor("#3f3a3a"))
+            val chipColorsStateList = ColorStateList(states, chipColors)
+            chip.chipBackgroundColor = chipColorsStateList
+            chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+
+            chip.setOnClickListener {
+                chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+                chip.setOnCloseIconClickListener {
+                    chipGroup.removeView(chip)
+                    Logger.d("$taglist.toString()")
+                    taglist.remove(tagName)
+                }
+            }
+            chip.text = newChip.text
+            chipGroup.addView(chip)
+        }
+        newTag.value = null
+    }
+
+    fun updateChip(taglist: MutableList<String>,chipGroup: ChipGroup,paddingDp: Int) {
+        for (index in taglist.indices) {
+            val tagName = taglist[index]
+            val chip = Chip(chipGroup.context)
+
+            chip.setPadding(paddingDp, paddingDp, paddingDp, paddingDp)
+            chip.text = tagName
+            chip.textSize = 14f
+            chip.setTextColor(Color.WHITE)
+            val states = arrayOf(intArrayOf(-android.R.attr.state_checked))
+            val chipColors = intArrayOf(Color.parseColor("#999999"))
+            val chipColorsStateList = ColorStateList(states, chipColors)
+            chip.chipBackgroundColor = chipColorsStateList
+            chip.closeIconTint = ColorStateList(states, intArrayOf(Color.WHITE))
+
+            chip.setOnClickListener {
+                chip.isCloseIconEnabled = !chip.isCloseIconEnabled
+                //Added click listener on close icon to remove tag from ChipGroup
+                chip.setOnCloseIconClickListener {
+                    taglist.remove(tagName)
+                    chipGroup.removeView(chip)
+                    Logger.d("$taglist.toString()")
+                    taglist.remove(tagName)
+                }
+            }
+
+            taglist.plus(taglist)
+            Logger.d("vtaglist = $taglist")
+
+            chipGroup.addView(chip)
+        }
+    }
 
     fun getSearchedRatingDrinksResult(
         searchedText: String,

@@ -21,15 +21,12 @@ import com.tina.mr9.util.Logger
  */
 class ProfileFragment : Fragment() {
 
-    /**
-     * Lazily initialize our [ProfileViewModel].
-     */
     private val viewModel by viewModels<ProfileViewModel> { getVmFactory(ProfileFragmentArgs.fromBundle(requireArguments()).userKey) }
     private lateinit var viewPager: ViewPager
-    private lateinit var PagerAdapter: PagesAdapter
+    private lateinit var pagerAdapter: PagesAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        init()
+
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -37,14 +34,12 @@ class ProfileFragment : Fragment() {
 
         viewModel.user.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.calculate()
-                Logger.d("amt_followedBy = ${viewModel.amtFollowedBy.value}")
-                Logger.d("amt_following = ${viewModel.amtFollowing.value}")
 
+                viewModel.calculate()
                 UserManager.user = it
+
             }
         })
-        Logger.d("amt_following = ${viewModel.user.value?.amtFollowing}")
 
         binding.amtFollowing.setOnClickListener {
             findNavController().navigate(NavigationDirections.navigateToFollowingFragment(UserManager.user,true))
@@ -58,9 +53,9 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        PagerAdapter = PagesAdapter(childFragmentManager)
+        pagerAdapter = PagesAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.viewpager_profile)
-        viewPager.adapter = PagerAdapter
+        viewPager.adapter = pagerAdapter
     }
 
     companion object {
