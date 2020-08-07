@@ -25,8 +25,6 @@ class OthersProfileViewModelFactory(
             return OthersProfileViewModel(repository, searchUser, rating) as T
         }
 
-
-
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

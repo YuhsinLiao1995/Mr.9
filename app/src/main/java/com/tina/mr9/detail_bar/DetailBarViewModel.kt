@@ -46,11 +46,9 @@ class DetailBarViewModel(
         statusLike.value = !statusLike.value!!
 
         if (statusLike.value == true){
-            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
             Logger.d("liked")
             updateLikedBarBy(true,bar.value!!)
         } else{
-            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
             Logger.d("unliked")
             updateLikedBarBy(false,bar.value!!)
         }

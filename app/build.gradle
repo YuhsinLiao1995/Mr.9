@@ -139,4 +139,10 @@ dependencies {
     implementation ('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true;
     }
+
+
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.2.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:2.19.0'
 }

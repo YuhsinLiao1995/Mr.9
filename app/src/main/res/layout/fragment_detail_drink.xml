@@ -298,7 +298,7 @@
                     android:textColor="@color/black_3f3a3a"
                     android:textSize="27sp"
                     android:gravity="bottom"
-                    android:text='@{viewModel.drink.overall_rating >= 0 ? viewModel.overallRating2String : "NA"}'
+                    app:round="@{viewModel.drink.overall_rating}"
                     tools:text="5.0"/>
 
                 <com.kaelli.niceratingbar.NiceRatingBar

@@ -32,6 +32,37 @@
             tools:itemCount="6"
             tools:listitem="@layout/item_liked_bar" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.bar.size() > 0 ? View.GONE : View.VISIBLE}">
+
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/DetailContentSmall"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_cccccc"
+                android:text="@string/no_bar_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/bar_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ProgressBar
             android:theme="@style/ProgressTheme"
             android:layout_width="wrap_content"

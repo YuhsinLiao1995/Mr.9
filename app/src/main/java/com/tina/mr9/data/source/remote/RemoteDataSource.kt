@@ -700,6 +700,7 @@ object RemoteDataSource : DataSource {
                             val rating = document.toObject(Rating::class.java)
                             list.add(rating)
                         }
+                        list.sortByDescending { it.createdTime }
                         continuation.resume(Result.Success(list))
                         Logger.d("task.result.size = ${task.result!!.size()}")
                     } else {

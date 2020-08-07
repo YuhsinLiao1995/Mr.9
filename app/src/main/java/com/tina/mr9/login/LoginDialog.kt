@@ -30,6 +30,7 @@ import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.databinding.DialogLoginBinding
+import com.tina.mr9.ext.showToast
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -112,7 +113,8 @@ class LoginDialog : BottomSheetDialogFragment() {
 //                    moveMainPage(task.result?.user)
                 }else{
                     //Show the error message
-                    Toast.makeText(Mr9Application.appContext,task.exception?.message,Toast.LENGTH_LONG).show()
+                    task.exception?.message?.let { activity.showToast(it) }
+
                 }
             }
     }

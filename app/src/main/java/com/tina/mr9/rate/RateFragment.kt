@@ -5,8 +5,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,7 +17,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -30,8 +27,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.storage.FirebaseStorage
 import com.kaelli.niceratingbar.OnRatingChangedListener
 import com.tina.mr9.MainActivity
@@ -42,6 +37,7 @@ import com.tina.mr9.data.Drink
 import com.tina.mr9.data.Rating
 import com.tina.mr9.databinding.FragmentRateBinding
 import com.tina.mr9.ext.getVmFactory
+import com.tina.mr9.ext.showToast
 import com.tina.mr9.util.Logger
 import java.io.File
 import java.util.*
@@ -55,6 +51,13 @@ class RateFragment : Fragment() {
 
     val viewModel by viewModels<RateViewModel> { getVmFactory(RateFragmentArgs.fromBundle(requireArguments()).drinkKey) }
 
+    var saveUri: Uri? = null
+
+    companion object {
+        const val PHOTO_FROM_GALLERY = 0
+        const val PHOTO_FROM_CAMERA = 1
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,12 +68,14 @@ class RateFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val chipGroup = binding.groupProfileTag
-        val newChip = binding.conetentInput
-        val paddingDp = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            10f,
-            resources.displayMetrics).toInt()
+
+        binding.recyclerImages.adapter = ImageAdapter(ImageAdapter.OnClickListener {
+
+        })
+
+        // request permission of camera and album when init
+        permission()
+
 
 //        fun chipFun(taglist: MutableList<String>, chipGroup: ChipGroup,newChip: EditText ,newTag:  MutableLiveData<String>) {
 //
@@ -144,7 +149,13 @@ class RateFragment : Fragment() {
 
 
 
-
+        // manage chip
+        val chipGroup = binding.groupProfileTag
+        val newChip = binding.conetentInput
+        val paddingDp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            10f,
+            resources.displayMetrics).toInt()
 
         binding.btnAddChip.setOnClickListener {
 
@@ -162,18 +173,14 @@ class RateFragment : Fragment() {
                 )
                 Logger.d("viewModel.taglist.value = ${viewModel.taglist.value}")
             } else {
-                Toast.makeText(
-                    Mr9Application.appContext,
-                    "Please write a content",
-                    Toast.LENGTH_LONG
-                ).show()
 
+                activity.showToast("Please write a content")
 
             }
         }
 
-        val scrollView = binding.scrollView
-        val rating = binding.rating
+
+
 
         // Click next btn to move forward to review part
         binding.btnNext.setOnClickListener {
@@ -182,28 +189,17 @@ class RateFragment : Fragment() {
             when {
                 viewModel.rating.value?.name == "" -> {
 
-                    Toast.makeText(
-                        Mr9Application.appContext,
-                        "Please enter the drink ",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    activity.showToast("Please enter the drink")
                 }
                 viewModel.rating.value?.bar == "" -> {
 
-                    Toast.makeText(
-                        Mr9Application.appContext,
-                        "Please enter the bar ",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    activity.showToast("Please enter the bar")
 
                 }
                 viewModel.images.value?.size == 0 -> {
 
-                    Toast.makeText(
-                        Mr9Application.appContext,
-                        "Please add a photo! ",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    activity.showToast("Please add a photo !")
+
                 }
                 else -> {
                     viewModel.setReviewStatus()
@@ -216,19 +212,21 @@ class RateFragment : Fragment() {
             Logger.d("viewModel.statusReview.observe, it=$it")
             it?.let {
                 if (it) {
+
                     binding.rating.visibility = View.VISIBLE
                     binding.btnNext.visibility = View.GONE
 
-                    scrollView.post {
-//                            scrollView.scrollTo(0, rating.top);
-                        Logger.d("scroll to rate")
-                        scrollView.smoothScrollTo(0, rating.top)
+                    binding.scrollView.post {
+                        binding.scrollView.smoothScrollTo(0, binding.rating.top)
                     }
                 }
             }
         })
 
+        // click to post rating
         binding.buttonPublish.setOnClickListener() {
+
+
 
             Logger.d("viewModel._drink.value ${viewModel._drink.value}")
             viewModel.publish(
@@ -239,10 +237,13 @@ class RateFragment : Fragment() {
         }
 
 
-        val chipGroupPairing = binding.pairingTag
-        val newChipPairing = binding.pairingInput
 
+        // add new chip
         binding.btnAddChipPairing.setOnClickListener {
+
+            val chipGroupPairing = binding.pairingTag
+            val newChipPairing = binding.pairingInput
+
             if (viewModel.newPairingTag.value != "") {
 
                 viewModel.pairingTagList.value?.add(newChipPairing.text.toString())
@@ -254,31 +255,31 @@ class RateFragment : Fragment() {
                 Logger.d("viewModel.taglist.value = ${viewModel.pairingTagList.value}")
 
             } else{
-                Toast.makeText(Mr9Application.appContext,"Please write a pairing",Toast.LENGTH_LONG).show()
+
+                activity.showToast("Please enter a pairing")
+
             }
         }
 
-
-
-
-
-        binding.recyclerImages.adapter = ImageAdapter(ImageAdapter.OnClickListener {})
-        if (savedInstanceState != null) {
-            saveUri = Uri.parse(savedInstanceState.getString("saveUri"))
-        }
-        permission()
         binding.btnAddPhoto.setOnClickListener {
+            ContextCompat.checkSelfPermission(
+                Mr9Application.appContext,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
             toAlbum()
         }
 
         binding.btnTakePic.setOnClickListener {
+
             ContextCompat.checkSelfPermission(
                 Mr9Application.appContext,
                 android.Manifest.permission.CAMERA
             )
             toCamera()
         }
-        viewModel.images.value?.clear()
+
+
+//        viewModel.images.value?.clear()
 
         viewModel.images.observe(viewLifecycleOwner, Observer {
             Log.i("images", "images = $it")
@@ -295,22 +296,19 @@ class RateFragment : Fragment() {
 
         binding.niceRatingBar.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onRatingChanged(it)
-            Log.d("Tina", "it = $it")
         })
+
 
         binding.niceRatingBarBody.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onBodyChanged(it)
-            Log.d("Tina", "it = $it")
         })
 
         binding.niceRatingBarSweet.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onSweetnessChanged(it)
-            Log.d("Tina", "it = $it")
         })
 
         binding.niceRatingBarSour.setOnRatingChangedListener(OnRatingChangedListener {
             viewModel.onSourChanged(it)
-            Log.d("Tina", "it = $it")
         })
 
 
@@ -327,10 +325,10 @@ class RateFragment : Fragment() {
         })
 
 
-        ContextCompat.checkSelfPermission(
-            Mr9Application.appContext,
-            android.Manifest.permission.CAMERA
-        )
+//        ContextCompat.checkSelfPermission(
+//            Mr9Application.appContext,
+//            android.Manifest.permission.CAMERA
+//        )
 
 
         binding.nameInput.addTextChangedListener(object : TextWatcher {
@@ -463,26 +461,71 @@ class RateFragment : Fragment() {
         }
         Manifest.permission()
 
-//
 
     }
 
 
 
-    companion object {
-        const val PHOTO_FROM_GALLERY = 0
-        const val PHOTO_FROM_CAMERA = 1
-    }
+
 
     private fun toAlbum() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.setType("image/*")
+        intent.type = "image/*"
         startActivityForResult(intent, PHOTO_FROM_GALLERY)
     }
 
-    var saveUri: Uri? = null
 
-    fun toCamera() {
+
+
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (saveUri != null) {
+            val uriString = saveUri.toString()
+            outState.putString("saveUri", uriString)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PHOTO_FROM_GALLERY -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        val saveUri = data!!.data
+//                        imageView.setImageURI(saveUri)
+                        saveUri?.let { viewModel.uploadImage(it) }
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        Log.wtf("getImageResult", resultCode.toString())
+                    }
+
+                }
+            }
+
+            PHOTO_FROM_CAMERA -> {
+
+                Log.d("Tina", "PHOTO_FROM_CAMERA")
+                when (resultCode) {
+
+                    Activity.RESULT_OK -> {
+                        Log.d("Tina", "RESULT_OK")
+//                        Glide.with(this).load(saveUri).into(imageView)
+                        Log.d("Tina", "saveUri = $saveUri")
+                        saveUri?.let { viewModel.uploadImage(it) }
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        Log.wtf("getImageResult", resultCode.toString())
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    private fun toCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val tmpFile = File(
             requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
@@ -497,10 +540,50 @@ class RateFragment : Fragment() {
         saveUri = uriForCamera
         Log.d("Tina", "saveUri = $saveUri")
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForCamera)
+
         startActivityForResult(intent, PHOTO_FROM_CAMERA)
     }
 
-    fun permission() {
+//    private fun uploadImage(saveUri: Uri) {
+//        var firstPhoto = true
+//        val filename = UUID.randomUUID().toString()
+//        val image = MutableLiveData<String>()
+//        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+//        Log.d("TIna", "saveUri = $saveUri")
+//        ref.putFile(saveUri!!)
+//            .addOnSuccessListener {
+//                ref.downloadUrl.addOnSuccessListener {
+//                    Log.d("Tina", "it = $it")
+//                    image.value = it.toString()
+//                    if (firstPhoto) {
+//                        viewModel.rating.value?.main_photo = image.value!!
+//                        viewModel.rating.value?.images =
+//                            listOf(listOf(image.value).toString())
+//                        firstPhoto = false
+//
+//
+//
+//                    } else {
+//                        viewModel.rating.value?.images =
+//                            listOf(image.toString())
+//                        Log.d("Tina", "not first photo")
+//                    }
+//                    Log.d(
+//                        "Tina",
+//                        "viewModel mainImage = ${viewModel.rating.value?.main_photo}; images = ${viewModel.rating.value?.images}"
+//                    )
+//                    viewModel.images.value?.add(it.toString())
+//                    viewModel.images.value = viewModel.images.value
+//                    viewModel.rating.value?.images = viewModel.images.value
+//
+//                }
+//            }
+//    }
+
+
+
+
+    private fun permission() {
         val permissionList = arrayListOf(
             android.Manifest.permission.CAMERA,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -526,102 +609,16 @@ class RateFragment : Fragment() {
             permissionList.toArray(array),
             0
         )
-    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (saveUri != null) {
-            val uriString = saveUri.toString()
-            outState.putString("saveUri", uriString)
+        if (permissionList.isEmpty()){
+            dialog()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            PHOTO_FROM_GALLERY -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        val saveUri = data!!.data
-//                        imageView.setImageURI(saveUri)
-                        saveUri?.let { uploadImage(it) }
-                    }
-                    Activity.RESULT_CANCELED -> {
-                        Log.wtf("getImageResult", resultCode.toString())
-                    }
-
-                }
-            }
-
-            PHOTO_FROM_CAMERA -> {
-
-                Log.d("Tina", "PHOTO_FROM_CAMERA")
-                when (resultCode) {
-
-                    Activity.RESULT_OK -> {
-                        Log.d("Tina", "RESULT_OK")
-//                        Glide.with(this).load(saveUri).into(imageView)
-                        Log.d("Tina", "saveUri = $saveUri")
-                        saveUri?.let { uploadImage(it) }
-                    }
-                    Activity.RESULT_CANCELED -> {
-                        Log.wtf("getImageResult", resultCode.toString())
-                    }
-                }
-
-            }
-        }
-
-    }
-
-    private fun uploadImage(saveUri: Uri) {
-        var firstPhoto = true
-        val filename = UUID.randomUUID().toString()
-        val image = MutableLiveData<String>()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-        Log.d("TIna", "saveUri = $saveUri")
-        ref.putFile(saveUri!!)
-            .addOnSuccessListener {
-                ref.downloadUrl.addOnSuccessListener {
-                    Log.d("Tina", "it = $it")
-                    image.value = it.toString()
-                    if (firstPhoto) {
-                        viewModel.rating.value?.main_photo = image.value!!
-                        viewModel.rating.value?.images =
-                            listOf(listOf(image.value).toString())
-                        firstPhoto = false
-
-
-
-                    } else {
-                        viewModel.rating.value?.images =
-                            listOf(image.toString())
-                        Log.d("Tina", "not first photo")
-                    }
-                    Log.d(
-                        "Tina",
-                        "viewModel mainImage = ${viewModel.rating.value?.main_photo}; images = ${viewModel.rating.value?.images}"
-                    )
-                    viewModel.images.value?.add(it.toString())
-                    viewModel.images.value = viewModel.images.value
-                    viewModel.rating.value?.images = viewModel.images.value
-
-                }
-            }
-    }
-
-    fun dailog() {
+    private fun dialog() {
         AlertDialog.Builder(Mr9Application.appContext)
             .setTitle("提醒")
             .setMessage("相機功能將無法使用")
     }
 
-
-//    private fun init() {
-//        activity?.let {
-//            ViewModelProviders.of(it).get(MainViewModel::class.java).apply {
-//                currentFragmentType.value = CurrentFragmentType.HOME
-//            }
-//        }
-//    }
 }

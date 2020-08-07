@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tina.mr9.MainActivity
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.*
@@ -70,11 +71,9 @@ class SearchViewModel(
         if (statusType.value == true) {
             Toast.makeText(Mr9Application.instance, "Search Drink", Toast.LENGTH_SHORT).show()
             Logger.d("statusType.value = ${statusType.value}")
-//            updateLikedBy(true, user.value!!, drink.value!!)
         } else {
             Toast.makeText(Mr9Application.instance, "Search Bar", Toast.LENGTH_SHORT).show()
             Logger.d("statusType.value = ${statusType.value}")
-//            updateLikedBy(false, user.value!!, drink.value!!)
         }
     }
 
@@ -83,13 +82,6 @@ class SearchViewModel(
     val leave: LiveData<Boolean>
         get() = _leave
 
-    var base2String = MutableLiveData<String>()
-
-    var contents2String = MutableLiveData<String>()
-
-    var pairings2String = MutableLiveData<String>()
-
-    var overallRating2String = MutableLiveData<String>()
 
 
 //    fun qw(){
@@ -237,15 +229,6 @@ class SearchViewModel(
         _navigateToBarDetail.value = bar
     }
 
-//    fun onClick(){
-//        if (statusAbout.value == true){
-//            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
-//            Logger.d("liked")
-//        } else{
-//            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
-//            Logger.d("unliked")
-//        }
-//    }
 
     fun updateLikedBy(likedStatus: Boolean, user: User, drink: Drink) {
 

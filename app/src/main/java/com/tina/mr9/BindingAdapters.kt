@@ -1,5 +1,6 @@
 package com.tina.mr9
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import android.view.View
@@ -37,6 +38,7 @@ import com.tina.mr9.search.SearchedBarAdapter
 import com.tina.mr9.search.SearchedDrinksAdapter
 import com.tina.mr9.search.item.SearchItemAdapter
 import okhttp3.internal.trimSubstring
+import java.math.BigDecimal
 import kotlin.time.ExperimentalTime
 
 /**
@@ -245,6 +247,20 @@ fun bindImage4(imgView: ImageView, imgUrl: String) {
 @BindingAdapter("arrayToString")
 fun bindArrayToString(textView: TextView, args: List<String>?) {
     textView.text = (args.let { java.lang.String.join(", ", args ?: listOf()) })
+}
+
+@SuppressLint("SetTextI18n")
+@RequiresApi(Build.VERSION_CODES.O)
+@BindingAdapter("round")
+fun bindFloatToString(textView: TextView, args: Float) {
+
+    if (args >= 0) {
+        textView.text =
+            args.toDouble().toBigDecimal().setScale(2, BigDecimal.ROUND_HALF_UP).toString()
+    }else{
+        textView.text = "NA"
+    }
+
 }
 
 

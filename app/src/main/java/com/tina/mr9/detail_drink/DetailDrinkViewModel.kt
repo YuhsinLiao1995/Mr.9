@@ -69,11 +69,9 @@ class DetailDrinkViewModel(
         statusAbout.value = !statusAbout.value!!
 
         if (statusAbout.value == true){
-            Toast.makeText(Mr9Application.instance,"Liked", Toast.LENGTH_SHORT).show()
             Logger.d("liked")
             updateLikedBy(true, user.value!!,drink.value!! )
         } else{
-            Toast.makeText(Mr9Application.instance,"Unliked", Toast.LENGTH_SHORT).show()
             Logger.d("unliked")
             updateLikedBy(false, user.value!!,drink.value!! )
         }
@@ -86,6 +84,13 @@ class DetailDrinkViewModel(
     var pairings2String = MutableLiveData<String>()
 
     var overallRating2String = MutableLiveData<String>()
+
+    fun array2String(){
+
+
+        overallRating2String.value = drink.value?.overall_rating?.toDouble()?.toBigDecimal()?.setScale(2, BigDecimal.ROUND_HALF_UP).toString()
+
+    }
 
 
     private val _status = MutableLiveData<LoadApiStatus>()

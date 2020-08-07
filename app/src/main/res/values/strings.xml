@@ -28,5 +28,8 @@
     <string name="btn_drink">Drink</string>
     <string name="no_rating_text">You did not make any comment yet,\nrate your drink right now</string>
     <string name="others_no_rating_text">  did not make any comment yet</string>
-    <string name="no_drink_text">You did not add any drink yet,\nrate your drink right now</string>
+    <string name="no_drink_text">You did not add any drink yet</string>
+    <string name="others_no_drink_text"> did not add any drink yet</string>
+    <string name="no_bar_text">You did not add any bar yet</string>
+    <string name="others_no_bar_text">did not add any bar yet</string>
 </resources>

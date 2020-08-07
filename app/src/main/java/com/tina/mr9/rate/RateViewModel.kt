@@ -2,6 +2,7 @@ package com.tina.mr9.rate
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.LiveData
@@ -9,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.storage.FirebaseStorage
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.Bar
@@ -23,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  * Created by Yuhsin Liao in Jul. 2020.
@@ -524,10 +527,45 @@ class RateViewModel(
         value = false
     }
 
-    fun setReviewStatus(){
+    fun setReviewStatus() {
+        statusReview.value = true
+    }
 
-            statusReview.value = true
+    fun uploadImage(saveUri: Uri) {
+        var firstPhoto = true
+        val filename = UUID.randomUUID().toString()
+        val image = MutableLiveData<String>()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
+        Log.d("TIna", "saveUri = $saveUri")
+
+        ref.putFile(saveUri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d("Tina", "it = $it")
+                    image.value = it.toString()
+                    if (firstPhoto) {
+                        rating.value?.main_photo = image.value!!
+                        rating.value?.images =
+                            listOf(listOf(image.value).toString())
+                        firstPhoto = false
+
+
+                    } else {
+                        rating.value?.images =
+                            listOf(image.toString())
+                        Log.d("Tina", "not first photo")
+                    }
+                    Log.d(
+                        "Tina",
+                        "mainImage = ${rating.value?.main_photo}; images = ${rating.value?.images}"
+                    )
+                    images.value?.add(it.toString())
+                    images.value = images.value
+                    rating.value?.images = images.value
+
+                }
+            }
     }
 
 }
