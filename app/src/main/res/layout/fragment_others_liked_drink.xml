@@ -36,7 +36,7 @@
             android:id="@+id/no_drink_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.drink.size() > 0 ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.drink.size == 0 ? View.VISIBLE : View.GONE}">
 
 
             <TextView

@@ -37,9 +37,7 @@ class MainActivity : BaseActivity() {
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private lateinit var binding: ActivityMainBinding
-    private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -154,8 +152,15 @@ class MainActivity : BaseActivity() {
         UserManager.user.name = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         UserManager.user.email = FirebaseAuth.getInstance().currentUser?.email.toString()
         UserManager.user.image = FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+//
+//        UserManager.user.uid = "DQVNybWhQyWFzDAhvphFVKjcCRn2"
+//        UserManager.user.name = "Yo Liao"
+//        UserManager.user.email = "soft8520@gmail.com"
+//        UserManager.user.image = "https://lh6.googleusercontent.com/-0edLHeAUgOo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckU6hNaineq30l0Zs1jtLVflnD9dg/s96-c/photo.jpg"
 
-        viewModel.updateUser(UserManager.user)
+//        viewModel.updateUser(UserManager.user)
+
+        Logger.d("UserManager.user.name = ${UserManager.user.name}")
 
     }
 

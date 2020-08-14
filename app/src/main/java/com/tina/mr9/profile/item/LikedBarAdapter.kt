@@ -3,12 +3,14 @@ package com.tina.mr9.profile.item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tina.mr9.component.OutlineProvider
 import com.tina.mr9.data.Bar
 import com.tina.mr9.databinding.ItemLikedBarBinding
 
 class LikedBarAdapter(private val onClickListener: OnClickListener) :
-    androidx.recyclerview.widget.ListAdapter<Bar, RecyclerView.ViewHolder>(
+    ListAdapter<Bar, RecyclerView.ViewHolder>(
         DiffCallback
     ) {
 
@@ -39,11 +41,13 @@ class LikedBarAdapter(private val onClickListener: OnClickListener) :
         return LayoutViewHolder.from(parent)
     }
 
-
     class LayoutViewHolder(private var binding: ItemLikedBarBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(bar: Bar, onClickListener: OnClickListener) {
             binding.bar = bar
+            binding.outlineProvider = OutlineProvider()
+
+
 
             if (bar.overallRating > 0f) {
                 binding.niceRatingBar.setRating(bar.overallRating)

@@ -12,29 +12,36 @@
             name="drink"
             type="com.tina.mr9.data.Drink" />
 
+        <import type="android.view.View"/>
+
+        <variable
+            name="outlineProvider"
+            type="com.tina.mr9.component.OutlineProvider" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_drink"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:layout_margin="8dp"
+        android:elevation="4dp"
         android:background="@drawable/background_drink"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp">
+        android:layout_marginBottom="0dp">
 
 
         <ImageView
             android:id="@+id/main_image"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="0dp"
+            android:outlineProvider="@{outlineProvider}"
+            app:layout_constraintDimensionRatio="W,1:1"
             android:scaleType="centerCrop"
-            app:imageUrl_crop3="@{drink.main_image}"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:imageUrl="@{drink.main_image}"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/wine"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/hot_wine" />
 
 
 
@@ -59,11 +66,10 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/main_image"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:text="Tequila, Gin, Rum, Orange Juice,"/>
 
 

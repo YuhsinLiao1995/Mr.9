@@ -28,14 +28,13 @@
             app:drinks="@{viewModel.drink}"
             app:spanCount="2"
             tools:itemCount="6"
-            android:visibility="gone"
             tools:listitem="@layout/item_liked_drink" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_drink_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.drink.size() > 0 ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.drink.size() == 0 ? View.VISIBLE : View.GONE}">
 
 
             <TextView

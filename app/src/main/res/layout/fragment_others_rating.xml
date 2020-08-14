@@ -34,7 +34,7 @@
             android:id="@+id/no_rating_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.searchUser.amtPosts > 0 ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.rating.size == 0 ? View.VISIBLE : View.GONE}">
 
 
             <TextView

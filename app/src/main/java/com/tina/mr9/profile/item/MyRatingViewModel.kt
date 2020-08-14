@@ -11,6 +11,7 @@ import com.tina.mr9.data.Rating
 import com.tina.mr9.data.Result
 import com.tina.mr9.data.User
 import com.tina.mr9.data.source.Repository
+import com.tina.mr9.login.UserManager
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -21,8 +22,7 @@ import kotlinx.coroutines.launch
 class MyRatingViewModel (private val repository: Repository, private val arguments: User?) : ViewModel() {
 
     private val _user = MutableLiveData<User>().apply {
-
-            value = com.tina.mr9.login.UserManager.user
+            value = UserManager.user
     }
 
     val user: LiveData<User>

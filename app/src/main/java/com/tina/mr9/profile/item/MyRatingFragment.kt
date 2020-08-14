@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentMyRatingBinding
@@ -36,6 +37,14 @@ class MyRatingFragment : Fragment() {
         binding.noRatingLayout.setOnClickListener {
             findNavController().navigate(NavigationDirections.navigateToRateFragment(null))
         }
+
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            Logger.i("MyRatingFragment, viewModel.user.observe, it=$it")
+        })
+
+        viewModel.rating.observe(viewLifecycleOwner, Observer {
+            Logger.i("MyRatingFragment, viewModel.rating.observe, it=${it.size}")
+        })
 
         return binding.root
     }

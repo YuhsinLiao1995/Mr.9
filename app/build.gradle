@@ -12,6 +12,7 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'io.fabric'
 
+
 android {
     compileSdkVersion 29
     dataBinding {
@@ -79,6 +80,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
     kapt "androidx.room:room-compiler:$version_room"
 
     // Navigation
@@ -114,15 +116,19 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$version_paging"
 
     // Fragment
+    //noinspection GradleDependency
     implementation "androidx.fragment:fragment:$version_fragment"
-    implementation "androidx.fragment:fragment-testing:$version_fragment"
+    //noinspection GradleDependency
+    debugImplementation ("androidx.fragment:fragment-testing:$version_fragment") {
+        exclude group: "androidx.test", module: "monitor"
+    }
 
     // Facebook
     implementation 'com.facebook.android:facebook-login:5.0.0'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 
 
@@ -145,4 +151,17 @@ dependencies {
     testImplementation 'androidx.test:core:1.2.0'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:2.19.0'
+
+
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0-rc02'
+    androidTestImplementation 'androidx.test:monitor:1.3.0-rc02'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+
+
+
+
 }

@@ -205,7 +205,8 @@ fun bindImage2(imgView: ImageView, imgUrl: String) {
             .load(imgUri)
             .apply(
                 RequestOptions()
-                    .transform(MultiTransformation(CenterCrop(), RoundedCorners(20)))
+                    .transform(MultiTransformation(CenterCrop(),
+                        RoundedCorners(20)))
                     .placeholder(R.drawable.background_placeholder)
                     .error(R.drawable.background_placeholder))
             .into(imgView)
