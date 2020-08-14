@@ -15,7 +15,8 @@
 * 依照喜愛的分類搜尋，例如:啤酒、Lounge Bar
 
 <img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/home.png" width="200" height="420"></a> &emsp;
-<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/search.png" width="200" height="420"></a>
+<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/search.png" width="200" height="420"></a> &emsp;
+<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/search_bar.png" width="200" height="420"></a> 
 
 ### Drink Detail
 
@@ -34,8 +35,10 @@
 ### Friends
 
 * 查看好友動態，可連結進入好友評價的飲品
+* 以email搜尋好友或是想follow的對象
 
-<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/friends.png" width="200" height="420"></a>
+<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/friends.png" width="200" height="420"></a> &emsp;
+<img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/friends_search.png" width="200" height="420"></a>
 
 ### Rate My Drink
 
@@ -53,11 +56,11 @@
 
 ## Frameworks & Tools
 
-Design Pattern：`MVVM`、`Singleton`、`Observer`<br>
-Implementation：`RecyclerView`、`ChipGroup`、`Login (Google SDK、Firebase Authentication)`<br> 
-Jetpack：`ViewModel`、`LiveData`、`Lifecycle`、`Data Binding`、`Navigation`<br>
-Firebase：`FireStore`、`Firebase Crashlytics`、`Firebase Ayalytics`<br>
-Test：`JUnit`、`Mockito`、`Espresso`
+* Design Pattern：`MVVM`、`Singleton`、`Observer`<br>
+* Implementation：`RecyclerView`、`ChipGroup`、`Login (Google SDK、Firebase Authentication)`<br> 
+* Jetpack：`ViewModel`、`LiveData`、`Lifecycle`、`Data Binding`、`Navigation`<br>
+* Firebase：`FireStore`、`Firebase Crashlytics`、`Firebase Ayalytics`<br>
+* Test：`JUnit`、`Mockito`、`Espresso`
 
 ## Development Environment
 
