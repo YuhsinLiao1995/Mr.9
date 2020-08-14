@@ -34,8 +34,8 @@
 
 ### Friends
 
-* 查看好友動態，可連結進入好友評價的飲品
-* 以email搜尋好友或是想follow的對象
+* 使用者可查看好友動態，進而連結進入好友評價的飲品
+* 使用者可以email搜尋好友或是欲追蹤之的對象
 
 <img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/friends.png" width="200" height="420"></a> &emsp;
 <img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/friends_search.png" width="200" height="420"></a>
@@ -48,7 +48,8 @@
 
 ### My Profile
 
-* 查看個人主頁，包含評價過的紀錄、個人收藏的酒與酒吧以及管理粉絲
+* 使用者可查看個人主頁，回顧評價過的飲品
+* 使用者可檢視收藏的飲品與酒吧以及管理粉絲
 
 <img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/my_rating.png" width="200" height="420"></a> &emsp;
 <img src="https://github.com/YuhsinLiao1995/Mr.9/blob/refactor/ScreenShots/my_drink.png" width="200" height="420"></a> &emsp;
