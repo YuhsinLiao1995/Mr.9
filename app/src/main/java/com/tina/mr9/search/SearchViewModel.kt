@@ -84,17 +84,7 @@ class SearchViewModel(
 
 
 
-//    fun qw(){
-//        var f = 34.232323f
-//        var b: BigDecimal = BigDecimal(f)
-//        var f1: Float = b.setScale(2, BigDecimal.ROUND_HALF_UP)
-//            .toFloat()
-//
-//        Logger.d("f1 = $f1")
-//    }
 
-
-    // b.setScale(2, BigDecimal.ROUND_HALF_UP)
 
 
     // status: The internal MutableLiveData that stores the status of the most recent request

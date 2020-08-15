@@ -18,3 +18,13 @@ class OutlineProvider : ViewOutlineProvider() {
 
     }
 }
+
+class OutlineProvider4Drink : ViewOutlineProvider() {
+    override fun getOutline(view: View, outline: Outline) {
+        view.clipToOutline = true
+        val radius =
+            Mr9Application.instance.resources.getDimensionPixelSize(R.dimen.radius_profile_avatar)
+        outline.setRoundRect(0, 0, view.right, view.bottom + radius, radius.toFloat())
+
+    }
+}

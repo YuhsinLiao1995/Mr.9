@@ -24,13 +24,13 @@ import com.tina.mr9.util.Logger
 class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel> { getVmFactory() }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-//        val binding = FragmentSearchBinding.inflate(inflater, container, false)
 
 
         val binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
@@ -40,14 +40,21 @@ class SearchFragment : Fragment() {
                 it.adapter = SearchAdapter(childFragmentManager)
                 it.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabsCatalog))
             }
-//            return@onCreateView root
+
         }
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        binding.map.setOnClickListener {
-            Logger.d("clicked")
+
+        binding.searchLayout.setOnClickListener {
+            binding.scrollViewBar.visibility = View.GONE
+            binding.scrollViewDrink.visibility = View.GONE
         }
+
+
+
+
+
         binding.searchEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
@@ -64,8 +71,10 @@ class SearchFragment : Fragment() {
 
                 if (viewModel.statusType.value == true) {
                     viewModel.getSearchedDrinksResult(searchText)
+                    binding.scrollViewDrink.visibility = View.VISIBLE
                 } else {
                     viewModel.getSearchedBarsResult(searchText)
+                    binding.scrollViewBar.visibility = View.VISIBLE
                 }
 
                 Logger.d("viewModel.searchedUser = ${viewModel.searchedDrink}")
@@ -102,10 +111,24 @@ class SearchFragment : Fragment() {
                     binding.scrollViewBar.visibility = View.GONE
                 }
 
-            }
+                viewModel.statusType.observe(viewLifecycleOwner, Observer {
+
+                    val searchText = binding.searchEdit.text.toString().trim()
+
+                    if (viewModel.statusType.value == true) {
+                        viewModel.getSearchedDrinksResult(searchText)
+                        binding.scrollViewDrink.visibility = View.VISIBLE
+                    } else {
+                        viewModel.getSearchedBarsResult(searchText)
+                        binding.scrollViewBar.visibility = View.VISIBLE
+                    }
+                })
+
+                }
         })
 
         return binding.root
 
     }
+
 }

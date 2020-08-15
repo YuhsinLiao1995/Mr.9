@@ -43,6 +43,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
+            android:textSize="12sp"
             android:text="You Rated "
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/image_home_main"/>
@@ -58,6 +59,7 @@
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
             android:text="at "
+            android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@id/youRated"
             app:layout_constraintStart_toStartOf="@id/image_home_main"/>
 
@@ -69,6 +71,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
+            android:textSize="12sp"
             android:text="@{rating.name}"
             app:layout_constraintTop_toTopOf="@id/youRated"
             app:layout_constraintStart_toEndOf="@id/youRated"
@@ -82,6 +85,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
+            android:textSize="12sp"
             android:text="@{rating.bar}"
             app:layout_constraintTop_toBottomOf="@id/youRated"
             app:layout_constraintStart_toEndOf="@id/at"
@@ -102,9 +106,9 @@
             app:nrb_starEmptyResource="@drawable/star_blank"
             app:nrb_starFullResource="@drawable/star_full"
             app:nrb_starHalfResource="@drawable/star_half"
-            app:nrb_starImageHeight="20dp"
-            app:nrb_starImagePadding="10dp"
-            app:nrb_starImageWidth="20dp" />
+            app:nrb_starImageHeight="12dp"
+            app:nrb_starImagePadding="6dp"
+            app:nrb_starImageWidth="12dp" />
 
         <TextView
             android:id="@+id/comment"
@@ -113,7 +117,7 @@
             android:layout_height="wrap_content"
             android:text="@{rating.comment}"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="@id/niceRatingBar"
             app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
@@ -126,6 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
             android:ellipsize="end"
+            android:textSize="12sp"
             app:timeToDisplayFormat="@{rating.createdTime}"
             app:layout_constraintBottom_toBottomOf="@id/comment"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"

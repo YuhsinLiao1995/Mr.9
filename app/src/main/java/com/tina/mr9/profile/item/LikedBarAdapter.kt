@@ -48,7 +48,6 @@ class LikedBarAdapter(private val onClickListener: OnClickListener) :
             binding.outlineProvider = OutlineProvider()
 
 
-
             if (bar.overallRating > 0f) {
                 binding.niceRatingBar.setRating(bar.overallRating)
             } else {

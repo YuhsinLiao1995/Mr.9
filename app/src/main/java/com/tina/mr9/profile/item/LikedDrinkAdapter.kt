@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.tina.mr9.component.OutlineProvider
+import com.tina.mr9.component.OutlineProvider4Drink
 import com.tina.mr9.data.Drink
 import com.tina.mr9.databinding.ItemLikedDrinkBinding
 
@@ -47,6 +49,8 @@ class LikedDrinkAdapter(private val onClickListener: OnClickListener) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(drink:Drink, onClickListener: OnClickListener) {
             binding.drink = drink
+
+            binding.outlineProvider = OutlineProvider4Drink()
 
             if (drink.overall_rating > 0f) {
                 binding.niceRatingBar.setRating(drink.overall_rating)

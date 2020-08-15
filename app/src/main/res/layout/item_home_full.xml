@@ -55,7 +55,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:text="@{drink.name}"
             app:layout_constraintBottom_toTopOf="@+id/bar"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
@@ -68,14 +68,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="0dp"
             android:ellipsize="end"
             android:text="@{drink.bar}"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@id/price"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
             tools:text="How 哥推薦喔 Go Go" />
+
+        <TextView
+            android:id="@+id/price"
+            style="@style/ItemDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:text='@{"$" + String.valueOf(drink.price) }'
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="$ 400" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

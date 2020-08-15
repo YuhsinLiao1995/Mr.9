@@ -8,6 +8,8 @@
             name="viewModel"
             type="com.tina.mr9.profile.item.LikedDrinkViewModel" />
         <import type="android.view.View"/>
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,6 +7,10 @@
         <variable
             name="drink"
             type="com.tina.mr9.data.Drink" />
+
+        <variable
+            name="outlineProvider"
+            type="com.tina.mr9.component.OutlineProvider4Drink" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,11 +28,12 @@
             android:id="@+id/drink_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:outlineProvider="@{outlineProvider}"
             android:layout_marginBottom="30dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="W,1:1.5"
             android:adjustViewBounds="true"
-            app:imageUrl_crop2="@{drink.main_image}"
+            app:imageUrl="@{drink.main_image}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/hot_wine" />
@@ -50,11 +55,12 @@
             android:id="@+id/drink_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@{drink.name}"
             tools:text="Drink Name"
             style="@style/DetailContent"
+            android:textSize="12sp"
             android:layout_marginStart="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/drink_image"
@@ -69,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/drink_title"
             android:text="@{drink.bar}"
             style="@style/DetailContent"
-            android:textSize="12sp"
+            android:textSize="10sp"
             tools:text="Bar"/>
 
         <TextView
@@ -86,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/bar"
             app:layout_constraintTop_toBottomOf="@id/bar"
@@ -95,9 +101,9 @@
             app:nrb_starEmptyResource="@drawable/star_blank"
             app:nrb_starFullResource="@drawable/star_full"
             app:nrb_starHalfResource="@drawable/star_half"
-            app:nrb_starImageHeight="15dp"
+            app:nrb_starImageHeight="12dp"
             app:nrb_starImagePadding="8dp"
-            app:nrb_starImageWidth="15dp" />
+            app:nrb_starImageWidth="12dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
