@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.tina.mr9.success.SuccessViewModel" />
+
+        <variable
+            name="dialog"
+            type="com.tina.mr9.success.SuccessDialog" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/successDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{() -> dialog.dismiss()}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="100dp"
+            android:background="@drawable/coupon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
+            <TextView
+                android:id="@+id/success_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/DetailContent"
+                android:textSize="14sp"
+                android:text="Thank you for your Sharing !" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="32dp"
+                app:lottie_url="https://assets9.lottiefiles.com/packages/lf20_87J1Pt.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:layout_constraintTop_toBottomOf="@id/success_text"
+                app:layout_constraintStart_toStartOf="@id/success_text"
+                app:layout_constraintEnd_toEndOf="@id/success_text"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/close_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/transparent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

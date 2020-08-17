@@ -7,29 +7,25 @@
 
         <variable
             name="drink"
-            type="com.tina.mr9.data.Drinks" />
-        <variable
-            name="product"
-            type="com.tina.mr9.data.Product" />
+            type="com.tina.mr9.data.Drink" />
+
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_home_full"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
 
         <ImageView
             android:id="@+id/image_home_main"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="21dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="0dp"
             android:scaleType="centerCrop"
             android:background="@drawable/background_corner"
-            app:imageUrl="@{drink.main_image}"
+            app:imageUrl_crop4="@{drink.main_image}"
             app:layout_constraintDimensionRatio="2:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,15 +34,17 @@
             tools:src="@drawable/hot_wine" />
 
         <ImageView
-            android:layout_width="0dp"
+            android:id="@+id/background"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toTopOf = "parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/background_corner"/>
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintTop_toTopOf="@id/text_home_title"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            android:background="@drawable/background_homeitem"/>
 
         <TextView
             android:id="@+id/text_home_title"
@@ -57,6 +55,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="0dp"
             android:ellipsize="end"
+            android:textSize="14sp"
             android:text="@{drink.name}"
             app:layout_constraintBottom_toTopOf="@+id/bar"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
@@ -69,13 +68,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="0dp"
             android:ellipsize="end"
             android:text="@{drink.bar}"
-            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@id/price"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             app:layout_constraintStart_toStartOf="@id/image_home_main"
             tools:text="How 哥推薦喔 Go Go" />
+
+        <TextView
+            android:id="@+id/price"
+            style="@style/ItemDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:text='@{"$" + String.valueOf(drink.price) }'
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="$ 400" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

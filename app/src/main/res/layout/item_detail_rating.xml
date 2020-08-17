@@ -7,10 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.tina.mr9.detailpage.DetailViewModel" />
+            type="com.tina.mr9.detail_drink.DetailDrinkViewModel" />
+
         <variable
             name="ratings"
-            type="com.tina.mr9.data.Ratings" />
+            type="com.tina.mr9.data.Rating" />
 
     </data>
 
@@ -23,21 +24,23 @@
 
         <ImageView
             android:id="@+id/author_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_nav_rate_selector"/>
+            app:imageUrl_crop="@{ratings.authorImage}"
+            app:srcCompat="@drawable/ic_nav_profile"/>
 
         <TextView
             android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
-            android:text="@{ratings.author}"
+            android:text="@{ratings.authorName}"
             android:layout_marginStart="16dp"
+            android:gravity="top"
             app:layout_constraintTop_toTopOf="@id/author_image"
             app:layout_constraintStart_toEndOf="@id/author_image"
             tools:text="I'm author"/>
@@ -47,22 +50,71 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
+            android:textColor="@color/gray_888888"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:timeToDisplayFormat="@{ratings.createdTime}"
+            app:layout_constraintTop_toBottomOf="@id/author_name"
             app:layout_constraintBottom_toBottomOf="@id/author_image"
             app:layout_constraintStart_toEndOf="@id/author_image"
             tools:text="20200102"/>
 
+        <ImageView
+            android:id="@+id/pairing_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/food"
+            android:layout_marginTop="6dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/niceRatingBar"
+            app:layout_constraintTop_toTopOf="@id/pairing_tag"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/pairing_tag"
+            style="@style/Widget.MaterialComponents.ChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_horizontal"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pairing_icon"
+            app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
+            app:layout_constraintBottom_toTopOf="@id/blank"/>
+
+        <TextView
+            android:id="@+id/blank"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/pairing_tag"
+            app:layout_constraintBottom_toBottomOf="@id/comment"/>
+
+        <TextView
+            android:id="@+id/blank2"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/comment"
+            app:layout_constraintBottom_toBottomOf="@id/line1"/>
+
+
+
         <TextView
             android:id="@+id/comment"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/DetailDescription"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
             android:text="@{ratings.comment}"
-            app:layout_constraintTop_toBottomOf="@id/author_image"
+            app:layout_constraintTop_toBottomOf="@id/blank"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/author_image"
-            app:layout_constraintBottom_toTopOf="@id/line1"
+            app:layout_constraintBottom_toTopOf="@id/blank2"
             tools:text="goooooooooooooooood"/>
 
 
@@ -73,11 +125,28 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/black_3f3a3a"
+            android:layout_marginBottom="0dp"
+            android:background="@color/gray_999999"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/author_image"
+            app:layout_constraintTop_toBottomOf="@id/author_image"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="15dp"
+            app:nrb_starImagePadding="6dp"
+            app:nrb_starImageWidth="15dp" />
 
 
 

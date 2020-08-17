@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.tina.mr9.Mr9Application
 import com.tina.mr9.R
 import com.tina.mr9.data.Search
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.data.Result
 import com.tina.mr9.search.SearchTypeFilter
@@ -18,18 +18,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * The [ViewModel] that is attached to the [SearchItemFragment].
  */
-class SearchItemViewModel(private val repository: StylishRepository,private val searchType: SearchTypeFilter) : ViewModel() {
+class SearchItemViewModel(private val repository: Repository, private val searchType: SearchTypeFilter) : ViewModel() {
+
+    val typeFilter: SearchTypeFilter = searchType
 
     private val _search = MutableLiveData<List<Search>>()
 
     val search: LiveData<List<Search>>
         get() = _search
-
-
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -69,13 +69,12 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
     }
 
 
-    fun getSearchResult() {
+    private fun getSearchResult() {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-//            val result = repository.getSearchList("search")
 
             val result = searchType.value.let { repository.getSearchList(it) }
 
@@ -83,8 +82,6 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-
-                    Log.d("Tina","result.data = ${result.data}")
                     result.data
 
                 }
@@ -113,15 +110,19 @@ class SearchItemViewModel(private val repository: StylishRepository,private val 
         viewModelJob.cancel()
     }
 
-
-
-
-
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }
 
     fun navigateToDetail(search: Search) {
+        _navigateToDetail.value = search
+    }
+
+    fun onBarlistNavigated() {
+        _navigateToDetail.value = null
+    }
+
+    fun navigateToBarlist(search: Search) {
         _navigateToDetail.value = search
     }
 

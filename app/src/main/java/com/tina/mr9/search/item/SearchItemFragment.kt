@@ -1,17 +1,17 @@
 package com.tina.mr9.search.item
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.tina.mr9.NavigationDirections
 import com.tina.mr9.databinding.FragmentSearchItemBinding
 import com.tina.mr9.ext.getVmFactory
 import com.tina.mr9.network.LoadApiStatus
-import com.tina.mr9.search.SearchAdapter
 import com.tina.mr9.search.SearchTypeFilter
 
 /**
@@ -34,16 +34,22 @@ class SearchItemFragment(private val searchType: SearchTypeFilter) : Fragment() 
 
         binding.recyclerSearchItem.adapter = SearchItemAdapter(SearchItemAdapter.OnClickListener {
             viewModel.navigateToDetail(it)
+            viewModel.navigateToBarlist(it)
         })
 
-        binding.layoutSwipeRefreshCatalogItem.setOnRefreshListener {
-            viewModel.refresh()
-        }
 
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+
+
+        viewModel.navigateToDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it != LoadApiStatus.LOADING)
-                    binding.layoutSwipeRefreshCatalogItem.isRefreshing = false
+                if (viewModel.typeFilter.value == SearchTypeFilter.BAR.value){
+                    findNavController().navigate(NavigationDirections.navigateToBarlistFragment(it, searchType))
+                    viewModel.onBarlistNavigated()
+                }
+                else {
+                    findNavController().navigate(NavigationDirections.navigateToListFragment(it, searchType))
+                    viewModel.onDetailNavigated()
+                }
             }
         })
 

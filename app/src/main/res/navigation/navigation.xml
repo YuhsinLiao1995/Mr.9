@@ -18,17 +18,39 @@
         android:id="@+id/friendsFragment"
         android:name="com.tina.mr9.friends.FriendsFragment"
         android:label="FriendsFragment"
-        tools:layout="@layout/fragment_friends"/>
+        tools:layout="@layout/fragment_friends">
+
+        <action
+            android:id="@+id/action_friendsFragment_to_othersProfileFragment"
+            app:destination="@id/othersProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/rateFragment"
         android:name="com.tina.mr9.rate.RateFragment"
         android:label="RateFragment"
-        tools:layout="@layout/fragment_rate"/>
+        tools:layout="@layout/fragment_rate">
+        <argument
+            android:name="drinkKey"
+            app:argType="com.tina.mr9.data.Drink"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+
+    <action android:id="@+id/navigate_to_rate_fragment" app:destination="@id/rateFragment"/>
+
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.tina.mr9.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_barListFragment"
+            app:destination="@id/barListFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
@@ -49,23 +71,35 @@
         app:destination="@id/friendsFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.tina.mr9.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
     <action
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.tina.mr9.detailpage.DetailFragment"
-        android:label="DetailFragment" >
+        android:name="com.tina.mr9.detail_drink.DetailDrinkFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail_drink">
         <argument android:name="drinkKey"
-            app:argType="com.tina.mr9.data.Drinks"
-            app:nullable="false"/>
+            app:argType="com.tina.mr9.data.Drink"
+            app:nullable="true"/>
+        <argument android:name="ratingKey"
+            app:argType="com.tina.mr9.data.Rating"
+            app:nullable="true"/>
     </fragment>
 
     <action
@@ -73,8 +107,205 @@
         app:destination="@id/detailFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true"
-        tools:layout="@layout/fragment_detail"/>
+        tools:layout="@layout/fragment_detail_drink"/>
 
     <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.tina.mr9.list_drink.ListDrinkFragment"
+        android:label="ListFragment"
+        tools:layout="@layout/fragment_list_drink">
+        <argument android:name="SearchKey"
+            app:argType="com.tina.mr9.data.Search"
+            app:nullable="false"/>
+        <argument
+            android:name="type"
+            app:argType="com.tina.mr9.search.SearchTypeFilter" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_listFragment"
+        app:destination="@id/listFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_list_fragment" app:destination="@id/listFragment"/>
+    <fragment
+        android:id="@+id/barListFragment"
+        android:name="com.tina.mr9.list_bar.ListBarFragment"
+        android:label="BarListFragment"
+        tools:layout="@layout/fragment_list_bar">
+        <argument android:name="SearchKey"
+            app:argType="com.tina.mr9.data.Search"
+            app:nullable="false"/>
+        <argument
+            android:name="type"
+            app:argType="com.tina.mr9.search.SearchTypeFilter" />
+    </fragment>
+    <action android:id="@+id/navigate_to_barlist_fragment" app:destination="@id/barListFragment"/>
+    <action
+        android:id="@+id/action_global_barListFragment"
+        app:destination="@id/barListFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/barDetailFragment"
+        android:name="com.tina.mr9.detail_bar.DetailBarFragment"
+        android:label="BarDetailFragment"
+        tools:layout="@layout/fragment_detail_bar">
+        <argument android:name="barKey"
+            app:argType="com.tina.mr9.data.Bar"
+            app:nullable="false"/>
+    </fragment>
+    <action android:id="@+id/navigate_to_bardetail_fragment" app:destination="@id/barDetailFragment"/>
+    <action
+        android:id="@+id/action_global_barDetailFragment"
+        app:destination="@id/barDetailFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/likedFragment"
+        android:name="com.tina.mr9.profile.item.LikedDrinkFragment"
+        android:label="LikedFragment"
+        tools:layout="@layout/fragment_liked_drink">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_likedFragment"
+        app:destination="@id/likedFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/myRatingFragment"
+        android:name="com.tina.mr9.profile.item.MyRatingFragment"
+        android:label="MyRatingFragment"
+        tools:layout="@layout/fragment_my_rating">
+        <argument
+            android:name="userKey"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
+    </fragment>
+    <action
+        android:id="@+id/action_global_myRatingFragment"
+        app:destination="@id/myRatingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/othersProfileFragment"
+        android:name="com.tina.mr9.others_profile.OthersProfileFragment"
+        android:label="OthersProfileFragment"
+        tools:layout="@layout/fragment_others_profile">
+        <argument android:name="searchUser"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="true"/>
+        <argument android:name="rating"
+            app:argType="com.tina.mr9.data.Rating"
+            app:nullable="true"/>
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_othersProfileFragment"
+        app:destination="@id/othersProfileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+
+    <fragment
+        android:id="@+id/othersLikedFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersLikedDrinkFragment"
+        android:label="OthersLikedFragment"
+        tools:layout="@layout/fragment_others_liked_drink">
+    <argument android:name="searchUser"
+        app:argType="com.tina.mr9.data.User"
+        app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersLikedFragment"
+        app:destination="@id/othersLikedFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+
+
+
+    <fragment
+        android:id="@+id/othersRatingFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersRatingFragment"
+        android:label="OthersRatingFragment"
+        tools:layout="@layout/fragment_others_rating">
+        <argument android:name="searchUser"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersRatingFragment"
+        app:destination="@id/othersRatingFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <action android:id="@+id/navigate_to_others_profile_fragment" app:destination="@id/othersProfileFragment"/>
+
+    <dialog
+        android:id="@+id/successDialog"
+        android:name="com.tina.mr9.success.SuccessDialog"
+        android:label="SuccessDialog"
+        tools:layout="@layout/dialog_success">
+        <argument android:name="ratingKey"
+            app:argType="com.tina.mr9.data.Rating"
+            app:nullable="false"/>
+    </dialog>
+    <action
+        android:id="@+id/action_global_successDialog"
+        app:destination="@id/successDialog"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_success_dialog" app:destination="@id/successDialog"/>
+
+
+    <fragment
+        android:id="@+id/othersBarLikedFragment"
+        android:name="com.tina.mr9.others_profile.item.OthersLikedBarFragment"
+        android:label="OthersBarLikedFragment"
+        tools:layout="@layout/fragment_others_liked_bar">
+        <argument
+            android:name="searchUser"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_othersBarLikedFragment"
+        app:destination="@id/othersBarLikedFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/followingFragment"
+        android:name="com.tina.mr9.profile.follow.FollowingFragment"
+        android:label="FollowingFragment"
+        tools:layout="@layout/fragment_following">
+        <argument
+            android:name="user"
+            app:argType="com.tina.mr9.data.User"
+            app:nullable="false" />
+        <argument
+            android:name="follow"
+            app:argType="boolean"
+            app:nullable="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/navigate_to_following_fragment"
+        app:destination="@id/followingFragment" />
+
 
 </navigation>

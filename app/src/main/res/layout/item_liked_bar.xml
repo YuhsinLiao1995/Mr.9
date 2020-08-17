@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bar"
+            type="com.tina.mr9.data.Bar" />
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="outlineProvider"
+            type="com.tina.mr9.component.OutlineProvider" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:layout_margin="8dp"
+        android:elevation="4dp"
+        android:background="@drawable/background_drink">
+
+        <ImageView
+            android:id="@+id/drink_image"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:outlineProvider="@{outlineProvider}"
+            app:layout_constraintDimensionRatio="W,1:1"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{bar.main_image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/hot_wine" />
+
+
+        
+        <TextView
+            android:id="@+id/drink_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{bar.name}"
+            tools:text="Bar Name"
+            style="@style/DetailContent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/drink_image"
+            app:layout_constraintTop_toTopOf="@+id/drink_image"/>
+
+        <TextView
+            android:id="@+id/bar_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="@id/drink_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drink_title"
+            android:text="@{bar.address}"
+            style="@style/DetailContent"
+            android:textSize="12sp"
+            tools:text="Bar"/>
+
+        <TextView
+            android:id="@+id/drink_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/bar"
+            app:layout_constraintTop_toBottomOf="@+id/drink_title"/>
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/bar_add"
+            app:layout_constraintTop_toBottomOf="@id/bar_add"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="15dp"
+            app:nrb_starImagePadding="8dp"
+            app:nrb_starImageWidth="15dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

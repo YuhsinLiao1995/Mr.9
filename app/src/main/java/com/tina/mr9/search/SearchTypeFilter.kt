@@ -1,9 +1,9 @@
 package com.tina.mr9.search
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  */
-enum class SearchTypeFilter(val value: String) {
+enum class SearchTypeFilter(var value: String) {
     TYPE("category"),
     BAR("type_bar"),
     PAIRING("pairings")

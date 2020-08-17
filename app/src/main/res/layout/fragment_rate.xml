@@ -1,49 +1,781 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="com.tina.mr9.rate.RateViewModel"/>
-        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.tina.mr9.rate.RateViewModel" />
+
+        <import type="com.tina.mr9.network.LoadApiStatus" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/layout_swipe_refresh_home"
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutRatingBackground"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_home"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/basic_info"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-                android:theme="@style/ProgressTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                    <Button
+                        android:id="@+id/btn_add_photo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/picture"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintEnd_toEndOf="parent"
-                  app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintBottom_toBottomOf="parent"/>
+                    <Button
+                        android:id="@+id/btn_take_pic"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/photograph"
+                        app:layout_constraintStart_toEndOf="@id/btn_add_photo"
+                        app:layout_constraintTop_toTopOf="@id/btn_add_photo" />
+
+                    <ImageView
+                        android:id="@+id/unclick"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@{viewModel.statusAbout == false ?  @drawable/unclick : @drawable/clicked}"
+                        app:layout_constraintStart_toStartOf="@id/address_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/price_input_layout" />
+
+                    <TextView
+                        android:id="@+id/newDrink_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="New Drink?"
+                        android:gravity="center"
+                        android:fontFamily="@font/comfortaa"
+                        app:layout_constraintStart_toEndOf="@id/unclick"
+                        app:layout_constraintTop_toTopOf="@id/unclick"
+                        app:layout_constraintBottom_toBottomOf="@id/unclick"/>
+
+                    <Button
+                        android:id="@+id/btn_newDrink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@color/transparent"
+                        android:onClick="@{() -> viewModel.setAboutStatus()}"
+                        app:layout_constraintBottom_toBottomOf="@id/newDrink_text"
+                        app:layout_constraintEnd_toEndOf="@id/newDrink_text"
+                        app:layout_constraintStart_toStartOf="@id/unclick"
+                        app:layout_constraintTop_toTopOf="@id/unclick" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/recycler_imageitems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@id/btn_add_photo">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_images"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/background_placeholder"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/line2">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+
+                        <TextView
+                            android:id="@+id/line2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="0dp"
+                            android:background="@color/gray_999999"
+                            app:layout_constraintBottom_toTopOf="@id/recycler_images"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/line1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/gray_999999"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <TextView
+                        android:id="@+id/title"
+                        style="@style/DetailTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="About this drink"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/name_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColorHint="@color/gray_999999"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/address_input_layout"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/name_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of the drink"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="text"
+                            android:text="@={viewModel.rating.name}"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/price_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColorHint="@color/gray_999999"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/price_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:numeric="@{viewModel.rating.price}"
+                            android:hint="Price $$"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="number"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/bar_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColorHint="@color/gray_999999"
+                        app:layout_constraintEnd_toEndOf="@id/name_input_layout"
+                        app:layout_constraintStart_toStartOf="@id/name_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/recycler_imageitems"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/bar_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Which bar ?"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="text"
+                            android:text="@={viewModel.rating.bar}"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/address_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColorHint="@color/gray_999999"
+                        app:layout_constraintEnd_toEndOf="@id/name_input_layout"
+                        app:layout_constraintStart_toStartOf="@id/name_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/bar_input_layout"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/address_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Where is the bar ?"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="text"
+                            android:text="@={viewModel.rating.address}"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/group_profile_tag"
+                        style="@style/Widget.MaterialComponents.ChipGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_horizontal"
+                        android:foregroundGravity="center"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        app:layout_constraintEnd_toEndOf="@id/address_input_layout"
+                        app:layout_constraintStart_toStartOf="@id/address_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/content" />
+
+                    <TextView
+                        android:id="@+id/btn_next"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/background_send"
+                        android:gravity="center"
+                        android:text="Next"
+                        android:fontFamily="@font/comfortaa"
+                        android:textSize="18dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="@id/address_input_layout"
+                        app:layout_constraintStart_toStartOf="@id/address_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/group_profile_tag" />
+
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:visibility="@{viewModel.statusAbout == true ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@id/group_profile_tag"
+                        app:layout_constraintStart_toStartOf="@id/address_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/newDrink_text">
+
+                        <ImageView
+                            android:id="@+id/btn_add_chip"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginHorizontal="16dp"
+                            app:layout_constraintBottom_toBottomOf="@id/conetent_input_layout"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/conetent_input_layout"
+                            app:layout_constraintTop_toTopOf="@id/conetent_input_layout"
+                            app:srcCompat="@drawable/add" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/conetent_input_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="0dp"
+                            android:textColorHint="@color/gray_999999"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btn_add_chip"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="visible">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/conetent_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Add Content Ex: Vodka"
+                                android:fontFamily="@font/comfortaa"
+                                android:inputType="text"
+                                android:text="@={viewModel.newtag}"
+                                android:textSize="16dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_view_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/translucent_40"
+                        android:visibility="gone"
+                        app:barList="@{viewModel.searchedBars}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bar_input_layout"
+                        tools:listitem="@layout/item_searched_bar" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_view_drink"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/translucent_40"
+                        android:visibility="gone"
+                        app:drinkList="@{viewModel.searchedDrink}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+                        tools:listitem="@layout/item_searched_drink" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/basic_info">
+
+                    <TextView
+                        android:id="@+id/pairing_title"
+                        style="@style/DetailContent"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:text="Pairing"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sour" />
+
+                    <TextView
+                        android:id="@+id/pairing_subtitle"
+                        style="@style/ratingHint"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="What kind of pairing did you have ?"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pairing_title" />
+
+                    <ImageView
+                        android:id="@+id/btn_add_chip_pairing"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/pairing_input_layout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/pairing_input_layout"
+                        app:layout_constraintTop_toTopOf="@id/pairing_input_layout"
+                        app:srcCompat="@drawable/add" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/pairing_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/gray_646464"
+                        app:layout_constraintEnd_toStartOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/sweet"
+                        app:layout_constraintTop_toBottomOf="@id/pairing_subtitle"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pairing_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Add pairings Ex: Dumpling"
+                            android:inputType="text"
+                            android:fontFamily="@font/comfortaa"
+                            android:maxLines="1"
+                            android:text="@={viewModel.newPairingTag}"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <Button
+                        android:id="@+id/button_publish"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="0dp"
+                        android:padding="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="0dp"
+                        android:layout_marginVertical="16dp"
+                        android:background="@drawable/background_send"
+                        android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text='@{viewModel.status != LoadApiStatus.LOADING ? "send" : ""}'
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="@id/comment_input_layout"
+                        app:layout_constraintStart_toStartOf="@id/comment_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/comment_input_layout"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <ProgressBar
+                        android:id="@+id/progress_payment_checkout"
+                        android:layout_width="@dimen/size_payment_progress"
+                        android:layout_height="@dimen/size_payment_progress"
+                        android:theme="@style/ProgressThemeDark"
+                        android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/button_publish"
+                        app:layout_constraintEnd_toEndOf="@id/button_publish"
+                        app:layout_constraintStart_toStartOf="@id/button_publish"
+                        app:layout_constraintTop_toTopOf="@id/button_publish"/>
+
+                    <TextView
+                        android:id="@+id/overallRating"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Overall Rating"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/terrible_rating"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:text="hell no"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/niceRatingBar"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar" />
+
+                    <TextView
+                        android:id="@+id/good_rating"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:text="love it"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/niceRatingBar"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar" />
+
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/overallRating"
+                        app:nrb_rating="0"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="30dp"
+                        app:nrb_starImagePadding="15dp"
+                        app:nrb_starImageWidth="30dp" />
+
+                    <TextView
+                        android:id="@+id/body"
+                        style="@style/DetailContent"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:text="Body"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar" />
+
+                    <TextView
+                        android:id="@+id/body_light"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:text="light"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_body"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/niceRatingBar_body"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_body" />
+
+                    <TextView
+                        android:id="@+id/body_bold"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:text="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_body"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/niceRatingBar_body"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_body" />
+
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar_body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/body"
+                        app:nrb_rating="0"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="30dp"
+                        app:nrb_starImagePadding="15dp"
+                        app:nrb_starImageWidth="30dp" />
+
+
+                    <TextView
+                        android:id="@+id/sweet"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:text="Sweetiness"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar_body" />
+
+
+                    <TextView
+                        android:id="@+id/dry_sweet"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:text="dry"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_sweet"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/niceRatingBar_sweet"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_sweet" />
+
+                    <TextView
+                        android:id="@+id/sweet_sweet"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:text="sweet"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_sweet"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/niceRatingBar_sweet"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_sweet" />
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar_sweet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sweet"
+                        app:nrb_rating="0"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="30dp"
+                        app:nrb_starImagePadding="15dp"
+                        app:nrb_starImageWidth="30dp" />
+
+
+                    <TextView
+                        android:id="@+id/sour"
+                        style="@style/DetailContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:text="Acidity"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/niceRatingBar_sweet" />
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/soft_acidity"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:text="soft"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_sour"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/niceRatingBar_sour"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_sour" />
+
+                    <TextView
+                        android:id="@+id/acidic_acidity"
+                        style="@style/ratingHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:text="acidic"
+                        app:layout_constraintBottom_toBottomOf="@id/niceRatingBar_sour"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/niceRatingBar_sour"
+                        app:layout_constraintTop_toTopOf="@id/niceRatingBar_sour" />
+
+                    <com.kaelli.niceratingbar.NiceRatingBar
+                        android:id="@+id/niceRatingBar_sour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sour"
+                        app:nrb_rating="0"
+                        app:nrb_ratingStatus="Enable"
+                        app:nrb_starEmptyResource="@drawable/star_blank"
+                        app:nrb_starFullResource="@drawable/star_full"
+                        app:nrb_starHalfResource="@drawable/star_half"
+                        app:nrb_starImageHeight="30dp"
+                        app:nrb_starImagePadding="15dp"
+                        app:nrb_starImageWidth="30dp" />
+
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/pairing_tag"
+                        style="@style/Widget.MaterialComponents.ChipGroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        app:layout_constraintEnd_toEndOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/pairing_input_layout"
+                        app:layout_constraintTop_toBottomOf="@id/btn_add_chip_pairing">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:id="@+id/comment"
+                        style="@style/DetailContent"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Comment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pairing_tag" />
+
+                    <TextView
+                        android:id="@+id/comment_sub"
+                        style="@style/ratingHint"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Share more about it"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/comment" />
+
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/comment_input_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="16dp"
+                        android:textColorHint="@color/gray_646464"
+                        app:layout_constraintEnd_toEndOf="@id/btn_add_chip_pairing"
+                        app:layout_constraintStart_toStartOf="@id/comment"
+                        app:layout_constraintTop_toBottomOf="@id/comment_sub"
+                        app:layout_goneMarginBottom="16dp"
+                        tools:visibility="visible">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/comment_input"
+                            style="@style/DetailContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="100dp"
+                            android:hint="Share more about it ..."
+                            android:inputType="text"
+                            android:fontFamily="@font/comfortaa"
+                            android:minLines="3"
+                            android:gravity="top"
+                            android:text="@={viewModel.rating.comment}"
+                            android:textSize="16dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

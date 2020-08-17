@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="com.tina.mr9.others_profile.OthersProfileViewModel"/>
+        <import type="android.view.View"/>
+        <variable
+            name="userManager"
+            type="com.tina.mr9.login.UserManager" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/ic_nav_profile"
+                    android:scaleType="centerCrop"
+                    app:imageUrl_crop="@{viewModel.searchUser.image}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/ProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
+                    android:text="@{viewModel.searchUser.name}"
+                    app:layout_constraintStart_toEndOf="@id/profile_image"
+                    app:layout_constraintTop_toTopOf="@id/profile_image"
+                    tools:text="My name" />
+
+                <TextView
+                    android:id="@+id/amt_user_posts"
+                    style="@style/ProfileDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
+                    android:text="@{String.valueOf(viewModel.searchUser.amtPosts)}"
+                    app:layout_constraintStart_toEndOf="@id/profile_image"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text="21" />
+
+                <TextView
+                    android:id="@+id/user_posts"
+                    style="@style/ProfileDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:text='@{viewModel.searchUser.amtPosts > 1 ? " posts" : " post" }'
+                    app:layout_constraintStart_toEndOf="@id/amt_user_posts"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text=" posts" />
+
+                <TextView
+                    android:id="@+id/amt_followers"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{viewModel.amtFollowedBy.toString()}"
+                    android:gravity="center"
+                    style="@style/ProfileDescriptionDark"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintEnd_toStartOf="@+id/amt_following"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+                <TextView
+                    android:id="@+id/amt_following"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.amtFollowing.toString()}"
+                    android:gravity="center"
+                    style="@style/ProfileDescriptionDark"
+                    app:layout_constraintEnd_toStartOf="@+id/user_level"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/amt_followers"
+                    app:layout_constraintTop_toTopOf="@id/amt_followers" />
+
+                <TextView
+                    android:id="@+id/user_level"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="Novice"
+                    android:gravity="center"
+                    style="@style/DetailDescription"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/amt_following"
+                    app:layout_constraintTop_toTopOf="@id/amt_following"
+                    app:layout_constraintBottom_toBottomOf="@id/amt_following"/>
+
+                <TextView
+                    android:id="@+id/followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/amt_followers"
+                    app:layout_constraintEnd_toEndOf="@id/amt_followers"
+                    app:layout_constraintTop_toBottomOf="@id/amt_followers"
+                    android:text="followers"/>
+
+                <TextView
+                    android:id="@+id/following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/amt_following"
+                    app:layout_constraintEnd_toEndOf="@id/amt_following"
+                    app:layout_constraintTop_toBottomOf="@id/amt_following"
+                    android:text="following"/>
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/ProfileDescription"
+                    app:layout_constraintStart_toStartOf="@id/user_level"
+                    app:layout_constraintEnd_toEndOf="@id/user_level"
+                    app:layout_constraintTop_toBottomOf="@id/user_level"
+                    android:text="level"
+                    app:layout_constraintBottom_toBottomOf="@id/followers"/>
+
+                <Button
+                    android:id="@+id/btn_follow"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="@id/followers"
+                    app:layout_constraintEnd_toEndOf="@id/user_level"
+                    app:layout_constraintTop_toBottomOf="@id/following"
+                    android:layout_marginTop="16dp"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/comfortaa"
+                    android:letterSpacing="0.15"
+                    android:textStyle="bold"
+                    android:textColor="@{viewModel.statusAbout == false ? @color/white : @color/black_3f3a3a}"
+                    android:background="@{viewModel.statusAbout == false ? @drawable/background_follow : @drawable/background_followed }"
+                    android:text='@{viewModel.statusAbout == false ? "Follow" : "Following"}'
+                    android:onClick="@{() -> viewModel.setAboutStatus()}"/>
+
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn_follow">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray_999999"/>
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs_catalog"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_tab"
+                        android:elevation="4dp"
+                        android:background="@drawable/background_tab"
+                        app:tabIndicatorColor="@color/black_3f3a3a"
+                        app:tabSelectedTextColor="@color/black_3f3a3a"
+                        app:tabTextColor="@color/gray_888888">
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.viewpager.widget.ViewPager>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

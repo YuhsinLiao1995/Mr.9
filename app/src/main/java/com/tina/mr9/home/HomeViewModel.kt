@@ -1,12 +1,11 @@
 package com.tina.mr9.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tina.mr9.Mr9Application
-import com.tina.mr9.data.source.StylishRepository
+import com.tina.mr9.data.source.Repository
 import com.tina.mr9.network.LoadApiStatus
 import com.tina.mr9.R
 import com.tina.mr9.data.*
@@ -24,11 +23,11 @@ import com.tina.mr9.data.Result
  *
  * The [ViewModel] that is attached to the [HomeFragment].
  */
-class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
+class HomeViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _drink = MutableLiveData<List<Drinks>>()
+    private val _drink = MutableLiveData<List<Drink>>()
 
-    val drinks: LiveData<List<Drinks>>
+    val drink: LiveData<List<Drink>>
         get() = _drink
 
     // status: The internal MutableLiveData that stores the status of the most recent request
@@ -50,9 +49,9 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         get() = _refreshStatus
 
     // Handle navigation to detail
-    private val _navigateToDetail = MutableLiveData<Drinks>()
+    private val _navigateToDetail = MutableLiveData<Drink>()
 
-    val navigateToDetail: LiveData<Drinks>
+    val navigateToDetail: LiveData<Drink>
         get() = _navigateToDetail
 
 
@@ -65,55 +64,11 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-//        getAllData()
         getDrinksResult()
     }
 
-//    fun getAllData() {
-////        var articlesFirebase = db.collection("drinks")
-////            .orderBy("createdTime", Query.Direction.DESCENDING)
-//        drinksFirebase
-//            .get()
-//            .addOnSuccessListener { result ->
-//
-//                Log.d("Tina", "${result.documents}")
-//
-//                for (document in result) {
-//                    Log.d("Tina", "${document.id} => ${document.data}")
-//
-//
-//                    val drink = Drinks(
-//                        name = document.data["name"] as String,
-//                        bar = document.data["bar"] as String,
-//                        base = document.data["base"] as ArrayList<String>,
-//                        contents = document.data["contents"] as ArrayList<String>,
-//                        pairings = document.data["pairings"] as ArrayList<String>,
-//                        category = document.data["category"] as String,
-//                        main_image = document.data["main_image"] as String,
-//                        images = document.data["images"] as ArrayList<String?>,
-//                        tag = document.data["tag"] as ArrayList<String>
-////                        rating = document.data["rating"] as HashMap<Ratings, Any>
-//                    )
-//
-//                    Log.d("Tina", "drinks => $drinks")
-//
-//                    drinksList.add(drink)
-//
-//                    drinks.value = drinksList
-//
-//                    Log.d("Tina", "articles => ${drinks.value}")
-//
-////                    val ratings = document.collection("rating").get
-//                }
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.d("Tina", "Error getting documents: ", exception)
-//            }
-//
-//    }
 
-    fun getDrinksResult() {
+    private fun getDrinksResult() {
 
         coroutineScope.launch {
 
@@ -200,8 +155,8 @@ class HomeViewModel(private val repository: StylishRepository) : ViewModel() {
         _navigateToDetail.value = null
     }
 
-    fun navigateToDetail(drinks: Drinks) {
-        _navigateToDetail.value = drinks
+    fun navigateToDetail(drink: Drink) {
+        _navigateToDetail.value = drink
     }
 
     fun refresh() {

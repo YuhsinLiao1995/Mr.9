@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="rating"
+            type="com.tina.mr9.data.Rating" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_home_full"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:background="@drawable/background_my_rating"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_home_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            app:imageUrl_crop2="@{rating.main_photo}"
+            android:background="@drawable/background_corner"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/hot_wine" />
+
+        <TextView
+            android:id="@+id/text_author"
+            style="@style/MyRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.authorName}"
+            app:layout_constraintTop_toTopOf="@id/youRated"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="Yo Hsin" />
+
+        <TextView
+            android:id="@+id/youRated"
+            style="@style/MyRatingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text=" Rated "
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_author"/>
+
+        <TextView
+            android:id="@+id/at"
+            style="@style/MyRatingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="at "
+            app:layout_constraintTop_toBottomOf="@id/youRated"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"/>
+
+        <TextView
+            android:id="@+id/text_home_title"
+            style="@style/MyRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.name}"
+            app:layout_constraintTop_toTopOf="@id/youRated"
+            app:layout_constraintStart_toEndOf="@id/youRated"
+            tools:text="Tequila Sunset" />
+
+        <TextView
+            android:id="@+id/text_bar"
+            style="@style/MyRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.bar}"
+            app:layout_constraintTop_toBottomOf="@id/youRated"
+            app:layout_constraintStart_toEndOf="@id/at"
+            tools:text="Draft Land" />
+        <TextView
+            android:id="@+id/comment"
+            style="@style/FriendsRatingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{rating.comment}"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="@id/niceRatingBar"
+            app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
+            app:layout_constraintBottom_toTopOf="@id/image_home_main"
+            tools:text="goooooooood"/>
+
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/text_author"
+            app:layout_constraintTop_toBottomOf="@id/text_bar"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="20dp"
+            app:nrb_starImagePadding="10dp"
+            app:nrb_starImageWidth="20dp" />
+        <TextView
+            android:id="@+id/date"
+            style="@style/MyRatingTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:ellipsize="end"
+            app:timeToDisplayFormat="@{rating.createdTime}"
+            app:layout_constraintBottom_toBottomOf="@id/comment"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            tools:text="01/02/2020" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

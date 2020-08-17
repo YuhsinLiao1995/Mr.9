@@ -6,45 +6,168 @@
     <data>
         <variable name="viewModel" type="com.tina.mr9.friends.FriendsViewModel"/>
         <import type="android.view.View"/>
+        <variable
+            name="userManager"
+            type="com.tina.mr9.login.UserManager" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/layout_swipe_refresh_home"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:layout_height="wrap_content">
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_home"
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toStartOf="@id/searchText"
+                    app:layout_constraintBottom_toBottomOf="@id/searchText"
+                    app:layout_constraintTop_toTopOf="@id/searchText"
+                    app:srcCompat="@drawable/search_icon"/>
+
+                <EditText
+                    android:id="@+id/searchText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:hint="Enter Email to Search"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="36dp"
+                    style="@style/DetailContent"
+                    android:background="@drawable/background_followed"
+                    android:inputType="textPersonName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/layout_mine"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/searchText"
+                    android:background="@drawable/background_my_rating"
+                    android:layout_height="70dp" />
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ic_nav_profile"
+                    android:scaleType="centerCrop"
+                    app:imageUrl_crop="@{userManager.INSTANCE.user.image}"
+                    app:layout_constraintBottom_toBottomOf="@id/layout_mine"
+                    app:layout_constraintStart_toStartOf="@id/layout_mine"
+                    app:layout_constraintTop_toTopOf="@id/layout_mine" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toTopOf="@id/profile_image"
+                        app:layout_constraintStart_toEndOf="@id/profile_image">
+
+
+                    <TextView
+                        android:id="@+id/youRated"
+                        style="@style/FriendsRatingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:ellipsize="end"
+                        android:text="Rate your drink now..."
+                        app:layout_constraintTop_toBottomOf="@id/user_name"
+                        app:layout_constraintStart_toStartOf="@id/user_name"/>
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        style="@style/FriendsRatingTitleDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:textSize="12sp"
+                        android:text="@{userManager.INSTANCE.user.name}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="Yo Liao" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:rating="@{viewModel.rating}"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@id/layout_mine"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/item_friends_rating"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    android:background="@color/translucent_40"
+                    app:user="@{viewModel.searchedUser}"
+                    app:layout_constraintTop_toBottomOf="@id/searchText"
+                    tools:listitem="@layout/item_friends"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
 
         <ProgressBar
-                android:theme="@style/ProgressTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            android:theme="@style/ProgressTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setupApiStatus="@{viewModel.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintEnd_toEndOf="parent"
-                  app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_height="wrap_content"
+            app:setupApiErrorMessage="@{viewModel.error}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

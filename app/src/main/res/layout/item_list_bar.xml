@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="bar"
+            type="com.tina.mr9.data.Bar" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/image_home_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/background_corner"
+            app:imageUrl_crop4="@{bar.main_image}"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/hot_wine" />
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintTop_toTopOf="@id/text_home_title"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            android:background="@drawable/background_homeitem"/>
+
+        <TextView
+            android:id="@+id/text_home_title"
+            style="@style/ItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{bar.name}"
+            app:layout_constraintBottom_toTopOf="@+id/bar_add"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="Uniqlo 特級超輕羽絨外套" />
+
+        <TextView
+            android:id="@+id/bar_add"
+            style="@style/ItemDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:text="@{bar.address}"
+            app:layout_constraintBottom_toBottomOf="@id/image_home_main"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintStart_toStartOf="@id/image_home_main"
+            tools:text="How 哥推薦喔 Go Go" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

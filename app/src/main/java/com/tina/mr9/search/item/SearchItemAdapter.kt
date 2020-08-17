@@ -8,11 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tina.mr9.data.Search
 import com.tina.mr9.databinding.ItemSearchBinding
 
-/**
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [Product], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
- */
+
 class SearchItemAdapter(private val onClickListener: OnClickListener) :
     androidx.recyclerview.widget.ListAdapter<Search, RecyclerView.ViewHolder>(
         DiffCallback ) {

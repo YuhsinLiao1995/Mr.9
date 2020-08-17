@@ -1,7 +1,6 @@
 package com.tina.mr9.data
 
 import android.os.Parcelable
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -16,3 +15,4 @@ data class Search(
 ) : Parcelable {
 
 }
+

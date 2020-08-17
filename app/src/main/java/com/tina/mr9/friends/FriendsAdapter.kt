@@ -5,75 +5,53 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.tina.mr9.data.HomeItem
-import com.tina.mr9.data.Product
+import com.tina.mr9.data.User
 import com.tina.mr9.databinding.ItemFriendsBinding
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
- * [HomeItem], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class FriendsAdapter(private val onClickListener: OnClickListener) :
-        ListAdapter<HomeItem, RecyclerView.ViewHolder>(DiffCallback) {
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Product]
-     * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [Product]
-     */
-    class OnClickListener(val clickListener: (product: Product) -> Unit) {
-        fun onClick(product: Product) = clickListener(product)
+        ListAdapter<User, FriendsAdapter.FriendViewHolder>(DiffCallback) {
+
+    class OnClickListener(val clickListener: (searchUser: User) -> Unit) {
+        fun onClick(searchUser: User) = clickListener(searchUser)
     }
 
-
-
-    class FullProductViewHolder(private var binding: ItemFriendsBinding):
+    class FriendViewHolder(private var binding: ItemFriendsBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product, onClickListener: OnClickListener) {
+        fun bind(searchUser: User, onClickListener: OnClickListener) {
 
-            binding.product = product
-            binding.root.setOnClickListener { onClickListener.onClick(product) }
+            binding.user = searchUser
+            binding.root.setOnClickListener { onClickListener.onClick(searchUser) }
             binding.executePendingBindings()
         }
     }
 
 
 
-    companion object DiffCallback : DiffUtil.ItemCallback<HomeItem>() {
-        override fun areItemsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem === newItem
         }
-        override fun areContentsTheSame(oldItem: HomeItem, newItem: HomeItem): Boolean {
-            return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
         }
 
-        private const val ITEM_VIEW_TYPE_TITLE            = 0x00
-        private const val ITEM_VIEW_TYPE_PRODUCT_FULL     = 0x01
-        private const val ITEM_VIEW_TYPE_PRODUCT_COLLAGE  = 0x02
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return FullProductViewHolder(ItemFriendsBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
+        return FriendViewHolder(ItemFriendsBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
     }
 
-    /**
-     * Replaces the contents of a view (invoked by the layout manager)
-     */
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
 
-//                holder.bind((getItem(position) as HomeItem.FullProduct).product, onClickListener)
+                holder.bind((getItem(position) as User), onClickListener)
 
         }
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return when (getItem(position)) {
-//            is HomeItem.Title -> ITEM_VIEW_TYPE_TITLE
-//            is HomeItem.FullProduct -> ITEM_VIEW_TYPE_PRODUCT_FULL
-//            is HomeItem.CollageProduct -> ITEM_VIEW_TYPE_PRODUCT_COLLAGE
-//        }
-//    }
+

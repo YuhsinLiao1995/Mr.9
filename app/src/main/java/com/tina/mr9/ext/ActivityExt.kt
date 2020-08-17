@@ -7,12 +7,12 @@ import com.tina.mr9.Mr9Application
 import com.tina.mr9.factory.ViewModelFactory
 
 /**
- * Created by Wayne Chen in Jul. 2019.
+ * Created by Yuhsin Liao in Jul. 2020.
  *
  * Extension functions for Activity.
  */
 fun Activity.getVmFactory(): ViewModelFactory {
-    val repository = (applicationContext as Mr9Application).stylishRepository
+    val repository = (applicationContext as Mr9Application).repository
     return ViewModelFactory(repository)
 }
 

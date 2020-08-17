@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="rating"
+            type="com.tina.mr9.data.Rating" />
+        <variable
+            name="viewModel"
+            type="com.tina.mr9.friends.FriendsViewModel" />
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_home_full"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_my_rating">
+
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_nav_profile"
+            app:imageUrl_crop="@{rating.authorImage}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_home_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_corner"
+            android:scaleType="centerCrop"
+            app:imageUrl_crop2="@{rating.main_photo}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment"
+            tools:src="@drawable/hot_wine" />
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/MyRatingTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            app:timeToDisplayFormat="@{rating.createdTime}"
+            app:layout_constraintBottom_toTopOf="@id/image_home_main"
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            tools:text="01/02/2020" />
+
+
+        <TextView
+            android:id="@+id/youRated"
+            style="@style/FriendsRatingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="Rated "
+            app:layout_constraintStart_toEndOf="@id/text_author"
+            app:layout_constraintTop_toTopOf="@id/text_author" />
+
+        <TextView
+            android:id="@+id/text_home_title"
+            style="@style/FriendsRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.name}"
+            app:layout_constraintStart_toEndOf="@id/youRated"
+            app:layout_constraintTop_toTopOf="@id/youRated"
+            tools:text="Tequila Sunset" />
+
+        <TextView
+            android:id="@+id/text_author"
+            style="@style/FriendsRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.authorName}"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintTop_toTopOf="@id/profile_image"
+            tools:text="Yo Hsin" />
+
+        <TextView
+            android:id="@+id/at"
+            style="@style/FriendsRatingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="at "
+            app:layout_constraintTop_toBottomOf="@id/youRated"
+            app:layout_constraintStart_toStartOf="@id/text_author"/>
+        <TextView
+            android:id="@+id/text_bar"
+            style="@style/FriendsRatingTitleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="end"
+            android:text="@{rating.bar}"
+            app:layout_constraintTop_toBottomOf="@id/youRated"
+            app:layout_constraintStart_toEndOf="@id/at"
+            tools:text="Draft Land" />
+
+        <com.kaelli.niceratingbar.NiceRatingBar
+            android:id="@+id/niceRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintStart_toStartOf="@id/profile_image"
+            app:layout_constraintTop_toBottomOf="@id/at"
+            app:nrb_rating="5"
+            app:nrb_ratingStatus="Disable"
+            app:nrb_starEmptyResource="@drawable/star_blank"
+            app:nrb_starFullResource="@drawable/star_full"
+            app:nrb_starHalfResource="@drawable/star_half"
+            app:nrb_starImageHeight="20dp"
+            app:nrb_starImagePadding="10dp"
+            app:nrb_starImageWidth="20dp" />
+
+
+        <Button
+            android:id="@+id/btn_readMore"
+            style="@style/ReadMoreButton"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/transparent"
+            android:ellipsize="end"
+            android:visibility="gone"
+            android:onClick="@{() -> viewModel.setAboutStatus()}"
+            android:text="Read More..."
+            app:layout_constraintEnd_toEndOf="@id/image_home_main"
+            app:layout_constraintTop_toTopOf="@id/niceRatingBar" />
+
+
+
+
+            <TextView
+                android:id="@+id/comment"
+                style="@style/FriendsRatingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{rating.comment}"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="9dp"
+                app:layout_constraintStart_toStartOf="@id/niceRatingBar"
+                app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
+                app:layout_constraintBottom_toTopOf="@id/image_home_main"
+                tools:text="goooooooood"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

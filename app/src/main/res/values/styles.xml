@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="chipIconTint">@color/gray_646464</item>
+        <item name="colorControlHighlight">@color/transparent</item>
     </style>
 
 
@@ -54,8 +56,16 @@
     <style name="DetailContent">
 <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
         <item name="android:letterSpacing">0.15</item>
+        <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DetailContentSmall">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="LoginDialog">
@@ -114,10 +124,54 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <style name="LoginTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="LoginTitleBig">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">160sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="DetailSubTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="DetailContentBig">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
     <style name="DetailDescription">
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
         <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="BarDrinkTitle">
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:letterSpacing">0.15</item>
     </style>
@@ -150,6 +204,104 @@
         <item name="android:textStyle">bold</item>
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/white</item>
+    </style>
+
+    <style name="ProfileName">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ProfileDescription">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ProfileDescriptionDark">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="MyRatingTitle">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ReadMoreButton">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="MyRatingTitleDark">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="FriendsRatingTitleDark">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="FriendsRatingTitle">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="FriendsRatingDetail">
+        <item name="android:textColor">@color/gray_888888</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ratingHint">
+        <!--        <item name="android:fontFamily">@font/noto_sans</item>-->
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textColor">@color/gray_646464</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
 </resources>
