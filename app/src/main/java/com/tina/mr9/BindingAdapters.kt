@@ -244,10 +244,19 @@ fun bindImage4(imgView: ImageView, imgUrl: String) {
     }
 }
 
+@SuppressLint("SetTextI18n")
 @RequiresApi(Build.VERSION_CODES.O)
 @BindingAdapter("arrayToString")
 fun bindArrayToString(textView: TextView, args: List<String>?) {
-    textView.text = (args.let { java.lang.String.join(", ", args ?: listOf()) })
+    if (args != null) {
+        if (args.isNotEmpty()) {
+            textView.text = (args.let { java.lang.String.join(", ", args) })
+        } else{
+            textView.text = "No Info"
+        }
+    } else {
+        textView.text = "No Info"
+    }
 }
 
 @SuppressLint("SetTextI18n")

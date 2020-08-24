@@ -16,13 +16,15 @@
             android:layout_height="match_parent">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -73,7 +75,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_ratings"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="0dp"
                     android:nestedScrollingEnabled="false"
                     app:ratings="@{viewModel.rating}"
@@ -109,7 +111,7 @@
                     android:id="@+id/line3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"
                     android:background="@color/gray_999999"
                     app:layout_constraintTop_toBottomOf="@id/add_icon"/>
@@ -142,7 +144,7 @@
                     android:id="@+id/bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="0dp"
                     android:text="@{viewModel.drink.bar}"
                     style="@style/DetailContent"
                     app:layout_constraintTop_toBottomOf="@id/title"
@@ -213,8 +215,8 @@
 
                 <ImageView
                     android:id="@+id/price_icon"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/width_icon"
+                    android:layout_height="@dimen/width_icon"
                     app:srcCompat="@drawable/price"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
@@ -223,12 +225,12 @@
 
                 <ImageView
                     android:id="@+id/add_icon"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/width_icon"
+                    android:layout_height="@dimen/width_icon"
                     app:srcCompat="@drawable/gps"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
-                    app:layout_constraintTop_toBottomOf="@id/pairing_icon"
+                    app:layout_constraintTop_toBottomOf="@id/pairings"
                     app:layout_constraintEnd_toStartOf="@id/address"
                     />
 
@@ -236,37 +238,41 @@
 
                 <ImageView
                     android:id="@+id/content_icon"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/width_icon"
+                    android:layout_height="@dimen/width_icon"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
-                    app:layout_constraintTop_toBottomOf="@id/price_icon"
+                    app:layout_constraintTop_toBottomOf="@id/price"
                     app:srcCompat="@drawable/wine" />
 
                 <ImageView
                     android:id="@+id/pairing_icon"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="@dimen/width_icon"
+                    android:layout_height="@dimen/width_icon"
                     app:srcCompat="@drawable/food"
                     android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="@id/btn_like"
-                    app:layout_constraintTop_toBottomOf="@id/content_icon"
+                    app:layout_constraintTop_toBottomOf="@id/content"
                     />
 
                 <TextView
                     android:id="@+id/address"
                     style="@style/DetailDescription"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintTop_toTopOf="@id/add_icon"
                     app:layout_constraintBottom_toBottomOf="@id/add_icon"
                     app:layout_constraintStart_toEndOf="@id/add_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
                     tools:text="台北市信義區永吉路30巷5號"
-                    android:text="@{viewModel.drink.address}"/>
+                    android:text='@{viewModel.drink.address != "" ? viewModel.drink.address : "No Info"}'/>
+
+
 
                 <TextView
-                    android:id="@+id/price_dollar_sign"
+                    android:id="@+id/price"
                     style="@style/DetailDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -274,19 +280,8 @@
                     app:layout_constraintTop_toTopOf="@id/price_icon"
                     app:layout_constraintBottom_toBottomOf="@id/price_icon"
                     app:layout_constraintStart_toEndOf="@id/price_icon"
-                    android:text="NT$"/>
-
-                <TextView
-                    android:id="@+id/price"
-                    style="@style/DetailDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    app:layout_constraintTop_toTopOf="@id/price_icon"
-                    app:layout_constraintBottom_toBottomOf="@id/price_icon"
-                    app:layout_constraintStart_toEndOf="@id/price_dollar_sign"
-                    tools:text="300"
-                    android:text="@{String.valueOf(viewModel.drink.price)}"/>
+                    tools:text="NT$ 300"
+                    android:text='@{viewModel.drink.price != 0 ? ("NT$ " + String.valueOf(viewModel.drink.price)) : "No Info"}'/>
 
                 <TextView
                     android:id="@+id/avg_rating"
@@ -308,7 +303,7 @@
                     app:layout_constraintStart_toStartOf="@id/avg_rating"
                     app:layout_constraintTop_toBottomOf="@id/avg_rating"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="0dp"
                     app:nrb_rating="5"
                     app:nrb_ratingStatus="Disable"
                     app:nrb_starEmptyResource="@drawable/star_blank"
@@ -326,18 +321,8 @@
                     android:layout_marginBottom="2dp"
                     app:layout_constraintStart_toEndOf="@id/avg_rating"
                     app:layout_constraintBottom_toBottomOf="@id/avg_rating"
-                    android:text='@{viewModel.drink.amtRating >= 0 ? String.valueOf(viewModel.drink.amtRating) : "0"}'
-                    tools:text="45"/>
-
-                <TextView
-                    android:id="@+id/amt_ratings_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@id/amt_ratings"
-                    app:layout_constraintBottom_toBottomOf="@id/amt_ratings"
-                    android:text="ratings"/>
-
+                    android:text='@{"("+(viewModel.drink.amtRating >= 0 ? String.valueOf(viewModel.drink.amtRating) : "0") + ")"}'
+                    tools:text="(45)"/>
 
                 <TextView
                     android:id="@+id/content"
@@ -372,9 +357,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:theme="@style/ProgressTheme"

@@ -58,11 +58,12 @@
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="10sp"
             app:timeToDisplayFormat="@{rating.createdTime}"
             app:layout_constraintBottom_toTopOf="@id/image_home_main"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             tools:text="01/02/2020" />
-
 
         <TextView
             android:id="@+id/youRated"

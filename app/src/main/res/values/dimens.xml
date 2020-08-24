@@ -11,6 +11,8 @@
     <!-- Nav view of Drawer -->
     <dimen name="width_drawer">304dp</dimen>
 
+    <dimen name="width_icon">20dp</dimen>
+
     <!-- Bottom Navigation -->
     <dimen name="height_bottom_nav_view_main">56dp</dimen>
     <dimen name="size_bottom_nav_icon">25dp</dimen>

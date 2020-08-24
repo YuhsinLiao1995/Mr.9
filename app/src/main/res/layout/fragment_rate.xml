@@ -195,8 +195,8 @@
                             android:id="@+id/price_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:numeric="@{viewModel.rating.price}"
-                            android:hint="Price $$"
+                            android:hint="@string/price_hint"
+                            android:text="@={`` + viewModel.rating.price}"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="number"
                             android:textSize="16sp" />
@@ -295,8 +295,8 @@
 
                         <ImageView
                             android:id="@+id/btn_add_chip"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_marginHorizontal="16dp"
                             app:layout_constraintBottom_toBottomOf="@id/conetent_input_layout"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -449,6 +449,7 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="18sp"
+                        android:onClick="@{() -> viewModel.bindData()}"
                         app:layout_constraintEnd_toEndOf="@id/comment_input_layout"
                         app:layout_constraintStart_toStartOf="@id/comment_input_layout"
                         app:layout_constraintTop_toBottomOf="@id/comment_input_layout"

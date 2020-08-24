@@ -41,6 +41,7 @@
             android:maxLines="1"
             android:gravity="center"
             style="@style/ItemTitle"
+            android:textSize="20sp"
             android:text="@{search.name}"
             app:layout_constraintEnd_toEndOf="@id/image_home_main"
             app:layout_constraintStart_toStartOf="@id/image_home_main"

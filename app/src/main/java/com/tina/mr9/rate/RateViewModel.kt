@@ -142,7 +142,7 @@ class RateViewModel(
     val upDatedDrink: LiveData<Drink>
         get() = _updatedDrink
 
-    val _bar = MutableLiveData<Bar>().apply {
+    private val _bar = MutableLiveData<Bar>().apply {
         value = Bar(
             name = rating.value?.bar ?: "",
             main_image = rating.value?.main_photo ?: "",
@@ -217,6 +217,30 @@ class RateViewModel(
         Logger.d("rating.value.author = ${rating.value?.author}")
     }
 
+    fun bindData(){
+        drink.value?.name = rating.value?.name ?: ""
+        drink.value?.bar = rating.value?.bar ?: ""
+        drink.value?.address = rating.value?.address ?: ""
+        drink.value?.contents = rating.value?.contents ?: listOf()
+        drink.value?.base = rating.value?.base ?: listOf()
+        drink.value?.category = rating.value?.category ?: "General"
+        drink.value?.pairings = rating.value?.pairings?: listOf()
+        drink.value?.body = rating.value?.body ?: -1f
+        drink.value?.sweet = rating.value?.sweet ?: -1f
+        drink.value?.sour = rating.value?.sour ?: -1f
+        drink.value?.main_image = rating.value?.main_photo ?: ""
+        drink.value?.images = rating.value?.images ?: listOf()
+        drink.value?.price = rating.value?.price ?: -1
+        drink.value?.overall_rating = rating.value?.overall_rating ?: -1f
+
+        bar.value?.name = rating.value?.bar ?: ""
+        bar.value?.main_image = rating.value?.main_photo ?: ""
+        bar.value?.images = rating.value?.images ?: listOf()
+        bar.value?.overallRating = rating.value?.overall_rating ?: -1f
+
+        publish(rating.value ?: Rating(),drink.value ?: Drink(),bar.value ?: Bar())
+    }
+
     fun publish(rating: Rating, drink: Drink, bar: Bar) {
 
         coroutineScope.launch {
@@ -249,7 +273,7 @@ class RateViewModel(
         }
     }
 
-    fun publish2(rating: Rating, drink: Drink, bar: Bar) {
+    private fun publish2(rating: Rating, drink: Drink, bar: Bar) {
         Log.d("Tina", "ifcalled")
         Logger.d("fun add drink")
         coroutineScope.launch {
@@ -282,7 +306,7 @@ class RateViewModel(
         }
     }
 
-    fun addBar(rating: Rating, drink: Drink, bar: Bar) {
+    private fun addBar(rating: Rating, drink: Drink, bar: Bar) {
         Logger.d("fun add bar")
         coroutineScope.launch {
 
@@ -500,7 +524,7 @@ class RateViewModel(
     fun onAddedFailNavigated() {
         _navigateToAddedFail.value = null
     }
-    fun navigateToAddedSuccess(rating: Rating) {
+    private fun navigateToAddedSuccess(rating: Rating) {
         _navigateToAddedSuccess.value = rating
     }
 

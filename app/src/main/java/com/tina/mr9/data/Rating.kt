@@ -28,7 +28,8 @@ data class Rating(
     var sour: Float = -1f,
     var take_again: Boolean = false,
     var bar: String = "",
-    var name: String = ""
+    var name: String = "",
+    var strong: Float = -1f
 ) : Parcelable {
 
 }

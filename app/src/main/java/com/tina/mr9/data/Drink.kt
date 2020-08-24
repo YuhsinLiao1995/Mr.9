@@ -28,7 +28,8 @@ data class Drink(
     var sour: Float = -1f,
     var take_again: Boolean = false,
     var overall_rating: Float = -1f,
-    var createdTime: Long = -1
+    var createdTime: Long = -1,
+    var strong: Float = -1f
 
 ) : Parcelable {
 

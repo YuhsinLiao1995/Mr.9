@@ -47,29 +47,32 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             style="@style/BarDrinkTitle"
             android:text="@{drink.name}"
-            android:layout_marginStart="16dp"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="@id/main_image"
             app:layout_constraintStart_toEndOf="@id/main_image"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="draft land"/>
 
         <TextView
             android:id="@+id/rating"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             style="@style/DetailDescription"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@id/niceRatingBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/main_image"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:text="Tequila, Gin, Rum, Orange Juice,"/>
 
 

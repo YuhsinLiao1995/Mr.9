@@ -5,9 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.tina.mr9.Mr9Application
 
-/**
- * Updated by Wayne Chen in Mar. 2019.
- */
+
 object Util {
 
     /**

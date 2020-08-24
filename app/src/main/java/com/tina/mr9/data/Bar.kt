@@ -24,7 +24,10 @@ data class Bar(
     var min_charge: Long = -1,
     var type_bar: List<String> = emptyList(),
     var likedBy: List<String> = emptyList(),
-    var createdTime: Long = -1
+    var createdTime: Long = -1,
+    var operationTime: String = "No Info",
+    var dayOff: String = "None",
+    var notes: String = "None"
 
 ) : Parcelable {
 

@@ -158,7 +158,7 @@ class MainActivity : BaseActivity() {
 //        UserManager.user.email = "soft8520@gmail.com"
 //        UserManager.user.image = "https://lh6.googleusercontent.com/-0edLHeAUgOo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckU6hNaineq30l0Zs1jtLVflnD9dg/s96-c/photo.jpg"
 
-//        viewModel.updateUser(UserManager.user)
+        viewModel.updateUser(UserManager.user)
 
         Logger.d("UserManager.user.name = ${UserManager.user.name}")
 
