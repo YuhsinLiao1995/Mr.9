@@ -42,8 +42,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
+                            android:textSize="20sp"
                             android:text="@{viewModel.bar.name}"
-                            android:textSize="24dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -70,8 +70,8 @@
 
                         <ImageView
                             android:id="@+id/like"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             app:srcCompat="@drawable/like"
                             app:layout_constraintStart_toStartOf="@id/btn_like"
                             app:layout_constraintBottom_toBottomOf="@id/btn_like"
@@ -81,8 +81,8 @@
 
                         <ImageView
                             android:id="@+id/liked"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             app:srcCompat="@drawable/like_full"
                             android:visibility="@{viewModel.statusLike == true ? View.VISIBLE : View.GONE}"
                             app:layout_constraintStart_toStartOf="@id/btn_like"
@@ -95,8 +95,8 @@
 
                         <ImageButton
                             android:id="@+id/btn_like"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="5dp"
                             android:onClick="@{() -> viewModel.setLikeStatus()}"
@@ -191,21 +191,26 @@
                                         android:id="@+id/bar_description"
                                         style="@style/DetailDescription"
                                         android:textStyle="bold"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_marginEnd="24dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="16dp"
-                                        android:layout_marginTop="16dp"
+                                        android:layout_marginTop="0dp"
+                                        android:paddingTop="16dp"
                                         tools:text="亞洲精選50大酒吧"
+                                        android:visibility='@{viewModel.bar.description == "" ? View.GONE : View.VISIBLE}'
                                         android:text="@{viewModel.bar.description}"
                                         app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/add_icon"
-                                        android:layout_width="27dp"
-                                        android:layout_height="27dp"
-                                        android:layout_marginTop="16dp"
-                                        app:layout_constraintStart_toStartOf="@id/bar_description"
+                                        android:layout_width="@dimen/width_icon"
+                                        android:layout_height="@dimen/width_icon"
+                                        android:layout_marginTop="24dp"
+                                        android:layout_marginStart="16dp"
+                                        app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toBottomOf="@id/bar_description"
                                         app:srcCompat="@drawable/gps" />
 
@@ -213,23 +218,25 @@
                                     <TextView
                                         android:id="@+id/address"
                                         style="@style/DetailDescription"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="16dp"
+                                        android:layout_marginEnd="24sp"
                                         android:text="@{viewModel.bar.address}"
                                         android:textSize="14sp"
                                         app:layout_constraintBottom_toBottomOf="@id/add_icon"
                                         app:layout_constraintStart_toEndOf="@id/add_icon"
                                         app:layout_constraintTop_toTopOf="@id/add_icon"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         tools:text="台北市信義區........." />
 
                                     <ImageView
                                         android:id="@+id/open_icon"
-                                        android:layout_width="27dp"
-                                        android:layout_height="27dp"
-                                        android:layout_marginTop="16dp"
-                                        app:layout_constraintStart_toStartOf="@id/bar_description"
-                                        app:layout_constraintTop_toBottomOf="@id/add_icon"
+                                        android:layout_width="@dimen/width_icon"
+                                        android:layout_height="@dimen/width_icon"
+                                        android:layout_marginTop="24dp"
+                                        app:layout_constraintStart_toStartOf="@id/add_icon"
+                                        app:layout_constraintTop_toBottomOf="@id/address"
                                         app:srcCompat="@drawable/clock" />
 
                                     <TextView
@@ -238,26 +245,40 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="16dp"
-                                        android:text="11 PM - 3 AM"
+                                        android:text="@{viewModel.bar.operationTime}"
                                         app:layout_constraintBottom_toBottomOf="@id/open_icon"
                                         app:layout_constraintStart_toEndOf="@id/open_icon"
-                                        app:layout_constraintTop_toTopOf="@id/open_icon" />
+                                        app:layout_constraintTop_toTopOf="@id/open_icon"
+                                        tools:text="18:00 - 02:00"/>
+
+                                    <TextView
+                                        android:id="@+id/bar_dayoff"
+                                        style="@style/DetailDescription"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="16dp"
+                                        android:text='@{"Not open on " + viewModel.bar.dayOff}'
+                                        android:visibility='@{viewModel.bar.dayOff != "None" ? View.VISIBLE : View.GONE}'
+                                        app:layout_constraintStart_toEndOf="@id/open_icon"
+                                        app:layout_constraintTop_toBottomOf="@id/bar_openTime"
+                                        tools:text="Not open on Mon"/>
 
                                     <ImageView
                                         android:id="@+id/tele_icon"
-                                        android:layout_width="27dp"
-                                        android:layout_height="27dp"
-                                        android:layout_marginTop="16dp"
-                                        app:layout_constraintStart_toStartOf="@id/bar_description"
-                                        app:layout_constraintTop_toBottomOf="@id/open_icon"
+                                        android:layout_width="@dimen/width_icon"
+                                        android:layout_height="@dimen/width_icon"
+                                        android:layout_marginTop="24dp"
+                                        app:layout_constraintStart_toStartOf="@id/add_icon"
+                                        app:layout_constraintTop_toBottomOf="@id/bar_dayoff"
                                         app:srcCompat="@drawable/phone" />
 
                                     <TextView
                                         android:id="@+id/bar_tele"
                                         style="@style/DetailDescription"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="16dp"
+                                        android:layout_marginEnd="24dp"
                                         android:text="02 - 278834556"
                                         app:layout_constraintBottom_toBottomOf="@id/tele_icon"
                                         app:layout_constraintStart_toEndOf="@id/tele_icon"
@@ -265,23 +286,26 @@
 
                                     <ImageView
                                         android:id="@+id/note_icon"
-                                        android:layout_width="27dp"
-                                        android:layout_height="27dp"
-                                        android:layout_marginTop="16dp"
-                                        app:layout_constraintStart_toStartOf="@id/bar_description"
-                                        app:layout_constraintTop_toBottomOf="@id/tele_icon"
+                                        android:layout_width="@dimen/width_icon"
+                                        android:layout_height="@dimen/width_icon"
+                                        android:layout_marginTop="24dp"
+                                        app:layout_constraintStart_toStartOf="@id/add_icon"
+                                        app:layout_constraintTop_toBottomOf="@id/bar_tele"
                                         app:srcCompat="@drawable/note" />
 
                                     <TextView
                                         android:id="@+id/bar_notes"
                                         style="@style/DetailDescription"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="16dp"
-                                        android:text="請事先訂位"
+                                        android:layout_marginEnd="24dp"
+                                        android:text="@{viewModel.bar.notes}"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintBottom_toBottomOf="@id/note_icon"
                                         app:layout_constraintStart_toEndOf="@id/note_icon"
-                                        app:layout_constraintTop_toTopOf="@id/note_icon" />
+                                        app:layout_constraintTop_toTopOf="@id/note_icon"
+                                        tools:text="Sun 18:00 - 00:00"/>
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>
 

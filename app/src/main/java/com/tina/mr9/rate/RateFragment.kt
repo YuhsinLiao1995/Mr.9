@@ -163,7 +163,7 @@ class RateFragment : Fragment() {
 
                 viewModel.taglist.value?.add(newChip.text.toString())
 
-                viewModel.rating.value?.pairings = (viewModel.taglist.value ?: listOf())
+                viewModel.rating.value?.contents = (viewModel.taglist.value ?: listOf())
 
                 viewModel.chipFun(
                     mutableListOf(newChip.text.toString()),
@@ -222,20 +222,6 @@ class RateFragment : Fragment() {
                 }
             }
         })
-
-        // click to post rating
-        binding.buttonPublish.setOnClickListener() {
-
-
-
-            Logger.d("viewModel._drink.value ${viewModel._drink.value}")
-            viewModel.publish(
-                viewModel.rating.value ?: Rating(),
-                viewModel.drink.value ?: Drink(),
-                viewModel.bar.value ?: Bar()
-            )
-        }
-
 
 
         // add new chip

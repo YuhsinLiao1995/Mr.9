@@ -6,11 +6,7 @@ import com.tina.mr9.data.source.Repository
 import com.tina.mr9.search.SearchTypeFilter
 import com.tina.mr9.search.item.SearchItemViewModel
 
-/**
- * Created by Wayne Chen on 2019-08-07.
- *
- * Factory for catalog item ViewModels.
- */
+
 @Suppress("UNCHECKED_CAST")
 class SearchItemViewModelFactory(
     private val repository: Repository,

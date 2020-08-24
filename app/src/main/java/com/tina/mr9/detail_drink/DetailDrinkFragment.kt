@@ -57,9 +57,7 @@ class DetailDrinkFragment : Fragment() {
                 binding.noReview.visibility = View.VISIBLE
                 Logger.d("no review")
             }
-            if (viewModel.drink.value?.amtRating!! < 2) {
-                binding.amtRatingsText.text = "rating"
-            }
+
         }
         })
 

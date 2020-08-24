@@ -47,8 +47,9 @@ object RemoteDataSource : DataSource {
                                 list.add(drink)
                             }
                             continuation.resume(Result.Success(list))
-                        }
 
+                        }
+                    Logger.d("task.result?.size() = ${task.result?.size()}")
                 } else {
 
                     task.exception?.let {
@@ -378,15 +379,14 @@ object RemoteDataSource : DataSource {
                         if (task.result?.size() == 0) {
 
                             continuation.resume(Result.DrinkNotExist(rating))
-                        }
-//                    val list = mutableListOf<Drinks>()
+                        }else{
+
                         for (document in task.result!!) {
                             Logger.d(document.id + " => " + document.data)
 
                             val path = document.id
 
-//                        val drinks = document.toObject(Drinks::class.java)
-//                        list.add(drinks)
+
                             val articles = FirebaseFirestore.getInstance().collection("drinks")
                                 .document(document.id).collection("rating")
                             val document = articles.document()
@@ -455,7 +455,7 @@ object RemoteDataSource : DataSource {
 
                                     FirebaseFirestore.getInstance()
                                         .collection("drinks")
-                                        .whereEqualTo("id",path)
+                                        .whereEqualTo("id", path)
                                         .get()
                                         .addOnCompleteListener() { task ->
                                             for (document in task.result!!) {
@@ -495,15 +495,14 @@ object RemoteDataSource : DataSource {
                                 }
 
 
-
                             // update bar avg rating
                             var newBarImages = emptyList<String>()
                             var barAmtRating = 0
                             var totalBarOverallRating = 0f
                             FirebaseFirestore.getInstance()
                                 .collectionGroup("rating")
-                                .whereEqualTo("bar",rating.bar)
-                                .whereEqualTo("address",rating.address)
+                                .whereEqualTo("bar", rating.bar)
+                                .whereEqualTo("address", rating.address)
                                 .get()
                                 .addOnCompleteListener() { task ->
                                     for (document in task.result!!) {
@@ -519,15 +518,14 @@ object RemoteDataSource : DataSource {
                                     barAmtRating = task.result!!.size()
 
 
-
                                     // update bar images
 
                                     var barPath = ""
 
                                     FirebaseFirestore.getInstance()
                                         .collection("bar")
-                                        .whereEqualTo("name",rating.bar)
-                                        .whereEqualTo("address",rating.address)
+                                        .whereEqualTo("name", rating.bar)
+                                        .whereEqualTo("address", rating.address)
                                         .get()
                                         .addOnCompleteListener() { task ->
                                             for (document in task.result!!) {
@@ -584,7 +582,7 @@ object RemoteDataSource : DataSource {
                         }
 
                         continuation.resume(Result.Success(true))
-//                    continuation.resume(Result.Success(list))
+                    }
                     } else {
                         task.exception?.let {
 

@@ -23,7 +23,7 @@
     <string name="signout_fail_null">Please enter your email and password</string>
 
     <string name="com.crashlytics.useFirebaseAppId">true</string>
-    <string name="search_hint"></string>
+    <string name="search_hint">Ex : mojito</string>
     <string name="btn_bar">Bar</string>
     <string name="btn_drink">Drink</string>
     <string name="no_rating_text">You did not make any comment yet,\nrate your drink right now</string>
@@ -32,4 +32,5 @@
     <string name="others_no_drink_text"> did not add any drink yet</string>
     <string name="no_bar_text">You did not add any bar yet</string>
     <string name="others_no_bar_text">did not add any bar yet</string>
+    <string name="price_hint">Price $$</string>
 </resources>
